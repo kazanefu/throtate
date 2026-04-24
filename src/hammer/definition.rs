@@ -67,6 +67,7 @@ pub fn hammer_bundle(pivot_entity: Entity, translate: Vec2) -> impl Bundle {
         RigidBody::Dynamic,
         Transform::from_xyz(translate.x, translate.y, 0.0),
         Collider::ball(10.0),
+        Restitution::coefficient(0.8),
         ImpulseJoint::new(
             pivot_entity,
             RevoluteJointBuilder::new()

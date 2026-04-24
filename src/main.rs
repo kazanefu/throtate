@@ -7,6 +7,7 @@ mod hammer;
 mod start;
 mod state;
 mod utils;
+mod playing;
 
 pub use utils::*;
 
@@ -21,6 +22,7 @@ fn main() {
         .add_plugins(course::CoursePlugin)
         .add_plugins(hammer::HammerPlugin)
         .add_plugins(start::StartPlugin)
+        .add_plugins(playing::PlayingPlugin)
         .add_plugins(course_selection::CourseSelectionPlugin)
         .run();
 }

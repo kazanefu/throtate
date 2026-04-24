@@ -2,7 +2,7 @@ use crate::state::GameState;
 use bevy::prelude::*;
 mod selection_ui;
 mod startup;
-mod resources;
+pub mod resources;
 use startup::*;
 pub struct CourseSelectionPlugin;
 

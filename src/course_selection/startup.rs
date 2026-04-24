@@ -2,7 +2,7 @@ use crate::state::GameState;
 use bevy::prelude::*;
 
 fn course_selection_cammera_bundle() -> impl Bundle {
-    (Camera2d, DespawnOnExit(GameState::Start))
+    (Camera2d, DespawnOnExit(GameState::CourseSelection))
 }
 
 pub fn spawn_course_selection_cammera(mut commands: Commands) {
