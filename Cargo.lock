@@ -5026,8 +5026,11 @@ dependencies = [
 name = "throtate"
 version = "0.1.0"
 dependencies = [
+ "anyhow",
  "bevy",
  "bevy_rapier2d",
+ "ron",
+ "serde",
 ]
 
 [[package]]

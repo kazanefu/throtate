@@ -1,12 +1,14 @@
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
 
+mod course;
 mod course_selection;
 mod hammer;
 mod start;
 mod state;
 mod utils;
-mod course;
+
+pub use utils::*;
 
 fn main() {
     let mut app = App::new();
@@ -14,7 +16,9 @@ fn main() {
     bevy::asset::embedded_asset!(app, "fonts/NotoSansJP-Bold.ttf");
     app.add_plugins(RapierPhysicsPlugin::<NoUserData>::default())
         .add_plugins(RapierDebugRenderPlugin::default())
+        .add_plugins(utils::UtilityPlugin)
         .init_state::<state::GameState>()
+        .add_plugins(course::CoursePlugin)
         .add_plugins(hammer::HammerPlugin)
         .add_plugins(start::StartPlugin)
         .add_plugins(course_selection::CourseSelectionPlugin)
