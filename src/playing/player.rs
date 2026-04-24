@@ -1,9 +1,13 @@
 use crate::{
-    course::course_items::{checkpoint::CheckPoint, death_box::Death, goal::Goal},
+    course::course_items::{
+        checkpoint::{self, CheckPoint},
+        death_box::Death,
+        goal::Goal,
+    },
     hammer::definition::{Hammer, HammerFreeMessage, HammerState},
     state::{GameState, RunningState},
 };
-use bevy::prelude::*;
+use bevy::{math::VectorSpace, prelude::*};
 use bevy_rapier2d::prelude::*;
 pub struct PlayerPlugin;
 
@@ -11,7 +15,7 @@ impl Plugin for PlayerPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(
             Update,
-            handle_death.run_if(in_state(GameState::Playing).and(in_state(RunningState::Running))),
+            (handle_death,reach_checkpoint).run_if(in_state(GameState::Playing).and(in_state(RunningState::Running))),
         );
     }
 }
@@ -30,7 +34,7 @@ pub struct TargetCheckPoint {
 
 fn handle_death(
     mut commands: Commands,
-    mut hammer_query: Query<(&mut Hammer)>,
+    mut hammer_query: Query<&mut Hammer>,
     mut player_query: Query<
         (&mut DeathCount, &mut Transform, &TargetCheckPoint, Entity),
         With<Player>,
@@ -60,6 +64,38 @@ fn handle_death(
                 }
             }
             CollisionEvent::Stopped(_e1, _e2, _) => {}
+        }
+    }
+}
+
+const DUMMY_CHECK_POINT: (CheckPoint, Transform) = (
+    CheckPoint::ZERO,
+    Transform {
+        translation: Vec3::ZERO,
+        rotation: Quat::IDENTITY,
+        scale: Vec3::ONE,
+    },
+);
+
+fn reach_checkpoint(
+    mut player_query: Query<(Entity, &mut TargetCheckPoint)>,
+    mut collision_event: MessageReader<CollisionEvent>,
+    checkpoint_query: Query<(&CheckPoint, &Transform)>,
+) {
+    for &event in collision_event.read() {
+        for (player_entity, mut target_checkpoint) in &mut player_query {
+            if let CollisionEvent::Started(e1, e2, _) = event {
+                if e1 != player_entity && e2 != player_entity {break;}
+                let checkpoint = checkpoint_query.get(e1).unwrap_or(
+                    checkpoint_query
+                        .get(e2)
+                        .unwrap_or((&DUMMY_CHECK_POINT.0, &DUMMY_CHECK_POINT.1)),
+                );
+                if checkpoint.0.priority() >= target_checkpoint.priority {
+                    target_checkpoint.priority = checkpoint.0.priority();
+                    target_checkpoint.position = checkpoint.1.translation;
+                }
+            }
         }
     }
 }
