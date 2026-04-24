@@ -11,6 +11,6 @@ pub fn spawn_course_selection_cammera(mut commands: Commands) {
 
 use crate::course::SpawnCourseMessage;
 
-pub fn course_0(mut spawn_course_writer: MessageWriter<SpawnCourseMessage>) {
-    spawn_course_writer.write(SpawnCourseMessage(0));
+pub fn course_0(mut _spawn_course_writer: MessageWriter<SpawnCourseMessage>) {
+    //spawn_course_writer.write(SpawnCourseMessage(0));
 }
