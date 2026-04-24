@@ -80,5 +80,23 @@ pub fn hammer_bundle(pivot_entity: Entity, translate: Vec2) -> impl Bundle {
             custom_size: Some(Vec2::new(20.0, 20.0)),
             ..default()
         },
+        children![
+            (
+                Transform::from_xyz(-40.0, 0.0, 0.0),
+                Sprite {
+                    color: Color::srgb(0.0, 0.9, 0.9),
+                    custom_size: Some(Vec2::new(2.0, 2.0)),
+                    ..default()
+                },
+            ),
+            (
+                Transform::from_xyz(40.0, 0.0, 0.0),
+                Sprite {
+                    color: Color::srgb(0.9, 0.0, 0.9),
+                    custom_size: Some(Vec2::new(2.0, 2.0)),
+                    ..default()
+                },
+            ),
+        ],
     )
 }
