@@ -35,7 +35,7 @@ pub fn turret_bundle(x: f32, y: f32, interval: f32, rotation: f32) -> impl Bundl
     )
 }
 
-const BULLET_LIFE_TIME: f32 = 6.0;
+const BULLET_LIFE_TIME: f32 = 3.0;
 const BULLET_SPEED: f32 = 500.0;
 #[derive(Component)]
 struct TurretBullet;
