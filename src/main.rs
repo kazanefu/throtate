@@ -8,6 +8,7 @@ mod start;
 mod state;
 mod utils;
 mod playing;
+mod result;
 
 pub use utils::*;
 
@@ -25,6 +26,7 @@ fn main() {
         .add_plugins(start::StartPlugin)
         .add_plugins(playing::PlayingPlugin)
         .add_plugins(course_selection::CourseSelectionPlugin)
+        .add_plugins(result::ResultPlugin)
         .run();
 }
 

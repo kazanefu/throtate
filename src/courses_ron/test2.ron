@@ -2,6 +2,6 @@
     entities: [
         (x: 0.0, y: -50.0, kind: Ground(width: 100.0, height: 100.0)),
         (x: 0.0, y: 10.0, kind: Turret(interval: 2.0, rotation: 10.0)),
-        (x: 100.0, y: 0.0, kind: Goal),
+        (x: 1000.0, y: 0.0, kind: Goal),
     ]
 )

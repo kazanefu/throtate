@@ -6,7 +6,7 @@ pub struct StartPlugin;
 
 impl Plugin for StartPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(OnEnter(GameState::Start), startup::spawn_start_cammera)
+        app.add_systems(OnEnter(GameState::Start), startup::spawn_start_camera)
             .add_plugins(start_ui::StartUiPlugin);
     }
 }

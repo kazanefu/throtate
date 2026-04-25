@@ -3,7 +3,7 @@ mod main_camera;
 mod player;
 mod startup;
 mod ui;
-mod score;
+pub mod score;
 pub use main_camera::*;
 pub use player::*;
 pub struct PlayingPlugin;
