@@ -6,6 +6,8 @@ pub mod course_items;
 pub mod spawn;
 pub use spawn::*;
 
+use crate::state::GameState;
+
 pub struct CoursePlugin;
 
 impl Plugin for CoursePlugin {
@@ -14,7 +16,8 @@ impl Plugin for CoursePlugin {
             .add_plugins(course_items::turret::TurretPlugin)
             .add_plugins(course_items::breakable_box::BreakableBoxPlugin)
             .add_message::<SpawnCourseMessage>()
-            .add_systems(Startup, init_courses_list_resource).add_systems(Update,spawn_course_from_id);
+            .add_systems(OnEnter(GameState::Start), init_courses_list_resource)
+            .add_systems(Update, spawn_course_from_id);
     }
 }
 

@@ -139,7 +139,7 @@ fn update_continue_button(
         match interaction {
             Interaction::Pressed => {
                 background_color.0 = Color::srgb(1.0, 1.0, 0.2);
-                game_state.set(GameState::CourseSelection);
+                game_state.set(GameState::Start);
             }
             Interaction::Hovered => {
                 background_color.0 = Color::srgb(0.8, 0.8, 0.2);
