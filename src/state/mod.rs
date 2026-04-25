@@ -13,5 +13,6 @@ pub enum GameState {
 pub enum RunningState {
     #[default]
     Running,
+    #[allow(unused)]
     Paused,
 }

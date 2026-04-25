@@ -3,7 +3,6 @@ use crate::course::{CourseID, SpawnCourseMessage};
 use crate::course_selection::resources::SelectedCourseID;
 use crate::hammer::spawn_hammer;
 use crate::state::GameState;
-use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
 pub struct PlayingStartupPlugin;
 
