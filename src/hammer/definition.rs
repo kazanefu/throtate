@@ -55,6 +55,12 @@ pub struct Hammer {
 #[derive(Component)]
 pub struct Pivot;
 
+#[derive(Resource)]
+pub struct PivotTextures {
+    pub blue: Handle<Image>,
+    pub magenta: Handle<Image>,
+}
+
 #[derive(Message)]
 pub struct HammerActionMessage;
 

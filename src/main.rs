@@ -17,6 +17,8 @@ fn main() {
     let mut app = App::new();
     app.add_plugins(DefaultPlugins);
     bevy::asset::embedded_asset!(app, "fonts/NotoSansJP-Bold.ttf");
+    bevy::asset::embedded_asset!(app, "images/bluepivot.png");
+    bevy::asset::embedded_asset!(app, "images/magentapivot.png");
     app.add_plugins(RapierPhysicsPlugin::<NoUserData>::default())
         // .add_plugins(RapierDebugRenderPlugin::default())
         .add_plugins(utils::UtilityPlugin)
