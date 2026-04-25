@@ -1,14 +1,17 @@
 (
     entities: [
-		(x: 0.0, y: 300.0, kind: Text(sentence: "チュートリアルコースへようこそ!")),
-		(x: 0.0, y: 50.0, kind: Text(sentence: "スペースキーをタイミングよく押して\nチェックポイントまで飛んでみよう")),
+		(x: 0.0, y: 400.0, kind: Text(sentence: "チュートリアルコースへようこそ!")),
+		(x: 0.0, y: 300.0, kind: Text(sentence: "スペースキーをタイミングよく押して\nチェックポイントまで飛んでみよう")),
+		(x: 0.0, y: 200.0, kind: Text(sentence: "←↑↓→キーも使って\nいろんな向きに回転してみよう")),
 		(x: 0.0, y: -200.0, kind: Ground(width: 10000.0, height: 100.0)),
 		(x: 0.0, y: 500.0, kind: Ground(width: 10000.0, height: 100.0)),
 		(x: -300.0, y: 100.0, kind: Ground(width: 50.0, height: 700.0)),
 		(x: 300.0, y: 0.0, kind: Checkpoint(priority: 1)),
-		(x: 300.0, y: 50.0, kind: Text(sentence: "第一チェックポイント")),
+		(x: 300.0, y: -50.0, kind: Text(sentence: "第一チェックポイント")),
 		(x: 600.0, y: 0.0, kind: Death),
+		(x: 600.0, y: -50.0, kind: Text(sentence: "死")),
 		(x: 700.0, y: 0.0, kind: Checkpoint(priority: 2)),
+		(x: 700.0, y: 200.0, kind: Text(sentence: "黄色いブロックは一定速度\n以上でぶつかると壊せる")),
 		(x: 900.0, y: 200.0, kind: Breakable(required_speed: 100.0)),
 		(x: 900.0, y: 150.0, kind: Breakable(required_speed: 100.0)),
 		(x: 900.0, y: 100.0, kind: Breakable(required_speed: 100.0)),
@@ -21,6 +24,7 @@
 		(x: 900.0, y: 300.0, kind: Breakable(required_speed: 100.0)),
 		(x: 900.0, y: 350.0, kind: Breakable(required_speed: 100.0)),
 		(x: 900.0, y: 400.0, kind: Breakable(required_speed: 100.0)),
+		(x: 1350.0, y: 200.0, kind: Text(sentence: "タレットの撃つ弾に当たらないように")),
 		(x: 1200.0, y: 10.0, kind: Turret(interval: 2.0, rotation: 1.57)),
 		(x: 1500.0, y: 300.0, kind: Turret(interval: 2.0, rotation: -1.57)),
 		(x: 1800.0, y: 0.0, kind: Checkpoint(priority: 3)),
@@ -39,5 +43,6 @@
 		(x: 2300.0, y: 400.0, kind: Death),
 		(x: 2600.0, y: 100.0, kind: Checkpoint(priority: 4)),
         (x: 3000.0, y: 0.0, kind: Goal),
+		(x: 3000.0, y: -50.0, kind: Text(sentence: "ゴール")),
     ]
 )
