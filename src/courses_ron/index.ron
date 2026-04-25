@@ -1,9 +1,9 @@
 (
     [
-        (id: 1, name: "Test Course", path: "test.ron"),
-        (id: 0, name: "Tutorial Course", path: "test2.ron"),
-        (id: 2, name: "Advanced Course", path: "test3.ron"),
-        (id: 3, name: "Insane Course", path: "test4.ron"),
-        (id: 4, name: "Ultimate Marathon", path: "test5.ron"),
+        (id: 1, name: "テスト用", path: "test.ron"),
+        (id: 0, name: "チュートリアル", path: "test2.ron"),
+        (id: 2, name: "Advanced(Gemini作)", path: "test3.ron"),
+        (id: 3, name: "Insane(Gemini作)", path: "test4.ron"),
+        (id: 4, name: "Ultimate(Gemini作)", path: "test5.ron"),
     ]
 )
