@@ -52,14 +52,13 @@ fn breakable_system(
 
             let v1 = velocity_query.get(break_entity).ok();
             let v2 = velocity_query.get(other_entity).ok();
-            
+
             let speed = match (v1, v2) {
                 (Some(v1), Some(v2)) => (v1.linvel - v2.linvel).length(),
                 (Some(v1), None) => v1.linvel.length(),
                 (None, Some(v2)) => v2.linvel.length(),
                 (None, None) => 0.0,
             };
-            println!("hit breakable:{}",speed);
             if speed >= breakable.required_speed {
                 commands.entity(break_entity).despawn();
             }

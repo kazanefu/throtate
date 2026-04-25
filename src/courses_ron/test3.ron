@@ -1,0 +1,30 @@
+(
+    entities: [
+        (x: 0.0, y: -200.0, kind: Ground(width: 1000.0, height: 100.0)),
+        (x: 600.0, y: 100.0, kind: Ground(width: 200.0, height: 20.0)),
+        (x: 900.0, y: 250.0, kind: Ground(width: 200.0, height: 20.0)),
+        (x: 1200.0, y: 350.0, kind: Checkpoint(priority: 1)),
+        (x: 1500.0, y: 200.0, kind: Turret(interval: 1.0, rotation: 0.0)),
+        (x: 1500.0, y: 500.0, kind: Turret(interval: 1.0, rotation: 3.14)),
+        (x: 1800.0, y: 350.0, kind: Breakable(required_speed: 80.0)),
+        (x: 1800.0, y: 300.0, kind: Breakable(required_speed: 80.0)),
+        (x: 1800.0, y: 400.0, kind: Breakable(required_speed: 80.0)),
+        (x: 2100.0, y: 350.0, kind: Checkpoint(priority: 2)),
+        (x: 2400.0, y: 0.0, kind: Death),
+        (x: 2500.0, y: -50.0, kind: Death),
+        (x: 2600.0, y: -100.0, kind: Death),
+        (x: 2800.0, y: 100.0, kind: Ground(width: 400.0, height: 50.0)),
+        (x: 3200.0, y: 200.0, kind: Checkpoint(priority: 3)),
+        (x: 3600.0, y: 400.0, kind: Turret(interval: 1.5, rotation: -1.57)),
+        (x: 4000.0, y: 200.0, kind: Goal),
+
+        // Boundaries
+        (x: -600.0, y: 200.0, kind: Ground(width: 100.0, height: 1000.0)), // Left Wall
+        (x: 4500.0, y: 200.0, kind: Ground(width: 100.0, height: 1000.0)), // Right Wall
+        (x: 500.0, y: 600.0, kind: Ground(width: 2200.0, height: 40.0)),  // Ceiling 1
+        (x: 1600.0, y: 800.0, kind: Ground(width: 1200.0, height: 40.0)), // Ceiling 2
+        (x: 2400.0, y: 500.0, kind: Ground(width: 1000.0, height: 40.0)), // Ceiling 3
+        (x: 3400.0, y: 700.0, kind: Ground(width: 1600.0, height: 40.0)), // Ceiling 4
+        (x: 2000.0, y: -500.0, kind: Ground(width: 6000.0, height: 100.0)), // Distant Floor to prevent falling forever
+    ]
+)
