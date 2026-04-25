@@ -40,7 +40,7 @@ fn start_button_bundle(asset_server: &AssetServer) -> impl Bundle {
                 ..default()
             },
             TextLayout::new_with_justify(Justify::Center),
-            TextColor(Color::srgb(0.8, 0.8, 0.2))
+            TextColor(Color::srgb(0.2, 0.2, 0.2))
         )],
     )
 }
@@ -90,14 +90,14 @@ fn update_start_button(
     for (interaction, mut background_color) in &mut query {
         match interaction {
             Interaction::Pressed => {
-                background_color.0 = Color::srgb(0.2, 0.8, 0.3);
+                background_color.0 = Color::srgb(0.2, 1.0, 0.3);
                 game_state.set(GameState::CourseSelection);
             }
             Interaction::Hovered => {
-                background_color.0 = Color::srgb(0.1, 0.9, 0.4);
+                background_color.0 = Color::srgb(0.1, 0.8, 0.4);
             }
             Interaction::None => {
-                background_color.0 = Color::srgb(0.0, 1.0, 0.5);
+                background_color.0 = Color::srgb(0.0, 0.5, 0.5);
             }
         }
     }
