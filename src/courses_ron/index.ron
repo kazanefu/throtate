@@ -1,6 +1,6 @@
 (
     [
-        (id: 0, name: "Test Course", path: "test.ron"),
-        (id: 1, name: "Test2 Course", path: "test2.ron"),
+        (id: 1, name: "Test Course", path: "test.ron"),
+        (id: 0, name: "Tutorial Course", path: "test2.ron"),
     ]
 )
