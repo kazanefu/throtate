@@ -24,6 +24,7 @@ impl Plugin for HammerPlugin {
                     change_handle_direction,
                     pivot_textur,
                     trail_effect::attach_trail_effect,
+                    fix_hammer_z,
                 )
                     .run_if(in_state(RunningState::Running)),
             );

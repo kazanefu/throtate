@@ -1,4 +1,4 @@
-use crate::course::course_items::death_box::Death;
+use crate::{DespawnWithTime, course::course_items::death_box::Death};
 
 use super::*;
 
@@ -6,7 +6,7 @@ pub struct TurretPlugin;
 
 impl Plugin for TurretPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(Update, (turret_shot, despawn_bullet));
+        app.add_systems(Update, turret_shot);
     }
 }
 
@@ -51,10 +51,7 @@ fn bullet_bundle(translation: Vec3, rotation: Quat) -> impl Bundle {
             scale: Vec3::ONE,
         },
         GlobalTransform::default(),
-        crate::utils::Interval {
-            time: 0.0,
-            interval: BULLET_LIFE_TIME,
-        },
+        DespawnWithTime(BULLET_LIFE_TIME),
         RigidBody::Dynamic,
         Collider::cuboid(ONE_BOX_SIZE / 4.0, ONE_BOX_SIZE / 4.0),
         Sprite {
@@ -80,17 +77,6 @@ fn turret_shot(
                 turret_transform.translation + turret_transform.rotation * Vec3::X * ONE_BOX_SIZE,
                 turret_transform.rotation,
             ));
-        }
-    }
-}
-
-fn despawn_bullet(
-    mut commands: Commands,
-    bullet_query: Query<(Entity, &crate::utils::Interval), With<TurretBullet>>,
-) {
-    for (bullet_entity, bullet_life) in &bullet_query {
-        if bullet_life.is_ready() {
-            commands.entity(bullet_entity).despawn();
         }
     }
 }

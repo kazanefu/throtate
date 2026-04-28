@@ -1,6 +1,8 @@
 use bevy::prelude::*;
 use bevy_hanabi::prelude::*;
 
+use crate::DespawnWithTime;
+
 pub struct ActionEffectPlugin;
 
 impl Plugin for ActionEffectPlugin {
@@ -32,6 +34,7 @@ pub fn handle_death_effect(
         commands.spawn((
             ParticleEffect::new(effect.0.clone().expect("death effect never setuped")),
             Transform::from_translation(position.0),
+            DespawnWithTime(1.0),
         ));
     }
 }
@@ -111,7 +114,8 @@ pub fn handle_checkpoint_effect(
     for position in fire_message.read() {
         commands.spawn((
             ParticleEffect::new(effect.0.clone().expect("checkpoint effect never setuped")),
-            Transform::from_translation(position.0)
+            Transform::from_translation(position.0),
+            DespawnWithTime(5.0),
         ));
     }
 }
@@ -148,7 +152,7 @@ pub fn checkpoint_effect(effects: &mut Assets<EffectAsset>) -> Handle<EffectAsse
     let init_lifetime = SetAttributeModifier::new(Attribute::LIFETIME, lifetime);
     let effect = EffectAsset::new(
         32768,
-        SpawnerSettings::rate(10.0.into()).with_spawn_duration(1.0.into()),
+        SpawnerSettings::rate(10.0.into()).with_spawn_duration(1.0.into()).with_cycle_count(1),
         module,
     )
     .with_name("checkpoint_effect")

@@ -41,6 +41,12 @@ pub fn update_hammer(
     }
 }
 
+pub fn fix_hammer_z(mut q: Query<&mut Transform, With<Hammer>>) {
+    for mut t in &mut q {
+        t.translation.z = 10.0;
+    }
+}
+
 pub fn free_hammer(
     mut commands: Commands,
     mut hammer_query: Query<(Entity, &mut Hammer)>,

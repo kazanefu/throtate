@@ -8,7 +8,7 @@ impl Plugin for UtilityPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(
             Update,
-            (tick_interval, update_stopwatch).run_if(in_state(RunningState::Running)),
+            (tick_interval, update_stopwatch, update_despawn_timer, despawn_timeout_entity).run_if(in_state(RunningState::Running)),
         );
     }
 }
