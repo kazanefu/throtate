@@ -5,7 +5,7 @@
         (x: -300.0, y: 0.0, kind: Ground(width: 50.0, height: 600.0)), // 後ろの壁
         (x: 5000.0, y: 300.0, kind: Ground(width: 11000.0, height: 100.0)), // 天井
 
-        (x: 100.0, y: 0.0, kind: Checkpoint(priority: 0)), // 最初のチェックポイント
+        (x: 100.0, y: 0.0, kind: Checkpoint(priority: 1)), // 最初のチェックポイント
 
         // 壁によるジグザグセクション
         (x: 300.0, y: -100, kind: Ground(width: 50.0, height: 300.0)),
@@ -13,16 +13,16 @@
         (x: 600.0, y: -100, kind: Ground(width: 50.0, height: 300.0)),
         (x: 750.0, y: 100, kind: Ground(width: 50.0, height: 300.0)),
 
-        (x: 850.0, y: 0.0, kind: Checkpoint(priority: 1)),  // 第2チェックポイント
+        (x: 850.0, y: 0.0, kind: Checkpoint(priority: 2)),  // 第2チェックポイント
 
         // 狭い隙間を通るセクション
         (x: 1500.0, y: -150, kind: Ground(width: 600.0, height: 200.0)),
         (x: 1500.0, y: 150, kind: Ground(width: 600.0, height: 200.0)),
-        (x: 2200.0, y: 0.0, kind: Checkpoint(priority: 2)),  // 第3チェックポイント
+        (x: 2200.0, y: 0.0, kind: Checkpoint(priority: 3)),  // 第3チェックポイント
         (x: 3000.0, y: -150, kind: Ground(width: 600.0, height: 200.0)),
         (x: 3000.0, y: 150, kind: Ground(width: 600.0, height: 200.0)),
         (x: 3300.0, y: 0.0, kind: Breakable(required_speed: 80.0)),
-        (x: 3400.0, y: 0.0, kind: Checkpoint(priority: 3)),  // 第4チェックポイント
+        (x: 3400.0, y: 0.0, kind: Checkpoint(priority: 4)),  // 第4チェックポイント
 
         // タレット(y字)セクション
         (x: 3700.0, y: 250, kind: Turret(interval: 2.0, rotation: -0.7854)),
@@ -30,7 +30,7 @@
         (x: 4300.0, y: -250, kind: Turret(interval: 2.0, rotation: 0.7854)),
         (x: 4900.0, y: -250, kind: Turret(interval: 2.0, rotation: 2.3562)),
 
-        (x: 5000.0, y: 0.0, kind: Checkpoint(priority: 4)),  // 第5チェックポイント
+        (x: 5000.0, y: 0.0, kind: Checkpoint(priority: 5)),  // 第5チェックポイント
         (x: 5000.0, y: 200.0, kind: Text(sentence: "残り半分")),
 
         // レッドブロックジグザグ
@@ -60,7 +60,7 @@
         (x: 6100.0, y: 200.0, kind: Death),
         (x: 6200.0, y: 50.0, kind: Death),
 
-        (x: 5000.0, y: 0.0, kind: Checkpoint(priority: 5)), // 第6チェックポイント
+        (x: 5000.0, y: 0.0, kind: Checkpoint(priority: 6)), // 第6チェックポイント
 
         (x: 10000.0, y: 0.0, kind: Goal),
     ]
