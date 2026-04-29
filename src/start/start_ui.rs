@@ -22,6 +22,7 @@ const EXPLANATION_TEXT: &str = r#"
 操作方法:
     Spaceキーで拘束して回転と拘束を解くのを切り替える
     矢印キーで回転軸の相対座標と回転方向を切り替える
+    Rキーでチェックポイントに戻る
 "#;
 
 pub struct StartUiPlugin;

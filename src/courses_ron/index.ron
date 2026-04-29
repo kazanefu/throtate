@@ -4,5 +4,6 @@
         (id: 1, name: "0-0", path: "course_0_0.ron"),
         (id: 2, name: "0-1(ChatGPT作)", path: "course_0_1.ron"),
         (id: 3, name: "0-2(Gemini作)", path: "course_0_2.ron"),
+        (id: 4, name: "1-0", path: "course_1_0.ron"),
     ]
 )
