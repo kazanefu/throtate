@@ -22,7 +22,7 @@ impl Plugin for HammerPlugin {
                     update_hammer,
                     free_hammer,
                     change_handle_direction,
-                    pivot_textur,
+                    pivot_texture,
                     trail_effect::attach_trail_effect,
                     fix_hammer_z,
                 )

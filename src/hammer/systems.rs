@@ -94,28 +94,28 @@ pub fn change_handle_direction(
     }
 }
 
-pub fn pivot_textur(
+pub fn pivot_texture(
     mut pivot_query: Query<&mut Sprite, With<Pivot>>,
-    texturs: Res<PivotTextures>,
+    textures: Res<PivotTextures>,
     mut handle_action_reader: MessageReader<ChangeHandleDirection>,
 ) {
     for ChangeHandleDirection(message) in handle_action_reader.read() {
         for mut sprite in &mut pivot_query {
             match message {
                 HandleDirection::LeftLeft => {
-                    sprite.image = texturs.blue.clone();
+                    sprite.image = textures.blue.clone();
                     sprite.flip_x = true;
                 }
                 HandleDirection::LeftRight => {
-                    sprite.image = texturs.blue.clone();
+                    sprite.image = textures.blue.clone();
                     sprite.flip_x = false;
                 }
                 HandleDirection::RightLeft => {
-                    sprite.image = texturs.magenta.clone();
+                    sprite.image = textures.magenta.clone();
                     sprite.flip_x = true;
                 }
                 HandleDirection::RightRight => {
-                    sprite.image = texturs.magenta.clone();
+                    sprite.image = textures.magenta.clone();
                     sprite.flip_x = false;
                 }
             }

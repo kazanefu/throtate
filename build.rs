@@ -10,8 +10,8 @@ fn main() {
         .nth(3)
         .unwrap();
 
-    let dest = target_dir.join("assets/courses_ron");
-    let src = Path::new("assets/courses_ron");
+    let dest = target_dir.join("assets/");
+    let src = Path::new("assets/");
 
     // 既存削除
     if dest.exists() {
