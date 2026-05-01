@@ -11,7 +11,7 @@ fn main() {
         .unwrap();
 
     let dest = target_dir.join("assets/courses_ron");
-    let src = Path::new("src/courses_ron");
+    let src = Path::new("assets/courses_ron");
 
     // 既存削除
     if dest.exists() {
