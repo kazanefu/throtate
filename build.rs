@@ -10,7 +10,7 @@ fn main() {
         .nth(3)
         .unwrap();
 
-    let dest = target_dir.join("courses_ron");
+    let dest = target_dir.join("assets/courses_ron");
     let src = Path::new("src/courses_ron");
 
     // 既存削除
