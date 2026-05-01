@@ -47,7 +47,7 @@ pub fn init_courses_list_resource(mut course_list_resource: ResMut<CourseListRes
     course_list_resource.0 = course_list;
 }
 
-mod asset_load {
+pub mod asset_load {
     use super::*;
     use bevy::asset::Asset;
     use bevy::reflect::TypePath;

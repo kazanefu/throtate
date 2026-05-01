@@ -1,0 +1,74 @@
+(
+    entities: [
+        (x: 0.0, y: 200.0, kind: Text(sentence: "コース: 0-2\nバーティカル・リミット")),
+        (x: 5000.0, y: -350.0, kind: Ground(width: 12000.0, height: 100.0)), // 地面
+        (x: -300.0, y: 0.0, kind: Ground(width: 50.0, height: 700.0)), // 後ろの壁
+        (x: 5000.0, y: 350.0, kind: Ground(width: 12000.0, height: 100.0)), // 天井
+
+        // --- 序盤：上下封鎖と波状攻撃 ---
+        // 天井と床にDeathを敷き詰め、端を通るルートを完全に遮断
+        (x: 1000.0, y: 300.0, kind: Death), (x: 1000.0, y: -300.0, kind: Death),
+        (x: 1200.0, y: 300.0, kind: Death), (x: 1200.0, y: -300.0, kind: Death),
+
+        (x: 100.0, y: 0.0, kind: Checkpoint(priority: 1)),
+        
+        // セクション1: オルタナティブ・ゲート
+        // 上下に大きく動かないと通れない、巨大なGroundの壁
+        (x: 500.0, y: 150.0, kind: Ground(width: 100.0, height: 400.0)), // 下を通れ
+        (x: 900.0, y: -150.0, kind: Ground(width: 100.0, height: 400.0)), // 上を通れ
+        (x: 1300.0, y: 150.0, kind: Ground(width: 100.0, height: 400.0)),
+
+        (x: 1600.0, y: 0.0, kind: Checkpoint(priority: 2)),
+
+        // --- 中盤：スピード維持と弾幕 ---
+        // セクション2: 高速突入エリア
+        // 壊すために加速が必要だが、直後にデスブロックがあるため制御が必要
+        (x: 2000.0, y: 0.0, kind: Breakable(required_speed: 120.0)), // 超高速要求
+        (x: 2200.0, y: 100.0, kind: Death), (x: 2200.0, y: -100.0, kind: Death), // 壊した直後の上下に罠
+
+        // セクション3: タレット・コリドー（回避不能な射線）
+        // 端がDeathなので、中央の狭い安全地帯を維持しつつタレットを避ける
+        (x: 2800.0, y: 300.0, kind: Turret(interval: 1.2, rotation: -1.57)),
+        (x: 3000.0, y: -300.0, kind: Turret(interval: 1.2, rotation: 1.57)),
+        (x: 3200.0, y: 300.0, kind: Turret(interval: 1.2, rotation: -1.57)),
+        
+        (x: 3500.0, y: 0.0, kind: Checkpoint(priority: 3)),
+
+        // --- 後半：幾何学的な試練 ---
+        // セクション4: デス・クロス（回転体のような配置）
+        (x: 4000.0, y: 0.0, kind: Death),
+        (x: 4150.0, y: 100.0, kind: Death), (x: 4150.0, y: -100.0, kind: Death),
+        (x: 4300.0, y: 200.0, kind: Death), (x: 4300.0, y: -200.0, kind: Death),
+        (x: 4300.0, y: 300.0, kind: Death), (x: 4300.0, y: -300.0, kind: Death), // ここで端ルートを完全破壊
+
+        (x: 5000.0, y: 0.0, kind: Checkpoint(priority: 4)),
+
+        // セクション5: シャッター・パズル
+        // Breakableを上下に並べ、特定の高度でしか突破できないようにする
+        (x: 5500.0, y: 200.0, kind: Breakable(required_speed: 50.0)),
+        (x: 5500.0, y: 0.0, kind: Ground(width: 50.0, height: 100.0)), // 真ん中は通れない
+        (x: 5500.0, y: -200.0, kind: Breakable(required_speed: 50.0)),
+
+        (x: 6000.0, y: 0.0, kind: Checkpoint(priority: 5)),
+
+        // --- 終盤：精密射撃と加速の融合 ---
+        // セクション6: 4連タレット・ヘキサゴン
+        (x: 7000.0, y: 250.0, kind: Turret(interval: 2.0, rotation: -0.78)),
+        (x: 7000.0, y: -250.0, kind: Turret(interval: 2.0, rotation: 0.78)),
+        (x: 7500.0, y: 250.0, kind: Turret(interval: 2.0, rotation: -2.35)),
+        (x: 7500.0, y: -250.0, kind: Turret(interval: 2.0, rotation: 2.35)),
+
+        (x: 8000.0, y: 0.0, kind: Checkpoint(priority: 6)),
+
+        // セクション7: 最終試練「V字の谷」
+        // デスブロックがV字に配置され、プレイヤーを中央へと追い込む
+        (x: 8500.0, y: 300.0, kind: Death), (x: 8500.0, y: -300.0, kind: Death),
+        (x: 8600.0, y: 200.0, kind: Death), (x: 8600.0, y: -200.0, kind: Death),
+        (x: 8700.0, y: 100.0, kind: Death), (x: 8700.0, y: -100.0, kind: Death),
+        (x: 8800.0, y: 50.0, kind: Breakable(required_speed: 150.0)), // 針の穴を通す超高速突破
+        (x: 8800.0, y: -50.0, kind: Breakable(required_speed: 150.0)),
+
+        (x: 9500.0, y: 0.0, kind: Goal),
+        (x: 9500.0, y: 100.0, kind: Text(sentence: "0-2 クリア！")),
+    ]
+)

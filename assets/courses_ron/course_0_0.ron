@@ -1,0 +1,120 @@
+(
+    entities: [
+        (x: 0.0, y: 200.0, kind: Text(sentence: "コース: 0-0")),
+        (x: 5000.0, y: -300.0, kind: Ground(width: 11000.0, height: 100.0)), // 地面
+        (x: -300.0, y: 0.0, kind: Ground(width: 50.0, height: 600.0)), // 後ろの壁
+        (x: 5000.0, y: 300.0, kind: Ground(width: 11000.0, height: 100.0)), // 天井
+
+        (x: 100.0, y: 100, kind: Text(sentence: "1/9")),
+        (x: 100.0, y: 0.0, kind: Checkpoint(priority: 1)), // 最初のチェックポイント
+
+        // 壁によるジグザグセクション
+        (x: 300.0, y: -100, kind: Ground(width: 50.0, height: 300.0)),
+        (x: 450.0, y: 100, kind: Ground(width: 50.0, height: 300.0)),
+        (x: 600.0, y: -100, kind: Ground(width: 50.0, height: 300.0)),
+        (x: 750.0, y: 100, kind: Ground(width: 50.0, height: 300.0)),
+
+        (x: 850.0, y: 200, kind: Text(sentence: "2/9")),
+        (x: 850.0, y: 0.0, kind: Checkpoint(priority: 2)),  // 第2チェックポイント
+
+        // 狭い隙間を通るセクション
+        (x: 1500.0, y: -150, kind: Ground(width: 600.0, height: 200.0)),
+        (x: 1500.0, y: 150, kind: Ground(width: 600.0, height: 200.0)),
+        (x: 2200.0, y: 200, kind: Text(sentence: "3/9")),
+        (x: 2200.0, y: 0.0, kind: Checkpoint(priority: 3)),  // 第3チェックポイント
+        (x: 3000.0, y: -150, kind: Ground(width: 600.0, height: 200.0)),
+        (x: 3000.0, y: 150, kind: Ground(width: 600.0, height: 200.0)),
+        (x: 3300.0, y: 0.0, kind: Breakable(required_speed: 80.0)),
+        (x: 3400.0, y: 200, kind: Text(sentence: "4/9")),
+        (x: 3400.0, y: 0.0, kind: Checkpoint(priority: 4)),  // 第4チェックポイント
+
+        // タレット(y字)セクション
+        (x: 3700.0, y: 250, kind: Turret(interval: 2.0, rotation: -0.7854)),
+        (x: 4300.0, y: 250, kind: Turret(interval: 2.0, rotation: -2.3562)),
+        (x: 4300.0, y: -250, kind: Turret(interval: 2.0, rotation: 0.7854)),
+        (x: 4900.0, y: -250, kind: Turret(interval: 2.0, rotation: 2.3562)),
+
+        (x: 5000.0, y: 0.0, kind: Checkpoint(priority: 5)),  // 第5チェックポイント
+        (x: 5000.0, y: 200.0, kind: Text(sentence: "5/9\n残り半分")),
+
+        // レッドブロックジグザグ
+        (x: 5300.0, y: 200.0, kind: Death),
+        (x: 5300.0, y: 150.0, kind: Death),
+        (x: 5300.0, y: 100.0, kind: Death),
+        (x: 5300.0, y: 50.0, kind: Death),
+        (x: 5300.0, y: 0.0, kind: Death),
+        (x: 5450.0, y: -200.0, kind: Death),
+        (x: 5450.0, y: -150.0, kind: Death),
+        (x: 5450.0, y: -100.0, kind: Death),
+        (x: 5450.0, y: -50.0, kind: Death),
+        (x: 5450.0, y: -0.0, kind: Death),
+        (x: 5600.0, y: 200.0, kind: Death),
+        (x: 5600.0, y: 150.0, kind: Death),
+        (x: 5600.0, y: 100.0, kind: Death),
+        (x: 5600.0, y: 50.0, kind: Death),
+        (x: 5600.0, y: 0.0, kind: Death),
+        (x: 5600.0, y: -200.0, kind: Death),
+        (x: 5650.0, y: -150.0, kind: Death),
+        (x: 5700.0, y: -100.0, kind: Death),
+        (x: 5750.0, y: -50.0, kind: Death),
+        (x: 5750.0, y: 0.0, kind: Death),
+        (x: 6250.0, y: 0.0, kind: Ground(width: 1000.0, height: 50.0)),
+        (x: 5900.0, y: 200.0, kind: Death),
+        (x: 6000.0, y: 50.0, kind: Death),
+        (x: 6100.0, y: 200.0, kind: Death),
+        (x: 6200.0, y: 50.0, kind: Death),
+
+        (x: 6900.0, y: 200, kind: Text(sentence: "6/9")),
+        (x: 6900.0, y: -50.0, kind: Checkpoint(priority: 6)), // 第6チェックポイント
+
+        // タレットと破壊可能ブロックセクション
+        (x: 7500.0, y: 225.0, kind: Turret(interval: 5.0, rotation: -1.57)),
+        (x: 7600.0, y: 200.0, kind: Breakable(required_speed: 80.0)),
+        (x: 7600.0, y: 150.0, kind: Breakable(required_speed: 80.0)),
+        (x: 7600.0, y: 100.0, kind: Breakable(required_speed: 80.0)),
+        (x: 7600.0, y: 50.0, kind: Breakable(required_speed: 80.0)),
+        (x: 7600.0, y: 0.0, kind: Breakable(required_speed: 80.0)),
+        (x: 7600.0, y: -50.0, kind: Breakable(required_speed: 80.0)),
+        (x: 7600.0, y: -100.0, kind: Breakable(required_speed: 80.0)),
+        (x: 7600.0, y: -150.0, kind: Breakable(required_speed: 80.0)),
+        (x: 7600.0, y: -200.0, kind: Breakable(required_speed: 80.0)),
+        (x: 7600.0, y: -250.0, kind: Breakable(required_speed: 80.0)),
+        (x: 7700.0, y: -225.0, kind: Turret(interval: 5.0, rotation: 1.57)),
+        (x: 7800.0, y: 225.0, kind: Turret(interval: 5.0, rotation: -1.57)),
+        (x: 7900.0, y: 100.0, kind: Ground(width: 50.0, height: 300.0)),
+        (x: 7950.0, y: -225.0, kind: Turret(interval: 5.0, rotation: 1.57)),
+        (x: 8150.0, y: -100.0, kind: Ground(width: 50.0, height: 300.0)),
+        (x: 8150.0, y: 200.0, kind: Breakable(required_speed: 30.0)),
+
+        (x: 8250.0, y: 200, kind: Text(sentence: "7/9")),
+        (x: 8250.0, y: 0.0, kind: Checkpoint(priority: 7)), // 第7チェックポイント
+
+        // レッドブロックチェスセクション
+        (x: 8500.0, y: 0.0, kind: Death),
+        (x: 8500.0, y: 150.0, kind: Death),
+        (x: 8500.0, y: -150.0, kind: Death),
+        (x: 8500.0, y: 240.0, kind: Death),
+        (x: 8500.0, y: -240.0, kind: Death),
+
+        (x: 8650.0, y: 75.0, kind: Death),
+        (x: 8650.0, y: -75.0, kind: Death),
+        (x: 8650.0, y: 175.0, kind: Death),
+        (x: 8650.0, y: -175.0, kind: Death),
+
+        (x: 8800.0, y: 0.0, kind: Death),
+        (x: 8800.0, y: 150.0, kind: Death),
+        (x: 8800.0, y: -150.0, kind: Death),
+        (x: 8800.0, y: 240.0, kind: Death),
+        (x: 8800.0, y: -240.0, kind: Death),
+
+        (x: 9000.0, y: 200, kind: Text(sentence: "8/9")),
+        (x: 9000.0, y: 0.0, kind: Checkpoint(priority: 8)), // 第8チェックポイント
+
+        // 連射タレット
+        (x: 9500.0, y: 225.0, kind: Turret(interval: 1.0, rotation: -1.57)),
+        (x: 9750.0, y: -225.0, kind: Turret(interval: 1.0, rotation: 1.57)),
+
+        (x: 10000.0, y: -50.0, kind: Text(sentence: "ゴール")),
+        (x: 10000.0, y: 0.0, kind: Goal),
+    ]
+)
