@@ -13,11 +13,14 @@ pub struct CoursePlugin;
 impl Plugin for CoursePlugin {
     fn build(&self, app: &mut App) {
         app.insert_resource(CourseListResource::default())
+            .init_asset::<asset_load::RonText>()
+            .register_asset_loader(asset_load::RonTextLoader)
             .add_plugins(course_items::turret::TurretPlugin)
             .add_plugins(course_items::breakable_box::BreakableBoxPlugin)
             .add_message::<SpawnCourseMessage>()
-            .add_systems(OnEnter(GameState::Start), init_courses_list_resource)
-            .add_systems(Update, spawn_course_from_id);
+            .init_resource::<asset_load::CourseLoadState>()
+            .add_systems(OnEnter(GameState::Start), asset_load::start_load_courses)//init_courses_list_resource)
+            .add_systems(Update, (spawn_course_from_id, asset_load::resolve_courses));
     }
 }
 
@@ -62,7 +65,7 @@ pub enum EntityKind {
 #[derive(Deserialize, Default)]
 pub struct CourseList(pub Vec<CourseEntry>);
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Clone)]
 pub struct CourseEntry {
     pub id: usize,
     pub name: String,

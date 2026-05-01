@@ -1,0 +1,109 @@
+(
+    entities: [
+        (x: 0.0, y: 200.0, kind: Text(sentence: "コース: 1-0")),
+        (x: 325.0, y: -5000.0, kind: Ground(width: 100.0, height: 11000.0)), // 右側の壁
+        (x: -325.0, y: -5000.0, kind: Ground(width: 100.0, height: 11000.0)), // 左側の壁
+        (x: 0.0, y: 475.0, kind: Ground(width: 550.0, height: 50.0)), // 後ろの壁
+
+        (x: 100.0, y: 100, kind: Text(sentence: "1/9")),
+        (x: 100.0, y: 0.0, kind: Checkpoint(priority: 1)), // 最初のチェックポイント
+
+        // 超加速セクション(Rでリスポーンして重力で無限に加速)
+        (x: 0.0, y: -700.0, kind: Breakable(required_speed: 300.0)),
+        (x: 50.0, y: -700.0, kind: Breakable(required_speed: 300.0)),
+        (x: -50.0, y: -700.0, kind: Breakable(required_speed: 300.0)),
+        (x: 100.0, y: -700.0, kind: Breakable(required_speed: 300.0)),
+        (x: -100.0, y: -700.0, kind: Breakable(required_speed: 300.0)),
+        (x: 150.0, y: -700.0, kind: Breakable(required_speed: 300.0)),
+        (x: -150.0, y: -700.0, kind: Breakable(required_speed: 300.0)),
+        (x: 200.0, y: -700.0, kind: Breakable(required_speed: 300.0)),
+        (x: -200.0, y: -700.0, kind: Breakable(required_speed: 300.0)),
+        (x: 250.0, y: -700.0, kind: Breakable(required_speed: 300.0)),
+        (x: -250.0, y: -700.0, kind: Breakable(required_speed: 300.0)),
+
+        (x: 100, y: -1000.0, kind: Text(sentence: "2/9")),
+        (x: 0.0, y: -1000.0, kind: Checkpoint(priority: 2)),
+
+        // まばらなレッドプロックセクション
+        (x: 250.0, y: -1200.0, kind: Death),
+        (x: 150.0, y: -1200.0, kind: Death),
+        (x: -250.0, y: -1200.0, kind: Death),
+        (x: -150.0, y: -1200.0, kind: Death),
+        (x: -100.0, y: -1350.0, kind: Death),
+        (x: 100.0, y: -1350.0, kind: Death),
+        (x: 0.0, y: -1350.0, kind: Death),
+        
+        (x: 250.0, y: -1500.0, kind: Death),
+        (x: 150.0, y: -1500.0, kind: Death),
+        (x: -250.0, y: -1500.0, kind: Death),
+        (x: -150.0, y: -1500.0, kind: Death),
+        (x: -100.0, y: -1650.0, kind: Death),
+        (x: 100.0, y: -1650.0, kind: Death),
+        (x: 0.0, y: -1650.0, kind: Death),
+
+        (x: 100, y: -1800.0, kind: Text(sentence: "3/9")),
+        (x: 0.0, y: -1800.0, kind: Checkpoint(priority: 3)),
+
+        // ジグザグレッドブロックセクション
+        (x: 250.0, y: -2100.0, kind: Death),
+        (x: 200.0, y: -2100.0, kind: Death),
+        (x: 150.0, y: -2100.0, kind: Death),
+        (x: 100.0, y: -2100.0, kind: Death),
+        (x: 50.0, y: -2100.0, kind: Death),
+        (x: 0.0, y: -2100.0, kind: Death),
+        (x: -250.0, y: -2300.0, kind: Death),
+        (x: -200.0, y: -2300.0, kind: Death),
+        (x: -150.0, y: -2300.0, kind: Death),
+        (x: -100.0, y: -2300.0, kind: Death),
+        (x: -50.0, y: -2300.0, kind: Death),
+        (x: 0.0, y: -2300.0, kind: Death),
+        (x: 250.0, y: -2500.0, kind: Death),
+        (x: 200.0, y: -2500.0, kind: Death),
+        (x: 150.0, y: -2500.0, kind: Death),
+        (x: 100.0, y: -2500.0, kind: Death),
+        (x: 50.0, y: -2500.0, kind: Death),
+        (x: 0.0, y: -2500.0, kind: Death),
+        (x: -250.0, y: -2700.0, kind: Death),
+        (x: -200.0, y: -2700.0, kind: Death),
+        (x: -150.0, y: -2700.0, kind: Death),
+        (x: -100.0, y: -2700.0, kind: Death),
+        (x: -50.0, y: -2700.0, kind: Death),
+        (x: 0.0, y: -2700.0, kind: Death),
+        
+        (x: 100.0, y: -2900.0, kind: Text(sentence: "4/9")),
+        (x: 0.0, y: -2900.0, kind: Checkpoint(priority: 4)),
+
+        // Breakable & Groundセクション
+        (x: -200.0, y: -3100.0, kind: Ground(width: 150.0, height: 50.0)),
+        (x: 200.0, y: -3100.0, kind: Ground(width: 150.0, height: 50.0)),
+        (x: 0.0, y: -3100.0, kind: Breakable(required_speed: 50.0)),
+        (x: 100.0, y: -3100.0, kind: Breakable(required_speed: 50.0)),
+        (x: -100.0, y: -3100.0, kind: Breakable(required_speed: 50.0)),
+        (x: 50.0, y: -3100.0, kind: Breakable(required_speed: 50.0)),
+        (x: -50.0, y: -3100.0, kind: Breakable(required_speed: 50.0)),
+        (x: 0.0, y: -3250.0, kind: Ground(width: 250.0, height: 50.0)),
+        (x: 150, y: -3250.0, kind: Breakable(required_speed: 40.0)),
+        (x: 200, y: -3250.0, kind: Breakable(required_speed: 40.0)),
+        (x: 250, y: -3250.0, kind: Breakable(required_speed: 40.0)),
+        (x: -150, y: -3250.0, kind: Breakable(required_speed: 40.0)),
+        (x: -200, y: -3250.0, kind: Breakable(required_speed: 40.0)),
+        (x: -250, y: -3250.0, kind: Breakable(required_speed: 40.0)),
+        (x: -200.0, y: -3400.0, kind: Ground(width: 150.0, height: 50.0)),
+        (x: 200.0, y: -3400.0, kind: Ground(width: 150.0, height: 50.0)),
+        (x: 0.0, y: -3400.0, kind: Breakable(required_speed: 30.0)),
+        (x: 100.0, y: -3400.0, kind: Breakable(required_speed: 30.0)),
+        (x: -100.0, y: -3400.0, kind: Breakable(required_speed: 30.0)),
+        (x: 50.0, y: -3400.0, kind: Breakable(required_speed: 30.0)),
+        (x: -50.0, y: -3400.0, kind: Breakable(required_speed: 30.0)),
+        (x: 0.0, y: -3550.0, kind: Ground(width: 250.0, height: 50.0)),
+        (x: 150, y: -3550.0, kind: Breakable(required_speed: 20.0)),
+        (x: 200, y: -3550.0, kind: Breakable(required_speed: 20.0)),
+        (x: 250, y: -3550.0, kind: Breakable(required_speed: 20.0)),
+        (x: -150, y: -3550.0, kind: Breakable(required_speed: 20.0)),
+        (x: -200, y: -3550.0, kind: Breakable(required_speed: 20.0)),
+        (x: -250, y: -3550.0, kind: Breakable(required_speed: 20.0)),
+
+        (x: 100.0, y: -3700.0, kind: Text(sentence: "5/9")),
+        (x: 0.0, y: -3700.0, kind: Checkpoint(priority: 5)),
+    ]
+)

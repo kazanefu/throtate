@@ -1,0 +1,88 @@
+(
+    entities: [
+        (x: 0.0, y: 200.0, kind: Text(sentence: "コース: 0-1")),
+
+        // 外枠
+        (x: 5000.0, y: -300.0, kind: Ground(width: 11000.0, height: 100.0)),
+        (x: -300.0, y: 0.0, kind: Ground(width: 50.0, height: 600.0)),
+        (x: 5000.0, y: 300.0, kind: Ground(width: 11000.0, height: 100.0)),
+
+        // ===== スタート =====
+        (x: 100.0, y: 100.0, kind: Text(sentence: "1/9")),
+        (x: 100.0, y: 0.0, kind: Checkpoint(priority: 1)),
+
+        // ===== 縦スラローム =====
+        (x: 300.0, y: 150.0, kind: Ground(width: 50.0, height: 200.0)),
+        (x: 450.0, y: -150.0, kind: Ground(width: 50.0, height: 200.0)),
+        (x: 600.0, y: 150.0, kind: Ground(width: 50.0, height: 200.0)),
+        (x: 750.0, y: -150.0, kind: Ground(width: 50.0, height: 200.0)),
+
+        (x: 900.0, y: 200.0, kind: Text(sentence: "2/9")),
+        (x: 900.0, y: 0.0, kind: Checkpoint(priority: 2)),
+
+        // ===== 上下フェイント通路 =====
+        (x: 1300.0, y: 200.0, kind: Ground(width: 400.0, height: 100.0)),
+        (x: 1300.0, y: -200.0, kind: Ground(width: 400.0, height: 100.0)),
+
+        (x: 1600.0, y: 0.0, kind: Death),
+        (x: 1650.0, y: 100.0, kind: Death),
+        (x: 1650.0, y: -100.0, kind: Death),
+
+        (x: 1800.0, y: 200.0, kind: Text(sentence: "3/9")),
+        (x: 1800.0, y: 0.0, kind: Checkpoint(priority: 3)),
+
+        // ===== 低速突破ブロック =====
+        (x: 2200.0, y: 150.0, kind: Breakable(required_speed: 30.0)),
+        (x: 2200.0, y: 100.0, kind: Breakable(required_speed: 30.0)),
+        (x: 2200.0, y: 50.0, kind: Breakable(required_speed: 30.0)),
+        (x: 2200.0, y: 0.0, kind: Breakable(required_speed: 30.0)),
+        (x: 2200.0, y: -50.0, kind: Breakable(required_speed: 30.0)),
+
+        (x: 2400.0, y: 200.0, kind: Text(sentence: "4/9")),
+        (x: 2400.0, y: 0.0, kind: Checkpoint(priority: 4)),
+
+        // ===== クロスタレット =====
+        (x: 2700.0, y: 250.0, kind: Turret(interval: 2.0, rotation: -1.57)),
+        (x: 2700.0, y: -250.0, kind: Turret(interval: 2.0, rotation: 1.57)),
+        (x: 3100.0, y: 250.0, kind: Turret(interval: 2.0, rotation: -1.57)),
+        (x: 3100.0, y: -250.0, kind: Turret(interval: 2.0, rotation: 1.57)),
+
+        (x: 3300.0, y: 0.0, kind: Checkpoint(priority: 5)),
+        (x: 3300.0, y: 200.0, kind: Text(sentence: "5/9")),
+
+        // ===== 落下トラップ =====
+        (x: 3600.0, y: -250.0, kind: Death),
+        (x: 3700.0, y: -250.0, kind: Death),
+        (x: 3800.0, y: -250.0, kind: Death),
+
+        (x: 3600.0, y: 200.0, kind: Ground(width: 400.0, height: 50.0)),
+
+        (x: 4000.0, y: 200.0, kind: Text(sentence: "6/9")),
+        (x: 4000.0, y: 150.0, kind: Checkpoint(priority: 6)),
+
+        // ===== 高速破壊セクション =====
+        (x: 4500.0, y: 0.0, kind: Breakable(required_speed: 90.0)),
+        (x: 4550.0, y: 50.0, kind: Breakable(required_speed: 90.0)),
+        (x: 4600.0, y: -50.0, kind: Breakable(required_speed: 90.0)),
+
+        (x: 4700.0, y: 200.0, kind: Text(sentence: "7/9")),
+        (x: 4700.0, y: 0.0, kind: Checkpoint(priority: 7)),
+
+        // ===== チェス配置デス =====
+        (x: 5000.0, y: 0.0, kind: Death),
+        (x: 5100.0, y: 150.0, kind: Death),
+        (x: 5200.0, y: -150.0, kind: Death),
+        (x: 5300.0, y: 150.0, kind: Death),
+        (x: 5400.0, y: -150.0, kind: Death),
+
+        (x: 5600.0, y: 200.0, kind: Text(sentence: "8/9")),
+        (x: 5600.0, y: 0.0, kind: Checkpoint(priority: 8)),
+
+        // ===== ラスト：高速タレット =====
+        (x: 6000.0, y: 250.0, kind: Turret(interval: 1.0, rotation: -1.57)),
+        (x: 6200.0, y: -250.0, kind: Turret(interval: 1.0, rotation: 1.57)),
+
+        (x: 6500.0, y: -50.0, kind: Text(sentence: "ゴール")),
+        (x: 6500.0, y: 0.0, kind: Goal),
+    ]
+)
