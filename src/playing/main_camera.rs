@@ -12,7 +12,7 @@ impl Plugin for MainCameraPlugin {
 }
 
 #[derive(Component)]
-struct MainCamera {
+pub struct MainCamera {
     target: Entity,
 }
 
@@ -30,7 +30,12 @@ fn main_camera_follow_system(
     target_query: Query<&Transform, With<Player>>,
 ) {
     for (mut camera_transform, target_entity) in &mut camera_query {
-        let target_transform = target_query.get(target_entity.target).expect("main camera don't have target");
-        camera_transform.translation = camera_transform.translation.lerp(target_transform.translation, FOLLOW_SPEED * time.delta_secs());
+        let target_transform = target_query
+            .get(target_entity.target)
+            .expect("main camera don't have target");
+        camera_transform.translation = camera_transform.translation.lerp(
+            target_transform.translation,
+            FOLLOW_SPEED * time.delta_secs(),
+        );
     }
 }

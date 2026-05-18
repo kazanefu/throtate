@@ -3,6 +3,8 @@ use bevy::render::render_resource::*;
 use bevy::shader::ShaderRef;
 use bevy::sprite_render::{AlphaMode2d, Material2d, Material2dPlugin};
 
+use crate::chaser::MainCameraChaser;
+
 pub struct DeathEffectPlugin;
 
 impl Plugin for DeathEffectPlugin {
@@ -50,7 +52,10 @@ fn setup(
     let material = materials.add(DeathVignetteMaterial {
         params: DeathVignetteUniform {
             alpha: 0.0,
-            resolution: Vec2::new(window.width(), window.height()),
+            resolution: Vec2::new(
+                window.physical_width() as f32,
+                window.physical_height() as f32,
+            ),
         },
     });
 
@@ -59,6 +64,7 @@ fn setup(
         MeshMaterial2d(material),
         Transform::from_translation(Vec3::new(0.0, 0.0, 10.0)),
         DeathEffect,
+        MainCameraChaser,
     ));
 }
 
