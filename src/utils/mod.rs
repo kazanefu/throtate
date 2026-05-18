@@ -1,4 +1,5 @@
 pub mod button;
+pub mod chaser;
 pub mod collision;
 use crate::state::RunningState;
 use bevy::prelude::*;
@@ -17,6 +18,7 @@ impl Plugin for UtilityPlugin {
                 UtilitySystemSet.run_if(in_state(RunningState::Running)),
             )
             .add_plugins(button::ButtonPlugin)
+            .add_plugins(chaser::ChaserPlugin)
             .add_systems(
                 Update,
                 (

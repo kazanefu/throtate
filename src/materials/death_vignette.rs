@@ -108,7 +108,10 @@ fn update_resolution(
     effect_query: Query<&MeshMaterial2d<DeathVignetteMaterial>, With<DeathEffect>>,
     mut materials: ResMut<Assets<DeathVignetteMaterial>>,
 ) {
-    let resolution = Vec2::new(window.width(), window.height());
+    let resolution = Vec2::new(
+        window.physical_width() as f32,
+        window.physical_height() as f32,
+    );
 
     for handle in &effect_query {
         if let Some(mat) = materials.get_mut(handle) {
