@@ -48,6 +48,7 @@ fn main() {
     bevy::asset::embedded_asset!(app, "shaders/breakable.wgsl");
     bevy::asset::embedded_asset!(app, "shaders/checkpoint.wgsl");
     bevy::asset::embedded_asset!(app, "shaders/death.wgsl");
+    bevy::asset::embedded_asset!(app, "shaders/goal.wgsl");
     app.add_plugins(RapierPhysicsPlugin::<NoUserData>::default())
         // .add_plugins(RapierDebugRenderPlugin::default())
         .add_plugins(HanabiPlugin)

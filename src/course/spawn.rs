@@ -81,7 +81,9 @@ fn spawn_course_from_entities<'a>(
         EntityKind::Turret { interval, rotation, bullet_lifetime } => {
             turret::spawn_turret(commands, x, y, *interval, *rotation, *bullet_lifetime, box_size)
         }
-        EntityKind::Goal => commands.spawn(goal::goal_bundle(x, y, box_size)),
+        EntityKind::Goal => {
+            commands.spawn(goal::goal_bundle(x, y, box_size, course_materials))
+        }
         EntityKind::Text { sentence } => {
             commands.spawn(text_box::text_box_bundle(x, y, sentence, font))
         }

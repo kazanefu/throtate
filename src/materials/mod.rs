@@ -5,11 +5,13 @@ mod space_background;
 mod breakable;
 mod checkpoint;
 mod death;
+mod goal;
 
 pub use meteor::MeteorMaterial;
 pub use breakable::BreakableMaterial;
 pub use checkpoint::CheckpointMaterial;
 pub use death::DeathMaterial;
+pub use goal::GoalMaterial;
 
 pub struct CustomMaterialPlugin;
 
@@ -20,6 +22,7 @@ impl Plugin for CustomMaterialPlugin {
             .add_plugins(space_background::SpaceBackGroundPlugin)
             .add_plugins(breakable::BreakableMaterialPlugin)
             .add_plugins(checkpoint::CheckpointMaterialPlugin)
-            .add_plugins(death::DeathMaterialPlugin);
+            .add_plugins(death::DeathMaterialPlugin)
+            .add_plugins(goal::GoalMaterialPlugin);
     }
 }
