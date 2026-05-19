@@ -58,7 +58,13 @@ fn spawn_course_from_entities<'a>(
             commands.spawn(ground::ground_bundle(x, y, *width, *height))
         }
         EntityKind::Checkpoint { priority } => {
-            commands.spawn(checkpoint::check_point_bundle(x, y, *priority, box_size))
+            commands.spawn(checkpoint::check_point_bundle(
+                x,
+                y,
+                *priority,
+                box_size,
+                course_materials,
+            ))
         }
         EntityKind::Breakable { required_speed } => {
             commands.spawn(breakable_box::breakable_box_bundle(

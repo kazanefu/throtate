@@ -26,18 +26,23 @@ impl Plugin for CoursePlugin {
 pub struct CourseMaterials {
     pub breakable_mesh: Handle<Mesh>,
     pub breakable_material: Handle<crate::materials::BreakableMaterial>,
+    pub checkpoint_mesh: Handle<Mesh>,
+    pub checkpoint_material: Handle<crate::materials::CheckpointMaterial>,
 }
 
 fn setup_course_materials(
     mut commands: Commands,
     mut meshes: ResMut<Assets<Mesh>>,
     mut breakable_materials: ResMut<Assets<crate::materials::BreakableMaterial>>,
+    mut checkpoint_materials: ResMut<Assets<crate::materials::CheckpointMaterial>>,
     config: Res<crate::config::GameConfig>,
 ) {
     let box_size = config.course.one_box_size;
     commands.insert_resource(CourseMaterials {
         breakable_mesh: meshes.add(Rectangle::new(box_size, box_size)),
         breakable_material: breakable_materials.add(crate::materials::BreakableMaterial::default()),
+        checkpoint_mesh: meshes.add(Rectangle::new(box_size, box_size)),
+        checkpoint_material: checkpoint_materials.add(crate::materials::CheckpointMaterial::default()),
     });
 }
 

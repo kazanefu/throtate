@@ -46,6 +46,7 @@ fn main() {
     bevy::asset::embedded_asset!(app, "shaders/meteor.wgsl");
     bevy::asset::embedded_asset!(app, "shaders/space_background.wgsl");
     bevy::asset::embedded_asset!(app, "shaders/breakable.wgsl");
+    bevy::asset::embedded_asset!(app, "shaders/checkpoint.wgsl");
     app.add_plugins(RapierPhysicsPlugin::<NoUserData>::default())
         // .add_plugins(RapierDebugRenderPlugin::default())
         .add_plugins(HanabiPlugin)
