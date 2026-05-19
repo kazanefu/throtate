@@ -47,8 +47,8 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
     
     // Checker flag logic
     // Deform coordinates with sine/cos waves over time to simulate waving in the wind
-    let wave_x = sin(uv.y * 7.5 + params.time * 2.4) * 0.045;
-    let wave_y = cos(uv.x * 7.5 + params.time * 2.4) * 0.045;
+    let wave_x = sin(uv.y * 7.5 + params.time * 2.4) * 0.02;
+    let wave_y = cos(uv.x * 7.5 + params.time * 2.4) * 0.02;
     let deformed_uv = uv + vec2<f32>(wave_x, wave_y);
     
     let check_scale = 8.0;
