@@ -28,6 +28,8 @@ pub struct CourseMaterials {
     pub breakable_material: Handle<crate::materials::BreakableMaterial>,
     pub checkpoint_mesh: Handle<Mesh>,
     pub checkpoint_material: Handle<crate::materials::CheckpointMaterial>,
+    pub death_mesh: Handle<Mesh>,
+    pub death_material: Handle<crate::materials::DeathMaterial>,
 }
 
 fn setup_course_materials(
@@ -35,6 +37,7 @@ fn setup_course_materials(
     mut meshes: ResMut<Assets<Mesh>>,
     mut breakable_materials: ResMut<Assets<crate::materials::BreakableMaterial>>,
     mut checkpoint_materials: ResMut<Assets<crate::materials::CheckpointMaterial>>,
+    mut death_materials: ResMut<Assets<crate::materials::DeathMaterial>>,
     config: Res<crate::config::GameConfig>,
 ) {
     let box_size = config.course.one_box_size;
@@ -43,6 +46,8 @@ fn setup_course_materials(
         breakable_material: breakable_materials.add(crate::materials::BreakableMaterial::default()),
         checkpoint_mesh: meshes.add(Rectangle::new(box_size, box_size)),
         checkpoint_material: checkpoint_materials.add(crate::materials::CheckpointMaterial::default()),
+        death_mesh: meshes.add(Rectangle::new(box_size, box_size)),
+        death_material: death_materials.add(crate::materials::DeathMaterial::default()),
     });
 }
 
