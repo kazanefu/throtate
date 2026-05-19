@@ -66,8 +66,8 @@ fn spawn_course_from_entities<'a>(
             ))
         }
         EntityKind::Death => commands.spawn(death_box::death_box_bundle(x, y, box_size)),
-        EntityKind::Turret { interval, rotation } => {
-            commands.spawn(turret::turret_bundle(x, y, *interval, *rotation, box_size))
+        EntityKind::Turret { interval, rotation, bullet_lifetime } => {
+            turret::spawn_turret(commands, x, y, *interval, *rotation, *bullet_lifetime, box_size)
         }
         EntityKind::Goal => commands.spawn(goal::goal_bundle(x, y, box_size)),
         EntityKind::Text { sentence } => {

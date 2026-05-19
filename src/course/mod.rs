@@ -57,6 +57,7 @@ pub enum EntityKind {
     Turret {
         interval: f32,
         rotation: f32,
+        bullet_lifetime: Option<f32>,
     },
     Breakable {
         required_speed: f32,
