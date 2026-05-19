@@ -32,6 +32,10 @@ pub struct CourseMaterials {
     pub death_material: Handle<crate::materials::DeathMaterial>,
     pub goal_mesh: Handle<Mesh>,
     pub goal_material: Handle<crate::materials::GoalMaterial>,
+    pub turret_mesh: Handle<Mesh>,
+    pub turret_material: Handle<crate::materials::TurretMaterial>,
+    pub bullet_mesh: Handle<Mesh>,
+    pub bullet_material: Handle<crate::materials::BulletMaterial>,
 }
 
 fn setup_course_materials(
@@ -41,6 +45,8 @@ fn setup_course_materials(
     mut checkpoint_materials: ResMut<Assets<crate::materials::CheckpointMaterial>>,
     mut death_materials: ResMut<Assets<crate::materials::DeathMaterial>>,
     mut goal_materials: ResMut<Assets<crate::materials::GoalMaterial>>,
+    mut turret_materials: ResMut<Assets<crate::materials::TurretMaterial>>,
+    mut bullet_materials: ResMut<Assets<crate::materials::BulletMaterial>>,
     config: Res<crate::config::GameConfig>,
 ) {
     let box_size = config.course.one_box_size;
@@ -53,6 +59,10 @@ fn setup_course_materials(
         death_material: death_materials.add(crate::materials::DeathMaterial::default()),
         goal_mesh: meshes.add(Rectangle::new(box_size, box_size)),
         goal_material: goal_materials.add(crate::materials::GoalMaterial::default()),
+        turret_mesh: meshes.add(Rectangle::new(box_size, box_size)),
+        turret_material: turret_materials.add(crate::materials::TurretMaterial::default()),
+        bullet_mesh: meshes.add(Rectangle::new(box_size / 2.0, box_size / 2.0)),
+        bullet_material: bullet_materials.add(crate::materials::BulletMaterial::default()),
     });
 }
 

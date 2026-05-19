@@ -79,7 +79,16 @@ fn spawn_course_from_entities<'a>(
             commands.spawn(death_box::death_box_bundle(x, y, box_size, course_materials))
         }
         EntityKind::Turret { interval, rotation, bullet_lifetime } => {
-            turret::spawn_turret(commands, x, y, *interval, *rotation, *bullet_lifetime, box_size)
+            turret::spawn_turret(
+                commands,
+                x,
+                y,
+                *interval,
+                *rotation,
+                *bullet_lifetime,
+                box_size,
+                course_materials,
+            )
         }
         EntityKind::Goal => {
             commands.spawn(goal::goal_bundle(x, y, box_size, course_materials))

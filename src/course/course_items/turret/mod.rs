@@ -33,12 +33,13 @@ pub fn spawn_turret<'a>(
     rotation: f32,
     bullet_lifetime_opt: Option<f32>,
     box_size: f32,
+    course_materials: &crate::course::CourseMaterials,
 ) -> EntityCommands<'a> {
     let bullet_lifetime = bullet_lifetime_opt.unwrap_or(BULLET_LIFE_TIME);
     let pool_size = (bullet_lifetime / interval) as usize + 1;
     let mut bullets = Vec::with_capacity(pool_size);
     for _ in 0..pool_size {
-        bullets.push(bullet::spawn_inactive_bullet(commands, box_size));
+        bullets.push(bullet::spawn_inactive_bullet(commands, box_size, course_materials));
     }
 
     commands.spawn((
@@ -57,11 +58,8 @@ pub fn spawn_turret<'a>(
         BulletPool { bullets },
         RigidBody::Fixed,
         Collider::cuboid(box_size / 2.0, box_size / 2.0),
-        Sprite {
-            color: Color::srgb(0.8, 0.4, 0.2),
-            custom_size: Some(Vec2::new(box_size, box_size)),
-            ..default()
-        },
+        Mesh2d(course_materials.turret_mesh.clone()),
+        MeshMaterial2d(course_materials.turret_material.clone()),
     ))
 }
 
@@ -81,6 +79,7 @@ fn turret_shot(
         &mut Visibility,
     ), Without<Turret>>,
     config: Res<crate::config::GameConfig>,
+    course_materials: Res<crate::course::CourseMaterials>,
 ) {
     let box_size = config.course.one_box_size;
     for (turret_transform, mut turret_interval, turret, mut bullet_pool) in &mut turret_query {
@@ -102,7 +101,7 @@ fn turret_shot(
                 Some(entity) => entity,
                 None => {
                     // dynamically spawn a new bullet and add to the pool
-                    let entity = bullet::spawn_inactive_bullet(&mut commands, box_size);
+                    let entity = bullet::spawn_inactive_bullet(&mut commands, box_size, &course_materials);
                     bullet_pool.bullets.push(entity);
                     entity
                 }

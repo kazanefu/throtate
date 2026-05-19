@@ -12,6 +12,7 @@ pub struct TurretBullet {
 pub fn spawn_inactive_bullet(
     commands: &mut Commands,
     box_size: f32,
+    course_materials: &crate::course::CourseMaterials,
 ) -> Entity {
     commands
         .spawn((
@@ -25,11 +26,8 @@ pub fn spawn_inactive_bullet(
             RigidBody::Dynamic,
             Collider::cuboid(box_size / 4.0, box_size / 4.0),
             CollisionGroups::new(Group::NONE, Group::NONE),
-            Sprite {
-                color: Color::srgb(0.9, 0.2, 0.2),
-                custom_size: Some(Vec2::new(box_size / 2.0, box_size / 2.0)),
-                ..default()
-            },
+            Mesh2d(course_materials.bullet_mesh.clone()),
+            MeshMaterial2d(course_materials.bullet_material.clone()),
             Visibility::Hidden,
             Velocity::default(),
             DespawnOnExit(GameState::Playing),
