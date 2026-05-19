@@ -15,6 +15,7 @@ pub fn spawn_course_from_id(
     mut spawn_course_message: MessageReader<SpawnCourseMessage>,
     font: Res<JpFont>,
     config: Res<crate::config::GameConfig>,
+    course_materials: Res<CourseMaterials>,
 ) {
     for SpawnCourseMessage(id) in spawn_course_message.read() {
         let course = course_list_res
@@ -32,6 +33,7 @@ pub fn spawn_course_from_id(
                         entity,
                         font.get(),
                         &config,
+                        &course_materials,
                     )
                     .id();
                     commands.entity(course_entity).add_child(item_entity);
@@ -47,6 +49,7 @@ fn spawn_course_from_entities<'a>(
     entity: &EntityData,
     font: &Handle<Font>,
     config: &crate::config::GameConfig,
+    course_materials: &CourseMaterials,
 ) -> EntityCommands<'a> {
     let (x, y) = (entity.x, entity.y);
     let box_size = config.course.one_box_size;
@@ -63,6 +66,7 @@ fn spawn_course_from_entities<'a>(
                 y,
                 *required_speed,
                 box_size,
+                course_materials,
             ))
         }
         EntityKind::Death => commands.spawn(death_box::death_box_bundle(x, y, box_size)),
