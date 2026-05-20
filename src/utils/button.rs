@@ -39,10 +39,13 @@ impl UiScaleLinearInterpolation {
     }
 }
 
+use crate::audio::button::ButtonSounds;
+
 #[derive(Bundle)]
 pub struct SizeUpButtonBundle {
     sizeup_button: SizeUpButton,
     interpolation: UiScaleLinearInterpolation,
+    button_sounds: ButtonSounds,
 }
 
 impl SizeUpButtonBundle {
@@ -50,6 +53,7 @@ impl SizeUpButtonBundle {
         Self {
             sizeup_button: SizeUpButton::new(rate),
             interpolation: UiScaleLinearInterpolation::from_speed(speed),
+            button_sounds: ButtonSounds,
         }
     }
 }
