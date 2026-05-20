@@ -53,6 +53,7 @@ fn main() {
     bevy::asset::embedded_asset!(app, "shaders/goal.wgsl");
     bevy::asset::embedded_asset!(app, "shaders/turret.wgsl");
     bevy::asset::embedded_asset!(app, "shaders/bullet.wgsl");
+    bevy::asset::embedded_asset!(app, "sounds/death_sound.mp3");
     app.add_plugins(RapierPhysicsPlugin::<NoUserData>::default())
         .insert_resource(TimestepMode::Interpolated {
             dt: 1.0 / 120.0,
