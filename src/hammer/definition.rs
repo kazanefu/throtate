@@ -86,6 +86,7 @@ pub fn hammer_bundle(
         Collider::ball(config.size),
         Restitution::coefficient(0.8),
         Velocity::default(),
+        TransformInterpolation::default(),
         Ccd::enabled(),
         ImpulseJoint::new(
             pivot_entity,

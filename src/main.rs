@@ -52,6 +52,11 @@ fn main() {
     bevy::asset::embedded_asset!(app, "shaders/turret.wgsl");
     bevy::asset::embedded_asset!(app, "shaders/bullet.wgsl");
     app.add_plugins(RapierPhysicsPlugin::<NoUserData>::default())
+        .insert_resource(TimestepMode::Interpolated {
+            dt: 1.0 / 120.0,
+            time_scale: 1.0,
+            substeps: 1,
+        })
         // .add_plugins(RapierDebugRenderPlugin::default())
         .add_plugins(HanabiPlugin)
         .init_resource::<config::GameConfig>()
