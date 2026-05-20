@@ -4,6 +4,7 @@ use bevy_hanabi::prelude::*;
 use bevy_rapier2d::prelude::*;
 
 mod action_effect;
+mod audio;
 mod config;
 mod course;
 mod course_selection;
@@ -53,7 +54,12 @@ fn main() {
     bevy::asset::embedded_asset!(app, "shaders/goal.wgsl");
     bevy::asset::embedded_asset!(app, "shaders/turret.wgsl");
     bevy::asset::embedded_asset!(app, "shaders/bullet.wgsl");
+    bevy::asset::embedded_asset!(app, "sounds/break.mp3");
+    bevy::asset::embedded_asset!(app, "sounds/button_click.mp3");
+    bevy::asset::embedded_asset!(app, "sounds/button_select.mp3");
+    bevy::asset::embedded_asset!(app, "sounds/checkpoint.mp3");
     bevy::asset::embedded_asset!(app, "sounds/death_sound.mp3");
+    bevy::asset::embedded_asset!(app, "sounds/goal.mp3");
     app.add_plugins(RapierPhysicsPlugin::<NoUserData>::default())
         .insert_resource(TimestepMode::Interpolated {
             dt: 1.0 / 120.0,
@@ -74,5 +80,6 @@ fn main() {
         .add_plugins(result::ResultPlugin)
         .add_plugins(action_effect::ActionEffectPlugin)
         .add_plugins(materials::CustomMaterialPlugin)
+        .add_plugins(audio::AudioPlugin)
         .run();
 }

@@ -43,6 +43,8 @@ pub fn breakable_box_bundle(
 }
 
 
+use crate::audio::AudioAssets;
+
 fn breakable_system(
     mut commands: Commands,
     mut collision_events: MessageReader<CollisionEvent>,
@@ -50,6 +52,7 @@ fn breakable_system(
     velocity_query: Query<&Velocity>,
     transform_query: Query<&Transform>,
     mut fire_break_effect: MessageWriter<FireBreakEffect>,
+    audio_assets: Res<AudioAssets>,
 ) {
     for event in collision_events.read() {
         if let CollisionEvent::Started(e1, e2, _) = event {
@@ -77,6 +80,10 @@ fn breakable_system(
                     .expect("break_entity don't have transform")
                     .translation;
                 fire_break_effect.write(FireBreakEffect(position));
+                commands.spawn((
+                    AudioPlayer::new(audio_assets.break_sound.clone()),
+                    PlaybackSettings::DESPAWN,
+                ));
                 commands.entity(break_entity).despawn();
             }
         }
