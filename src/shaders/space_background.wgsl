@@ -4,20 +4,28 @@ struct SpaceParams {
     camera_pos: vec2<f32>,
     resolution: vec2<f32>,
     time: f32,
-    _padding: f32,
+    scale_factor: f32,
 }
 
 @group(2) @binding(0)
 var<uniform> params: SpaceParams;
+
+// Constants to prevent edge cases
+const EPSILON: f32 = 1e-6;
+const MIN_CELL_SIZE: f32 = 0.001;
 
 // --------------------------------------------------
 // hash
 // --------------------------------------------------
 
 fn hash(p: vec2<f32>) -> f32 {
+    // Clamp input to prevent extreme values
+    let clamped_p = clamp(p, vec2<f32>(-10000.0), vec2<f32>(10000.0));
+    let dot_result = dot(clamped_p, vec2<f32>(127.1, 311.7));
+    // Use mod to prevent very large values in sin
+    let modded = dot_result - floor(dot_result / 6.28318530718) * 6.28318530718;
     return fract(
-        sin(dot(p, vec2<f32>(127.1, 311.7)))
-        * 43758.5453123
+        sin(modded) * 43758.5453123
     );
 }
 
@@ -77,8 +85,11 @@ fn star_layer(
     threshold: f32,
 ) -> vec3<f32> {
 
+    // Prevent zero division
+    let safe_cell_size = max(cell_size, MIN_CELL_SIZE);
+
     let cell =
-        floor(world / cell_size);
+        floor(world / safe_cell_size);
 
     let rnd =
         hash(cell);
@@ -94,11 +105,11 @@ fn star_layer(
     // セル中心付近だけ
     let star_pos =
         (hash2(cell) - 0.5)
-        * cell_size
+        * safe_cell_size
         * 0.30;
 
     let center =
-        cell * cell_size + star_pos;
+        cell * safe_cell_size + star_pos;
 
     let local =
         world - center;
@@ -122,7 +133,7 @@ fn star_layer(
         1.0
         - smoothstep(
             0.0,
-            radius,
+            max(radius, EPSILON),
             d
         );
 
@@ -132,7 +143,7 @@ fn star_layer(
 
     // glowをかなり縮小
     let glow_radius =
-        radius * 1.0;
+        max(radius * 1.5, radius + EPSILON); // Ensure glow_radius > radius
 
     let glow =
         1.0
@@ -147,7 +158,7 @@ fn star_layer(
     // ==================================================
 
     let cross_width =
-        radius * 0.08;
+        max(radius * 0.08, EPSILON);
 
     let cross_x =
         1.0
@@ -238,9 +249,10 @@ fn render_planets(
 ) -> vec3<f32> {
 
     let planet_grid = 2000.0;
+    let safe_planet_grid = max(planet_grid, MIN_CELL_SIZE);
 
     let cell =
-        floor(world / planet_grid);
+        floor(world / safe_planet_grid);
 
     var color =
         vec3<f32>(0.0);
@@ -272,9 +284,9 @@ fn render_planets(
                 + (world - params.camera_pos);
 
             let center =
-                current * planet_grid
+                current * safe_planet_grid
                 + (hash2(current) - 0.5)
-                * planet_grid
+                * safe_planet_grid
                 * 0.7;
 
             let p =
@@ -290,8 +302,13 @@ fn render_planets(
                 continue;
             }
 
-            let n =
-                normalize(p);
+            // Safe normalize - check for zero vector
+            let p_length = length(p);
+            let n = select(
+                normalize(p),
+                vec2<f32>(0.0, 1.0), // Default normal if p is zero
+                p_length < EPSILON
+            );
 
             let light_dir =
                 normalize(
@@ -381,13 +398,13 @@ fn render_planets(
                     surface
                 );
 
-            // rim light
-            let rim =
-                pow(
-                    1.0
-                    - abs(dot(n, -light_dir)),
-                    3.0
-                );
+            // rim light - prevent negative base for pow
+            let rim_base = clamp(
+                1.0 - abs(dot(n, -light_dir)),
+                0.0,
+                1.0
+            );
+            let rim = pow(rim_base, 3.0);
 
             color +=
                 base
@@ -465,6 +482,9 @@ fn fragment(
     // planets
 
     color += render_planets(world);
+
+    // Ensure no NaN or Inf in final output
+    color = clamp(color, vec3<f32>(0.0), vec3<f32>(100.0));
 
     return vec4<f32>(color, 1.0);
 }

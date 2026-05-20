@@ -19,7 +19,8 @@ impl Plugin for SpaceBackGroundPlugin {
                 (
                     update_space_background_material,
                     update_light_space_background_material,
-                ),
+                )
+                    .run_if(in_state(GameState::Playing)),
             );
     }
 }
@@ -122,7 +123,12 @@ fn update_space_background_material(
         return;
     };
 
-    for handle in &query {
+    // Prevent zero division if window is minimized or not initialized
+    if window.width() <= 0.0 || window.height() <= 0.0 {
+        return;
+    }
+
+    for handle in query.iter() {
         if let Some(material) = materials.get_mut(handle) {
             material.params.camera_pos = camera_transform.translation.truncate();
 
@@ -152,7 +158,12 @@ fn update_light_space_background_material(
         return;
     };
 
-    for handle in &query {
+    // Prevent zero division if window is minimized or not initialized
+    if window.width() <= 0.0 || window.height() <= 0.0 {
+        return;
+    }
+
+    for handle in query.iter() {
         if let Some(material) = materials.get_mut(handle) {
             material.params.camera_pos = camera_transform.translation.truncate();
 

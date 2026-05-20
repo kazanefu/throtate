@@ -4,17 +4,25 @@ struct SpaceParams {
     camera_pos: vec2<f32>,
     resolution: vec2<f32>,
     time: f32,
-    _padding: f32,
+    scale_factor: f32,
 }
 
 @group(2) @binding(0)
 var<uniform> params: SpaceParams;
 
+// Constants to prevent edge cases
+const EPSILON: f32 = 1e-6;
+const MIN_CELL_SIZE: f32 = 0.001;
+
 // Hash functions for procedural stars
 fn hash(p: vec2<f32>) -> f32 {
+    // Clamp input to prevent extreme values
+    let clamped_p = clamp(p, vec2<f32>(-10000.0), vec2<f32>(10000.0));
+    let dot_result = dot(clamped_p, vec2<f32>(127.1, 311.7));
+    // Use mod to prevent very large values in sin
+    let modded = dot_result - floor(dot_result / 6.28318530718) * 6.28318530718;
     return fract(
-        sin(dot(p, vec2<f32>(127.1, 311.7)))
-        * 43758.5453123
+        sin(modded) * 43758.5453123
     );
 }
 
@@ -31,7 +39,10 @@ fn star_layer(
     cell_size: f32,
     threshold: f32,
 ) -> vec3<f32> {
-    let cell = floor(world / cell_size);
+    // Prevent zero division
+    let safe_cell_size = max(cell_size, MIN_CELL_SIZE);
+
+    let cell = floor(world / safe_cell_size);
     let rnd = hash(cell);
 
     if rnd < threshold {
@@ -39,19 +50,20 @@ fn star_layer(
     }
 
     // Star position offset in cell
-    let star_pos = (hash2(cell) - 0.5) * cell_size * 0.30;
-    let center = cell * cell_size + star_pos;
+    let star_pos = (hash2(cell) - 0.5) * safe_cell_size * 0.30;
+    let center = cell * safe_cell_size + star_pos;
     let local = world - center;
     let d = length(local);
 
     // Star radius
-    let radius = 0.45 + rnd * 1.1;
+    let radius = max(0.45 + rnd * 1.1, EPSILON);
 
     // Core light
     let core = 1.0 - smoothstep(0.0, radius, d);
 
-    // Glow light
-    let glow = 1.0 - smoothstep(radius, radius * 1.5, d);
+    // Glow light - ensure glow_radius > radius
+    let glow_radius = max(radius * 1.5, radius + EPSILON);
+    let glow = 1.0 - smoothstep(radius, glow_radius, d);
 
     // Star color temperature
     let temp = hash(cell + 91.7);
@@ -91,6 +103,9 @@ fn fragment(
 
     // Far
     color += star_layer(world * 0.03, 45.0, 0.993);
+
+    // Ensure no NaN or Inf in final output
+    color = clamp(color, vec3<f32>(0.0), vec3<f32>(100.0));
 
     return vec4<f32>(color, 1.0);
 }
