@@ -6,4 +6,4 @@ fullscreen = true
 vsync = true
 
 [graphics]
-light_background = false
+light_background = true
