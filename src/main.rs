@@ -21,6 +21,7 @@ pub use utils::*;
 fn main() {
     let settings = settings::get_settings();
     let mut app = App::new();
+    app.insert_resource(settings.clone());
     app.add_plugins(DefaultPlugins.set(WindowPlugin {
         primary_window: Some(Window {
             title: settings.window.title.clone(),
@@ -45,6 +46,7 @@ fn main() {
     bevy::asset::embedded_asset!(app, "shaders/death_vignette.wgsl");
     bevy::asset::embedded_asset!(app, "shaders/meteor.wgsl");
     bevy::asset::embedded_asset!(app, "shaders/space_background.wgsl");
+    bevy::asset::embedded_asset!(app, "shaders/light_space_background.wgsl");
     bevy::asset::embedded_asset!(app, "shaders/breakable.wgsl");
     bevy::asset::embedded_asset!(app, "shaders/checkpoint.wgsl");
     bevy::asset::embedded_asset!(app, "shaders/death.wgsl");

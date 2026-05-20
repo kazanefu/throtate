@@ -25,41 +25,45 @@ pub struct BulletPool {
 const BULLET_LIFE_TIME: f32 = 3.0;
 const BULLET_SPEED: f32 = 500.0;
 
-pub fn spawn_turret<'a>(
-    commands: &'a mut Commands,
-    x: f32,
-    y: f32,
-    interval: f32,
-    rotation: f32,
-    bullet_lifetime_opt: Option<f32>,
-    box_size: f32,
-    course_materials: &crate::course::CourseMaterials,
-) -> EntityCommands<'a> {
-    let bullet_lifetime = bullet_lifetime_opt.unwrap_or(BULLET_LIFE_TIME);
-    let pool_size = (bullet_lifetime / interval) as usize + 1;
+pub struct TurretSpawnParams<'a> {
+    pub x: f32,
+    pub y: f32,
+    pub interval: f32,
+    pub rotation: f32,
+    pub bullet_lifetime: Option<f32>,
+    pub box_size: f32,
+    pub course_materials: &'a crate::course::CourseMaterials,
+}
+
+pub fn spawn_turret<'a, 'b>(
+    commands: &'b mut Commands,
+    params: TurretSpawnParams<'a>,
+) -> EntityCommands<'b> {
+    let bullet_lifetime = params.bullet_lifetime.unwrap_or(BULLET_LIFE_TIME);
+    let pool_size = (bullet_lifetime / params.interval) as usize + 1;
     let mut bullets = Vec::with_capacity(pool_size);
     for _ in 0..pool_size {
-        bullets.push(bullet::spawn_inactive_bullet(commands, box_size, course_materials));
+        bullets.push(bullet::spawn_inactive_bullet(commands, params.box_size, params.course_materials));
     }
 
     commands.spawn((
         Transform {
-            translation: Vec3::new(x, y, 0.0),
-            rotation: Quat::from_rotation_z(rotation),
+            translation: Vec3::new(params.x, params.y, 0.0),
+            rotation: Quat::from_rotation_z(params.rotation),
             scale: Vec3::ONE,
         },
         crate::utils::Interval {
             time: 0.0,
-            interval,
+            interval: params.interval,
         },
         Turret {
             bullet_lifetime,
         },
         BulletPool { bullets },
         RigidBody::Fixed,
-        Collider::cuboid(box_size / 2.0, box_size / 2.0),
-        Mesh2d(course_materials.turret_mesh.clone()),
-        MeshMaterial2d(course_materials.turret_material.clone()),
+        Collider::cuboid(params.box_size / 2.0, params.box_size / 2.0),
+        Mesh2d(params.course_materials.turret_mesh.clone()),
+        MeshMaterial2d(params.course_materials.turret_material.clone()),
     ))
 }
 
@@ -89,11 +93,14 @@ fn turret_shot(
             // Find an inactive bullet from the pool
             let mut chosen_bullet = None;
             for &bullet_entity in &bullet_pool.bullets {
-                if let Ok((bullet, _, _, _, _)) = bullet_query.get(bullet_entity) {
-                    if !bullet.is_active {
-                        chosen_bullet = Some(bullet_entity);
-                        break;
-                    }
+                let is_inactive = bullet_query
+                    .get(bullet_entity)
+                    .map(|(bullet, _, _, _, _)| !bullet.is_active)
+                    .unwrap_or(false);
+
+                if is_inactive {
+                    chosen_bullet = Some(bullet_entity);
+                    break;
                 }
             }
 

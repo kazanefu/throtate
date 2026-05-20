@@ -81,13 +81,15 @@ fn spawn_course_from_entities<'a>(
         EntityKind::Turret { interval, rotation, bullet_lifetime } => {
             turret::spawn_turret(
                 commands,
-                x,
-                y,
-                *interval,
-                *rotation,
-                *bullet_lifetime,
-                box_size,
-                course_materials,
+                turret::TurretSpawnParams {
+                    x,
+                    y,
+                    interval: *interval,
+                    rotation: *rotation,
+                    bullet_lifetime: *bullet_lifetime,
+                    box_size,
+                    course_materials,
+                },
             )
         }
         EntityKind::Goal => {
