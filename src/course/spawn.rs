@@ -57,53 +57,48 @@ fn spawn_course_from_entities<'a>(
         EntityKind::Ground { width, height } => {
             commands.spawn(ground::ground_bundle(x, y, *width, *height))
         }
-        EntityKind::Checkpoint { priority } => {
-            commands.spawn(checkpoint::check_point_bundle(
+        EntityKind::Checkpoint { priority } => commands.spawn(checkpoint::check_point_bundle(
+            x,
+            y,
+            *priority,
+            box_size,
+            course_materials,
+        )),
+        EntityKind::Breakable { required_speed } => commands.spawn(
+            breakable_box::breakable_box_bundle(x, y, *required_speed, box_size, course_materials),
+        ),
+        EntityKind::Death => commands.spawn(death_box::death_box_bundle(
+            x,
+            y,
+            box_size,
+            course_materials,
+        )),
+        EntityKind::Turret {
+            interval,
+            rotation,
+            bullet_lifetime,
+        } => turret::spawn_turret(
+            commands,
+            turret::TurretSpawnParams {
                 x,
                 y,
-                *priority,
+                interval: *interval,
+                rotation: *rotation,
+                bullet_lifetime: *bullet_lifetime,
                 box_size,
                 course_materials,
-            ))
-        }
-        EntityKind::Breakable { required_speed } => {
-            commands.spawn(breakable_box::breakable_box_bundle(
-                x,
-                y,
-                *required_speed,
-                box_size,
-                course_materials,
-            ))
-        }
-        EntityKind::Death => {
-            commands.spawn(death_box::death_box_bundle(x, y, box_size, course_materials))
-        }
-        EntityKind::Turret { interval, rotation, bullet_lifetime } => {
-            turret::spawn_turret(
-                commands,
-                x,
-                y,
-                *interval,
-                *rotation,
-                *bullet_lifetime,
-                box_size,
-                course_materials,
-            )
-        }
-        EntityKind::Goal => {
-            commands.spawn(goal::goal_bundle(x, y, box_size, course_materials))
-        }
+            },
+        ),
+        EntityKind::Goal => commands.spawn(goal::goal_bundle(x, y, box_size, course_materials)),
         EntityKind::Text { sentence } => {
             commands.spawn(text_box::text_box_bundle(x, y, sentence, font))
         }
-        EntityKind::Dynamic { .. } => {
-            commands.spawn(dynamic_box::dynamic_box_bundle(
-                x,
-                y,
-                &entity.kind,
-                box_size,
-            ))
-        }
+        EntityKind::Dynamic { .. } => commands.spawn(dynamic_box::dynamic_box_bundle(
+            x,
+            y,
+            &entity.kind,
+            box_size,
+        )),
         EntityKind::SpeedUp { rate } => {
             commands.spawn(speedup::speedup_bundle(x, y, *rate, box_size))
         }

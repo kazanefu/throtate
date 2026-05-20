@@ -415,8 +415,10 @@ fn fragment(
 ) -> @location(0) vec4<f32> {
 
     let screen_uv =
-        (in.position.xy / params.resolution)
-        - 0.5;
+        vec2<f32>(
+            (in.position.x / params.resolution.x) - 0.5,
+            0.5 - (in.position.y / params.resolution.y)
+        );
 
     let world =
         params.camera_pos

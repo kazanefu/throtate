@@ -30,6 +30,7 @@ pub fn spawn_inactive_bullet(
             MeshMaterial2d(course_materials.bullet_material.clone()),
             Visibility::Hidden,
             Velocity::default(),
+            TransformInterpolation::default(),
             DespawnOnExit(GameState::Playing),
         ))
         .id()

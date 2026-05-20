@@ -1,11 +1,13 @@
+use bevy::prelude::Resource;
 use serde::{Deserialize, Serialize};
 mod load;
 
 pub use load::get_settings;
 
-#[derive(Default, Debug, Clone, Deserialize, Serialize)]
+#[derive(Resource, Default, Debug, Clone, Deserialize, Serialize)]
 pub struct Settings {
     pub window: WindowSettings,
+    pub graphics: GraphicsSettings,
 }
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
@@ -27,4 +29,9 @@ impl Default for WindowSettings {
             vsync: true,
         }
     }
+}
+
+#[derive(Default, Debug, Clone, Deserialize, Serialize)]
+pub struct GraphicsSettings {
+    pub light_background: bool,
 }

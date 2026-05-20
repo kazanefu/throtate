@@ -38,31 +38,39 @@ pub struct CourseMaterials {
     pub bullet_material: Handle<crate::materials::BulletMaterial>,
 }
 
+use bevy::ecs::system::SystemParam;
+
+#[derive(SystemParam)]
+struct CourseMaterialAssets<'w, 's> {
+    meshes: ResMut<'w, Assets<Mesh>>,
+    breakable_materials: ResMut<'w, Assets<crate::materials::BreakableMaterial>>,
+    checkpoint_materials: ResMut<'w, Assets<crate::materials::CheckpointMaterial>>,
+    death_materials: ResMut<'w, Assets<crate::materials::DeathMaterial>>,
+    goal_materials: ResMut<'w, Assets<crate::materials::GoalMaterial>>,
+    turret_materials: ResMut<'w, Assets<crate::materials::TurretMaterial>>,
+    bullet_materials: ResMut<'w, Assets<crate::materials::BulletMaterial>>,
+    _marker: std::marker::PhantomData<&'s ()>,
+}
+
 fn setup_course_materials(
     mut commands: Commands,
-    mut meshes: ResMut<Assets<Mesh>>,
-    mut breakable_materials: ResMut<Assets<crate::materials::BreakableMaterial>>,
-    mut checkpoint_materials: ResMut<Assets<crate::materials::CheckpointMaterial>>,
-    mut death_materials: ResMut<Assets<crate::materials::DeathMaterial>>,
-    mut goal_materials: ResMut<Assets<crate::materials::GoalMaterial>>,
-    mut turret_materials: ResMut<Assets<crate::materials::TurretMaterial>>,
-    mut bullet_materials: ResMut<Assets<crate::materials::BulletMaterial>>,
+    mut assets: CourseMaterialAssets,
     config: Res<crate::config::GameConfig>,
 ) {
     let box_size = config.course.one_box_size;
     commands.insert_resource(CourseMaterials {
-        breakable_mesh: meshes.add(Rectangle::new(box_size, box_size)),
-        breakable_material: breakable_materials.add(crate::materials::BreakableMaterial::default()),
-        checkpoint_mesh: meshes.add(Rectangle::new(box_size, box_size)),
-        checkpoint_material: checkpoint_materials.add(crate::materials::CheckpointMaterial::default()),
-        death_mesh: meshes.add(Rectangle::new(box_size, box_size)),
-        death_material: death_materials.add(crate::materials::DeathMaterial::default()),
-        goal_mesh: meshes.add(Rectangle::new(box_size, box_size)),
-        goal_material: goal_materials.add(crate::materials::GoalMaterial::default()),
-        turret_mesh: meshes.add(Rectangle::new(box_size, box_size)),
-        turret_material: turret_materials.add(crate::materials::TurretMaterial::default()),
-        bullet_mesh: meshes.add(Rectangle::new(box_size / 2.0, box_size / 2.0)),
-        bullet_material: bullet_materials.add(crate::materials::BulletMaterial::default()),
+        breakable_mesh: assets.meshes.add(Rectangle::new(box_size, box_size)),
+        breakable_material: assets.breakable_materials.add(crate::materials::BreakableMaterial::default()),
+        checkpoint_mesh: assets.meshes.add(Rectangle::new(box_size, box_size)),
+        checkpoint_material: assets.checkpoint_materials.add(crate::materials::CheckpointMaterial::default()),
+        death_mesh: assets.meshes.add(Rectangle::new(box_size, box_size)),
+        death_material: assets.death_materials.add(crate::materials::DeathMaterial::default()),
+        goal_mesh: assets.meshes.add(Rectangle::new(box_size, box_size)),
+        goal_material: assets.goal_materials.add(crate::materials::GoalMaterial::default()),
+        turret_mesh: assets.meshes.add(Rectangle::new(box_size, box_size)),
+        turret_material: assets.turret_materials.add(crate::materials::TurretMaterial::default()),
+        bullet_mesh: assets.meshes.add(Rectangle::new(box_size / 2.0, box_size / 2.0)),
+        bullet_material: assets.bullet_materials.add(crate::materials::BulletMaterial::default()),
     });
 }
 

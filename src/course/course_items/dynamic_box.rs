@@ -48,6 +48,7 @@ pub fn dynamic_box_bundle(x: f32, y: f32, kind: &EntityKind, box_size: f32) -> i
             angular_damping,
         },
         Velocity::default(),
+        TransformInterpolation::default(),
         Restitution::coefficient(restitution_coefficient),
         ColliderMassProperties::Density(density_scale),
     )
