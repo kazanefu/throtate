@@ -77,22 +77,20 @@ fn star_layer(
 fn fragment(
     in: VertexOutput
 ) -> @location(0) vec4<f32> {
-    let screen_uv = vec2<f32>(
-        (in.position.x / params.resolution.x) - 0.5,
-        0.5 - (in.position.y / params.resolution.y)
-    );
-    let world = params.camera_pos + screen_uv * params.resolution;
+    let world = (in.world_position.xy - params.camera_pos) * 1.5 + params.camera_pos;
 
     // Dark space base color
     var color = vec3<f32>(0.0, 0.0, 0.015);
 
     // 3 layers of stars for parallax effect:
-    // Near layer
-    color += star_layer(world, 18.0, 0.982);
-    // Mid layer (moves at 30% speed)
-    color += star_layer(world * 0.3, 28.0, 0.988);
-    // Far layer (moves at 10% speed)
-    color += star_layer(world * 0.1, 45.0, 0.993);
+    // Near
+    color += star_layer(world * 0.5, 18.0, 0.982);
+
+    // Mid
+    color += star_layer(world * 0.15, 28.0, 0.988);
+
+    // Far
+    color += star_layer(world * 0.03, 45.0, 0.993);
 
     return vec4<f32>(color, 1.0);
 }

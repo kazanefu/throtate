@@ -29,7 +29,7 @@ pub struct SpaceBackGroundUniform {
     pub camera_pos: Vec2,
     pub resolution: Vec2,
     pub time: f32,
-    pub _padding: f32,
+    pub scale_factor: f32,
 }
 
 impl Default for SpaceBackGroundUniform {
@@ -38,7 +38,7 @@ impl Default for SpaceBackGroundUniform {
             camera_pos: Vec2::ZERO,
             resolution: Vec2::new(1920.0, 1080.0),
             time: 0.0,
-            _padding: 0.0,
+            scale_factor: 1.0,
         }
     }
 }
@@ -132,6 +132,7 @@ fn update_space_background_material(
             );
 
             material.params.time = time.elapsed_secs();
+            material.params.scale_factor = window.physical_width() as f32 / window.width();
         }
     }
 }
@@ -161,6 +162,7 @@ fn update_light_space_background_material(
             );
 
             material.params.time = time.elapsed_secs();
+            material.params.scale_factor = window.physical_width() as f32 / window.width();
         }
     }
 }

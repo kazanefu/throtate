@@ -414,16 +414,9 @@ fn fragment(
     in: VertexOutput
 ) -> @location(0) vec4<f32> {
 
-    let screen_uv =
-        vec2<f32>(
-            (in.position.x / params.resolution.x) - 0.5,
-            0.5 - (in.position.y / params.resolution.y)
-        );
-
     let world =
-        params.camera_pos
-        + screen_uv
-        * params.resolution;
+        (in.world_position.xy - params.camera_pos) * 1.5
+        + params.camera_pos;
 
     var color =
         vec3<f32>(
