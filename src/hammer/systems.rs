@@ -147,3 +147,15 @@ pub fn update_hammer_state_view(
         };
     }
 }
+
+pub fn apply_gravity_status(mut que: Query<(&mut GravityScale, &FinalStatus)>) {
+    for (mut gravity_scale, status) in &mut que {
+        gravity_scale.0 = status.0.gravity_scale;
+    }
+}
+
+pub fn apply_restitution_status(mut que: Query<(&mut Restitution, &FinalStatus)>) {
+    for (mut restitution, status) in &mut que {
+        restitution.coefficient = status.0.restitution_coefficient;
+    }
+}
