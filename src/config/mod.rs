@@ -15,6 +15,8 @@ pub struct HammerConfig {
     pub size: f32,
     pub spin_velocity: f32,
     pub spin_stiffness: f32,
+    pub gravity_scale: f32,
+    pub restitution_coefficient: f32,
 }
 
 impl Default for HammerConfig {
@@ -24,6 +26,8 @@ impl Default for HammerConfig {
             size: 20.0,
             spin_velocity: 100.0,
             spin_stiffness: 0.1,
+            gravity_scale: 1.0,
+            restitution_coefficient: 0.8,
         }
     }
 }

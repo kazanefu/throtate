@@ -1,10 +1,12 @@
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
 pub mod definition;
+mod status;
 mod systems;
 mod trail_effect;
 use crate::{materials::MeteorMaterial, state::RunningState};
 use definition::*;
+pub use status::{Buff, BuffStatusChannel, BuffType};
 use systems::*;
 
 #[derive(SystemSet, Debug, Clone, PartialEq, Eq, Hash)]
@@ -29,6 +31,8 @@ impl Plugin for HammerPlugin {
                 Update,
                 (
                     handle_hammer_input,
+                    status::init_base_status,
+                    status::apply_buff,
                     update_hammer,
                     free_hammer,
                     change_handle_direction,

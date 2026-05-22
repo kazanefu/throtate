@@ -1,7 +1,10 @@
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
 
-use crate::materials::MeteorMaterial;
+use crate::{
+    hammer::status::{HammerStatus, StatusHolder},
+    materials::MeteorMaterial,
+};
 
 #[derive(Clone, Copy)]
 pub enum HammerState {
@@ -32,12 +35,12 @@ impl HandleDirection {
             Self::RightLeft => config.handle_offset * -1.0,
         }
     }
-    pub fn spin(&self, config: &crate::config::HammerConfig) -> (f32, f32) {
+    pub fn spin(&self, status: &HammerStatus) -> (f32, f32) {
         match self {
-            Self::LeftLeft => (config.spin_velocity, config.spin_stiffness),
-            Self::RightRight => (-config.spin_velocity, config.spin_stiffness),
-            Self::LeftRight => (-config.spin_velocity, config.spin_stiffness),
-            Self::RightLeft => (config.spin_velocity, config.spin_stiffness),
+            Self::LeftLeft => (status.spin_velocity, status.spin_stiffness),
+            Self::RightRight => (-status.spin_velocity, status.spin_stiffness),
+            Self::LeftRight => (-status.spin_velocity, status.spin_stiffness),
+            Self::RightLeft => (status.spin_velocity, status.spin_stiffness),
         }
     }
 }
@@ -79,12 +82,14 @@ pub fn hammer_bundle(
             state: HammerState::Spinning,
             handle_direction: HandleDirection::LeftLeft,
         },
+        StatusHolder::default(),
         Mesh2d(mesh),
         MeshMaterial2d(material),
         RigidBody::Dynamic,
         Transform::from_xyz(translate.x, translate.y, 10.0),
         Collider::ball(config.size),
-        Restitution::coefficient(0.8),
+        Restitution::coefficient(config.restitution_coefficient),
+        GravityScale(config.gravity_scale),
         Velocity::default(),
         TransformInterpolation::default(),
         Ccd::enabled(),
