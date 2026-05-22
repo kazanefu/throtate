@@ -138,33 +138,33 @@ fn star_layer(
 
     var star_color = vec3<f32>(1.0);
 
-    if temp < 0.2 {
+    if temp < 0.1 {
         // blue-white
         star_color = vec3<f32>(
-            0.75,
-            0.82,
-            1.0,
+            0.55,
+            0.72,
+            1.35,
         );
-    } else if temp < 0.6 {
+    } else if temp < 0.9 {
         // white
         star_color = vec3<f32>(
-            1.0,
-            1.0,
-            1.0,
+            1.1,
+            1.1,
+            1.1,
         );
-    } else if temp < 0.8 {
+    } else if temp < 0.95 {
         // yellow
         star_color = vec3<f32>(
-            1.0,
-            0.95,
-            0.82,
+            1.35,
+            1.15,
+            0.55,
         );
     } else {
         // red
         star_color = vec3<f32>(
-            1.0,
-            0.72,
-            0.68,
+            1.35,
+            0.45,
+            0.4,
         );
     }
 
@@ -212,10 +212,12 @@ fn fragment(
     // Slight blue atmospheric tint
     // --------------------------------------------------
 
-    var color = vec3<f32>(
-        0.006,
-        0.004,
-        0.03,
+    let uv = in.position.xy / params.resolution;
+
+    var color = mix(
+        vec3<f32>(0.0002, 0.002, 0.01),
+        vec3<f32>(0.0003, 0.006, 0.03),
+        uv.y,
     );
 
     // --------------------------------------------------
@@ -268,14 +270,14 @@ fn fragment(
     color += star_layer(
         mid_world,
         15.0,
-        0.97,
+        0.995,
     );
 
     // Dense tiny stars
     color += star_layer(
         far_world,
         10.0,
-        0.97,
+        0.995,
     );
 
     color = clamp(
