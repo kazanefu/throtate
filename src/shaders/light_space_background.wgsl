@@ -10,17 +10,30 @@ struct SpaceParams {
 @group(2) @binding(0)
 var<uniform> params: SpaceParams;
 
-// Constants to prevent edge cases
 const EPSILON: f32 = 1e-6;
 const MIN_CELL_SIZE: f32 = 0.001;
 
-// Hash functions for procedural stars
+// --------------------------------------------------
+// Hash
+// --------------------------------------------------
+
 fn hash(p: vec2<f32>) -> f32 {
-    // Clamp input to prevent extreme values
-    let clamped_p = clamp(p, vec2<f32>(-10000.0), vec2<f32>(10000.0));
-    let dot_result = dot(clamped_p, vec2<f32>(127.1, 311.7));
-    // Use mod to prevent very large values in sin
-    let modded = dot_result - floor(dot_result / 6.28318530718) * 6.28318530718;
+    let clamped_p = clamp(
+        p,
+        vec2<f32>(-10000.0),
+        vec2<f32>(10000.0),
+    );
+
+    let dot_result = dot(
+        clamped_p,
+        vec2<f32>(127.1, 311.7),
+    );
+
+    let modded =
+        dot_result
+        - floor(dot_result / 6.28318530718)
+        * 6.28318530718;
+
     return fract(
         sin(modded) * 43758.5453123
     );
@@ -33,79 +46,243 @@ fn hash2(p: vec2<f32>) -> vec2<f32> {
     );
 }
 
-// Lightweight star layer rendering
+// --------------------------------------------------
+// Large scale galaxy density variation
+// --------------------------------------------------
+
+fn galaxy_density(world: vec2<f32>) -> f32 {
+    let g = floor(world * 0.0015);
+
+    let a = hash(g);
+    let b = hash(g + 17.0);
+    let c = hash(g + 43.0);
+
+    return (a + b + c) / 3.0;
+}
+
+// --------------------------------------------------
+// Realistic star layer
+// --------------------------------------------------
+
 fn star_layer(
     world: vec2<f32>,
     cell_size: f32,
     threshold: f32,
 ) -> vec3<f32> {
-    // Prevent zero division
-    let safe_cell_size = max(cell_size, MIN_CELL_SIZE);
+
+    let safe_cell_size =
+        max(cell_size, MIN_CELL_SIZE);
 
     let cell = floor(world / safe_cell_size);
+
     let rnd = hash(cell);
 
-    if rnd < threshold {
+    // --------------------------------------------------
+    // Galaxy density
+    // --------------------------------------------------
+
+    let density =
+        galaxy_density(world);
+
+    let adjusted_threshold =
+        threshold
+        + (0.5 - density) * 0.015;
+
+    if rnd < adjusted_threshold {
         return vec3<f32>(0.0);
     }
 
-    // Star position offset in cell
-    let star_pos = (hash2(cell) - 0.5) * safe_cell_size * 0.30;
-    let center = cell * safe_cell_size + star_pos;
+    // --------------------------------------------------
+    // Star position
+    // --------------------------------------------------
+
+    let star_pos =
+        (hash2(cell) - 0.5)
+        * safe_cell_size
+        * 0.9;
+
+    let center =
+        cell * safe_cell_size
+        + star_pos;
+
     let local = world - center;
+
     let d = length(local);
 
-    // Star radius
-    let radius = max(0.45 + rnd * 1.1, EPSILON);
+    // --------------------------------------------------
+    // Realistic star size
+    // Most stars tiny
+    // Few stars large
+    // --------------------------------------------------
 
-    // Core light
-    let core = 1.0 - smoothstep(0.0, radius, d);
+    let radius =
+        0.08
+        + pow(rnd, 12.0) * 1.4;
 
-    // Glow light - ensure glow_radius > radius
-    let glow_radius = max(radius * 1.5, radius + EPSILON);
-    let glow = 1.0 - smoothstep(radius, glow_radius, d);
+    // --------------------------------------------------
+    // Gaussian-like falloff
+    // --------------------------------------------------
 
-    // Star color temperature
+    let core =
+        exp(-(d * d) / max(radius, EPSILON));
+
+    let glow =
+        exp(-(d * d) / max(radius * 6.0, EPSILON));
+
+    // --------------------------------------------------
+    // Realistic star colors
+    // Mostly white
+    // --------------------------------------------------
+
     let temp = hash(cell + 91.7);
+
     var star_color = vec3<f32>(1.0);
 
-    if temp < 0.25 {
-        star_color = vec3<f32>(0.55, 0.9, 2.0); // Blue-white
-    } else if temp < 0.5 {
-        star_color = vec3<f32>(1.8, 1.8, 1.8); // White
-    } else if temp < 0.75 {
-        star_color = vec3<f32>(2.0, 1.6, 0.45); // Yellow
+    if temp < 0.03 {
+        // blue-white
+        star_color = vec3<f32>(
+            0.75,
+            0.82,
+            1.0,
+        );
+    } else if temp < 0.92 {
+        // white
+        star_color = vec3<f32>(
+            1.0,
+            1.0,
+            1.0,
+        );
+    } else if temp < 0.97 {
+        // yellow
+        star_color = vec3<f32>(
+            1.0,
+            0.95,
+            0.82,
+        );
     } else {
-        star_color = vec3<f32>(2.0, 0.45, 0.45); // Red
+        // red
+        star_color = vec3<f32>(
+            1.0,
+            0.72,
+            0.68,
+        );
     }
 
-    let brightness = 1.5 + rnd * 2.2;
-    let final_light = core + glow * 0.18;
+    // --------------------------------------------------
+    // Realistic brightness distribution
+    // Most stars dim
+    // --------------------------------------------------
 
-    return star_color * brightness * final_light;
+    let brightness =
+        pow(rnd, 10.0) * 14.0;
+
+    // --------------------------------------------------
+    // Slight twinkle
+    // --------------------------------------------------
+
+    let twinkle =
+        0.97
+        + sin(
+            params.time * 2.0
+            + rnd * 100.0
+        ) * 0.03;
+
+    // --------------------------------------------------
+    // Final light
+    // --------------------------------------------------
+
+    let final_light =
+        core
+        + glow * 0.025;
+
+    return
+        star_color
+        * brightness
+        * final_light
+        * twinkle;
 }
 
 @fragment
 fn fragment(
     in: VertexOutput
 ) -> @location(0) vec4<f32> {
-    let world = (in.world_position.xy - params.camera_pos) * 1.5 + params.camera_pos;
 
-    // Dark space base color
-    var color = vec3<f32>(0.0, 0.0, 0.015);
+    // --------------------------------------------------
+    // Base space color
+    // Slight blue atmospheric tint
+    // --------------------------------------------------
 
-    // 3 layers of stars for parallax effect:
-    // Near
-    color += star_layer(world * 0.5, 18.0, 0.982);
+    var color = vec3<f32>(
+        0.003,
+        0.004,
+        0.008,
+    );
 
-    // Mid
-    color += star_layer(world * 0.15, 28.0, 0.988);
+    // --------------------------------------------------
+    // Parallax control
+    //
+    // 1.0 = fixed to camera
+    // lower = farther away
+    // --------------------------------------------------
 
-    // Far
-    color += star_layer(world * 0.03, 45.0, 0.993);
+    let near_parallax = 1.5;
+    let mid_parallax  = 1.80;
+    let far_parallax  = 1.99;
 
-    // Ensure no NaN or Inf in final output
-    color = clamp(color, vec3<f32>(0.0), vec3<f32>(100.0));
+    // --------------------------------------------------
+    // Layer worlds
+    // Only parallax changes
+    // Star scale independent
+    // --------------------------------------------------
+
+    let near_world =
+        in.world_position.xy
+        * params.scale_factor
+        + params.camera_pos
+        * (1.0 - near_parallax);
+
+    let mid_world =
+        in.world_position.xy
+        * params.scale_factor
+        + params.camera_pos
+        * (1.0 - mid_parallax);
+
+    let far_world =
+        in.world_position.xy
+        * params.scale_factor
+        + params.camera_pos
+        * (1.0 - far_parallax);
+
+    // --------------------------------------------------
+    // Layers
+    // --------------------------------------------------
+
+    // Bright rare stars
+    color += star_layer(
+        near_world,
+        42.0,
+        0.9993,
+    );
+
+    // Medium stars
+    color += star_layer(
+        mid_world,
+        24.0,
+        0.992,
+    );
+
+    // Dense tiny stars
+    color += star_layer(
+        far_world,
+        14.0,
+        0.972,
+    );
+
+    color = clamp(
+        color,
+        vec3<f32>(0.0),
+        vec3<f32>(50.0),
+    );
 
     return vec4<f32>(color, 1.0);
 }
