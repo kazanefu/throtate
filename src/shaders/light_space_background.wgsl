@@ -138,21 +138,21 @@ fn star_layer(
 
     var star_color = vec3<f32>(1.0);
 
-    if temp < 0.03 {
+    if temp < 0.2 {
         // blue-white
         star_color = vec3<f32>(
             0.75,
             0.82,
             1.0,
         );
-    } else if temp < 0.92 {
+    } else if temp < 0.6 {
         // white
         star_color = vec3<f32>(
             1.0,
             1.0,
             1.0,
         );
-    } else if temp < 0.97 {
+    } else if temp < 0.8 {
         // yellow
         star_color = vec3<f32>(
             1.0,
@@ -193,7 +193,7 @@ fn star_layer(
 
     let final_light =
         core
-        + glow * 0.025;
+        + glow * 0.02;
 
     return
         star_color
@@ -213,21 +213,21 @@ fn fragment(
     // --------------------------------------------------
 
     var color = vec3<f32>(
-        0.003,
+        0.006,
         0.004,
-        0.008,
+        0.03,
     );
 
     // --------------------------------------------------
     // Parallax control
     //
-    // 1.0 = fixed to camera
+    // 0.0 = fixed to camera
     // lower = farther away
     // --------------------------------------------------
 
-    let near_parallax = 1.5;
-    let mid_parallax  = 1.80;
-    let far_parallax  = 1.99;
+    let near_parallax = 0.2;
+    let mid_parallax  = 0.05;
+    let far_parallax  = 0.01;
 
     // --------------------------------------------------
     // Layer worlds
@@ -239,19 +239,19 @@ fn fragment(
         in.world_position.xy
         * params.scale_factor
         + params.camera_pos
-        * (1.0 - near_parallax);
+        * (near_parallax - 1.0);
 
     let mid_world =
         in.world_position.xy
         * params.scale_factor
         + params.camera_pos
-        * (1.0 - mid_parallax);
+        * (mid_parallax - 1.0);
 
     let far_world =
         in.world_position.xy
         * params.scale_factor
         + params.camera_pos
-        * (1.0 - far_parallax);
+        * (far_parallax - 1.0);
 
     // --------------------------------------------------
     // Layers
@@ -267,15 +267,15 @@ fn fragment(
     // Medium stars
     color += star_layer(
         mid_world,
-        24.0,
-        0.992,
+        15.0,
+        0.97,
     );
 
     // Dense tiny stars
     color += star_layer(
         far_world,
-        14.0,
-        0.972,
+        10.0,
+        0.97,
     );
 
     color = clamp(
