@@ -1,4 +1,4 @@
-use crate::config::GameConfig;
+use crate::{config::GameConfig, hammer::status::FinalStatus};
 
 use super::definition::*;
 use bevy::prelude::*;
@@ -6,13 +6,13 @@ use bevy_rapier2d::prelude::*;
 
 pub fn update_hammer(
     mut commands: Commands,
-    mut hammer_query: Query<(Entity, &mut Hammer)>,
+    mut hammer_query: Query<(Entity, &mut Hammer, &FinalStatus)>,
     mut transform_query: Query<&mut Transform>,
     mut hammer_action_reader: MessageReader<HammerActionMessage>,
     config: Res<GameConfig>,
 ) {
     for _ in hammer_action_reader.read() {
-        for (hammer_entity, mut hammer) in hammer_query.iter_mut() {
+        for (hammer_entity, mut hammer, status) in hammer_query.iter_mut() {
             let hammer_transform = {
                 let hammer_transform = transform_query
                     .get(hammer_entity)
@@ -31,7 +31,7 @@ pub fn update_hammer(
                     pivot_transform.translation = hammer_transform.0
                         + (hammer_transform.1
                             * hammer.handle_direction.offset(&config.hammer).extend(0.0));
-                    let (vel, stiff) = hammer.handle_direction.spin(&config.hammer);
+                    let (vel, stiff) = hammer.handle_direction.spin(&status.0);
                     commands.entity(hammer_entity).insert(ImpulseJoint::new(
                         hammer.pivot_entity,
                         RevoluteJointBuilder::new()
@@ -145,5 +145,17 @@ pub fn update_hammer_state_view(
             HammerState::Flying => Visibility::Hidden,
             HammerState::Spinning => Visibility::Visible,
         };
+    }
+}
+
+pub fn apply_gravity_status(mut que: Query<(&mut GravityScale, &FinalStatus)>) {
+    for (mut gravity_scale, status) in &mut que {
+        gravity_scale.0 = status.0.gravity_scale;
+    }
+}
+
+pub fn apply_restitution_status(mut que: Query<(&mut Restitution, &FinalStatus)>) {
+    for (mut restitution, status) in &mut que {
+        restitution.coefficient = status.0.restitution_coefficient;
     }
 }
