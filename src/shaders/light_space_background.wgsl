@@ -47,6 +47,117 @@ fn hash2(p: vec2<f32>) -> vec2<f32> {
 }
 
 // --------------------------------------------------
+// Shooting star
+//
+// Screen-relative spawning
+// Right-top -> left-bottom
+// --------------------------------------------------
+
+fn shooting_star(
+    screen_pos: vec2<f32>,
+) -> vec3<f32> {
+    let screen_scale = params.resolution.y / 1080.0;
+    let interval = 0.9;
+
+    let t = params.time / interval;
+
+    let segment = floor(t);
+
+    let local_time = fract(t);
+
+    // 出現率
+    let appear =
+        hash(vec2<f32>(
+            segment,
+            17.3,
+        ));
+
+    if appear < 0.5 {
+        return vec3<f32>(0.0);
+    }
+
+    // ------------------------------------------
+    // Screen-space spawn
+    // ------------------------------------------
+
+    let seed =
+        hash2(vec2<f32>(
+            segment,
+            91.7,
+        ));
+
+    // 画面右上寄りから開始
+    let spawn =
+        vec2<f32>(
+            params.resolution.x
+            * (0.2 + seed.x * 1.0),
+
+            params.resolution.y
+            * (-0.2 + seed.y * 0.6),
+        );
+
+    // 右上 -> 左下
+    let dir =
+        normalize(vec2<f32>(
+            -1.0,
+            0.45,
+        ));
+
+    let speed = 2900.0 * screen_scale;
+
+    let head =
+        spawn
+        + dir
+        * local_time
+        * speed;
+
+    let local =
+        screen_pos - head;
+
+    let along =
+        dot(local, dir);
+
+    if along > 0.0 {
+        return vec3<f32>(0.0);
+    }
+
+    let perp =
+        local - dir * along;
+
+    let perp_dist =
+        length(perp);
+
+    // 尾
+    let tail =
+        exp(along * (0.008 / screen_scale));
+
+    // 太さ
+    let width =
+        exp(
+            -(perp_dist * perp_dist)
+            * (0.3 / screen_scale)
+        );
+
+
+    // 頭
+    let glow =
+        exp(
+            -dot(local, local)
+            * (0.04 / screen_scale)
+        ) * 2.0;
+
+    let brightness =
+        tail * width * 2.0
+        + glow;
+
+    return vec3<f32>(
+        0.9,
+        1.0,
+        1.4,
+    ) * brightness;
+}
+
+// --------------------------------------------------
 // Large scale galaxy density variation
 // --------------------------------------------------
 
@@ -278,6 +389,10 @@ fn fragment(
         far_world,
         10.0,
         0.995,
+    );
+
+    color += shooting_star(
+        in.position.xy
     );
 
     color = clamp(
