@@ -54,6 +54,10 @@ fn main() {
     bevy::asset::embedded_asset!(app, "shaders/turret.wgsl");
     bevy::asset::embedded_asset!(app, "shaders/bullet.wgsl");
     bevy::asset::embedded_asset!(app, "shaders/speedup.wgsl");
+    bevy::asset::embedded_asset!(app, "shaders/buff_spin_velocity.wgsl");
+    bevy::asset::embedded_asset!(app, "shaders/buff_spin_stiffness.wgsl");
+    bevy::asset::embedded_asset!(app, "shaders/buff_gravity_scale.wgsl");
+    bevy::asset::embedded_asset!(app, "shaders/buff_restitution.wgsl");
 
     bevy::asset::embedded_asset!(app, "sounds/break.mp3");
     bevy::asset::embedded_asset!(app, "sounds/button_click.mp3");

@@ -34,23 +34,61 @@ pub struct TimeLimitedBuffer {
     value: Option<f32>,
 }
 
-pub fn time_limited_buffer_bundle(
+pub fn spawn_time_limited_buffer(
+    commands: &mut Commands,
     x: f32,
     y: f32,
     buffer: TimeLimitedBuffer,
     box_size: f32,
     course_materials: &crate::course::CourseMaterials,
-) -> impl Bundle {
-    (
-        Transform::from_xyz(x, y, 0.0),
-        buffer,
-        RigidBody::Fixed,
-        ActiveEvents::COLLISION_EVENTS,
-        Collider::cuboid(box_size / 2.0, box_size / 2.0),
-        Sensor,
-        Mesh2d(),
-        MeshMaterial2d(),
-    )
+) -> Entity {
+    use BuffStatusChannel::*;
+    use BuffType::*;
+
+    let base_transform = Transform::from_xyz(x, y, 0.0);
+    let mesh = Mesh2d(course_materials.buff_mesh.clone());
+    let collider = Collider::cuboid(box_size / 2.0, box_size / 2.0);
+
+    // Macro to reduce boilerplate
+    macro_rules! spawn_buff {
+        ($material:expr) => {
+            commands
+                .spawn((
+                    base_transform,
+                    buffer,
+                    RigidBody::Fixed,
+                    ActiveEvents::COLLISION_EVENTS,
+                    collider,
+                    Sensor,
+                    mesh.clone(),
+                    MeshMaterial2d($material.clone()),
+                ))
+                .id()
+        };
+    }
+
+    // Spawn entity with appropriate material based on channel and buff type
+    match (buffer.channel, buffer.buff_type) {
+        (SpinVelocity, Add) => spawn_buff!(course_materials.buff_spin_velocity_add),
+        (SpinVelocity, MulBase) => spawn_buff!(course_materials.buff_spin_velocity_mul_base),
+        (SpinVelocity, Mul) => spawn_buff!(course_materials.buff_spin_velocity_mul),
+        (SpinVelocity, Abs) => spawn_buff!(course_materials.buff_spin_velocity_abs),
+
+        (SpinStiffness, Add) => spawn_buff!(course_materials.buff_spin_stiffness_add),
+        (SpinStiffness, MulBase) => spawn_buff!(course_materials.buff_spin_stiffness_mul_base),
+        (SpinStiffness, Mul) => spawn_buff!(course_materials.buff_spin_stiffness_mul),
+        (SpinStiffness, Abs) => spawn_buff!(course_materials.buff_spin_stiffness_abs),
+
+        (GravityScale, Add) => spawn_buff!(course_materials.buff_gravity_scale_add),
+        (GravityScale, MulBase) => spawn_buff!(course_materials.buff_gravity_scale_mul_base),
+        (GravityScale, Mul) => spawn_buff!(course_materials.buff_gravity_scale_mul),
+        (GravityScale, Abs) => spawn_buff!(course_materials.buff_gravity_scale_abs),
+
+        (RestitutionCefficient, Add) => spawn_buff!(course_materials.buff_restitution_add),
+        (RestitutionCefficient, MulBase) => spawn_buff!(course_materials.buff_restitution_mul_base),
+        (RestitutionCefficient, Mul) => spawn_buff!(course_materials.buff_restitution_mul),
+        (RestitutionCefficient, Abs) => spawn_buff!(course_materials.buff_restitution_abs),
+    }
 }
 
 #[derive(Message)]
@@ -72,7 +110,7 @@ fn spawn_time_limited_buff(
 
         let buff_entity = commands
             .spawn((
-                LifeTime::new(*&buff.life_time),
+                LifeTime::new(buff.life_time),
                 Buff {
                     channel: buff.channel,
                     ty: buff.buff_type,

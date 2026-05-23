@@ -116,5 +116,16 @@ fn spawn_course_from_entities<'a>(
                 course_materials,
             ))
         }
+        EntityKind::TimeLimitedBuff { buff } => {
+            let entity_id = buff_with_time::spawn_time_limited_buffer(
+                commands,
+                x,
+                y,
+                *buff,
+                box_size,
+                course_materials,
+            );
+            commands.entity(entity_id)
+        }
     }
 }
