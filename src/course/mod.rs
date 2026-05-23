@@ -163,6 +163,9 @@ pub enum EntityKind {
         value: f32,
         time: f32,
     },
+    TimeLimitedBuff {
+        buff: course_items::buff_with_time::TimeLimitedBuffer,
+    },
 }
 
 #[derive(Deserialize, Default)]
