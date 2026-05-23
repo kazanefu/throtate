@@ -106,5 +106,15 @@ fn spawn_course_from_entities<'a>(
             box_size,
             course_materials,
         )),
+        EntityKind::SpinVelAddWithTime { value, time } => {
+            commands.spawn(spin_veladd_time::spin_vel_add_time_bundle(
+                x,
+                y,
+                *time,
+                *value,
+                box_size,
+                course_materials,
+            ))
+        }
     }
 }
