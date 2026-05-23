@@ -4,7 +4,7 @@ pub mod definition;
 mod status;
 mod systems;
 mod trail_effect;
-use crate::{materials::MeteorMaterial, state::RunningState};
+use crate::{hammer::status::BuffCounter, materials::MeteorMaterial, state::RunningState};
 use definition::*;
 #[allow(unused)]
 pub use status::{Buff, BuffStatusChannel, BuffType};
@@ -20,6 +20,7 @@ impl Plugin for HammerPlugin {
         app.add_message::<HammerActionMessage>()
             .add_message::<ChangeHandleDirection>()
             .add_message::<HammerFreeMessage>()
+            .insert_resource(BuffCounter::default())
             .add_systems(
                 Startup,
                 (load_pivot_texture, trail_effect::setup_trail_effect),
@@ -32,6 +33,7 @@ impl Plugin for HammerPlugin {
                 Update,
                 (
                     handle_hammer_input,
+                    status::added_buff,
                     status::init_base_status,
                     status::apply_buff,
                     apply_gravity_status,

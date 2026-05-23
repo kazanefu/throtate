@@ -13,24 +13,26 @@ pub struct HammerStatus {
 #[derive(Clone, Copy)]
 struct StatusSum {
     add: f32,
-    muladd: f32,
+    mul_base: f32,
     mul: f32,
     abs: Option<f32>,
+    abs_priority: u64,
 }
 
 impl Default for StatusSum {
     fn default() -> Self {
         Self {
             add: 0.0,
-            muladd: 0.0,
+            mul_base: 0.0,
             mul: 1.0,
             abs: None,
+            abs_priority: 0,
         }
     }
 }
 
 #[derive(Default, Clone, Copy)]
-struct HammesStatusSum {
+struct HammerStatusSum {
     pub gravity_scale: StatusSum,
     pub restitution_coefficient: StatusSum,
     pub spin_velocity: StatusSum,
@@ -78,7 +80,7 @@ pub enum BuffStatusChannel {
 #[derive(Clone, Copy, Debug)]
 pub enum BuffType {
     Add,
-    MulAdd,
+    MulBase,
     Mul,
     Abs,
 }
@@ -89,16 +91,27 @@ pub struct Buff {
     pub ty: BuffType,
     pub target: Entity,
     pub value: Option<f32>,
+    pub priority: u64,
+}
+
+#[derive(Resource, Default)]
+pub struct BuffCounter(u64);
+
+pub fn added_buff(mut buff_que: Query<&mut Buff, Added<Buff>>, mut counter: ResMut<BuffCounter>) {
+    for mut buff in &mut buff_que {
+        buff.priority = counter.0;
+        counter.0 += 1;
+    }
 }
 
 fn cal_each_status(sum: StatusSum, base: f32) -> f32 {
     match sum.abs {
         Some(a) => a,
-        None => (base + sum.add) * (sum.muladd + sum.mul),
+        None => (base + sum.add) * (sum.mul_base + sum.mul),
     }
 }
 
-fn cal_final_status(sum: HammesStatusSum, base: HammerStatus) -> HammerStatus {
+fn cal_final_status(sum: HammerStatusSum, base: HammerStatus) -> HammerStatus {
     HammerStatus {
         gravity_scale: cal_each_status(sum.gravity_scale, base.gravity_scale),
         restitution_coefficient: cal_each_status(
@@ -115,7 +128,7 @@ pub fn apply_buff(
     buff_que: Query<&Buff>,
 ) {
     for (entity, mut final_status, base_status) in &mut status_que {
-        let mut sum = HammesStatusSum::default();
+        let mut sum = HammerStatusSum::default();
         for buff in buff_que.iter().filter(|b| b.target == entity) {
             if buff.value.is_none() {
                 continue;
@@ -128,9 +141,14 @@ pub fn apply_buff(
             };
             match buff.ty {
                 BuffType::Add => channel_sum.add += buff.value.unwrap(),
-                BuffType::MulAdd => channel_sum.muladd += buff.value.unwrap(),
+                BuffType::MulBase => channel_sum.mul_base += buff.value.unwrap(),
                 BuffType::Mul => channel_sum.mul *= buff.value.unwrap(),
-                BuffType::Abs => channel_sum.abs = buff.value,
+                BuffType::Abs => {
+                    if buff.priority >= channel_sum.abs_priority {
+                        channel_sum.abs = buff.value;
+                        channel_sum.abs_priority = buff.priority;
+                    }
+                }
             }
         }
         final_status.0 = cal_final_status(sum, base_status.0);
