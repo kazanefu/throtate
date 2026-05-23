@@ -16,6 +16,7 @@ impl Plugin for CoursePlugin {
             .add_plugins(course_items::turret::TurretPlugin)
             .add_plugins(course_items::breakable_box::BreakableBoxPlugin)
             .add_plugins(course_items::speedup::SpeedUpPlugin)
+            .add_plugins(course_items::spin_veladd_time::SpinVelAddTimePlugin)
             .add_message::<SpawnCourseMessage>() //init_courses_list_resource)
             .add_systems(Startup, setup_course_materials)
             .add_systems(Update, spawn_course_from_id);

@@ -7,7 +7,7 @@ mod trail_effect;
 use crate::{hammer::status::BuffCounter, materials::MeteorMaterial, state::RunningState};
 use definition::*;
 #[allow(unused)]
-pub use status::{Buff, BuffStatusChannel, BuffType};
+pub use status::{Buff, BuffStatusChannel, BuffType, FinalStatus};
 use systems::*;
 
 #[derive(SystemSet, Debug, Clone, PartialEq, Eq, Hash)]

@@ -7,6 +7,8 @@
         (x: -275.0, y: 0.0, kind: Ground(width: 50.0, height: 550.0)), // 左端
         (x: 0.0, y: 0.0, kind: Checkpoint(priority: 1)), // スタート
 
+        (x: 50.0, y: 0.0, kind: SpinVelAddWithTime(value: 1000.0, time: 5.0)),
+
         (x: 0.0, y: 200.0, kind: Dynamic(gravity_scale: Some(0.0), restitution_coefficient: Some(1.0), density_scale: Some(0.001))),
         (x: 200.0, y: 0.0, kind: Dynamic(gravity_scale: Some(0.0), restitution_coefficient: Some(1.0), density_scale: Some(0.001))),
         (x: 0.0, y: -200.0, kind: Dynamic(gravity_scale: Some(0.0), restitution_coefficient: Some(1.0), density_scale: Some(0.001))),
