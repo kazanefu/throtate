@@ -158,6 +158,10 @@ pub enum EntityKind {
     SpeedUp {
         rate: f32,
     },
+    SpinVelAddWithTime {
+        value: f32,
+        time: f32,
+    },
 }
 
 #[derive(Deserialize, Default)]
