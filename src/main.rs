@@ -22,7 +22,6 @@ pub use utils::*;
 fn main() {
     let settings = settings::get_settings();
     let mut app = App::new();
-    app.insert_resource(settings.clone());
     app.add_plugins(DefaultPlugins.set(WindowPlugin {
         primary_window: Some(Window {
             title: settings.window.title.clone(),
@@ -69,6 +68,7 @@ fn main() {
         // .add_plugins(RapierDebugRenderPlugin::default())
         .add_plugins(HanabiPlugin)
         .init_resource::<config::GameConfig>()
+        .insert_resource(settings)
         .add_plugins(utils::UtilityPlugin)
         .init_state::<state::GameState>()
         .init_state::<state::RunningState>()
