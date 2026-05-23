@@ -1,5 +1,5 @@
-use bevy::ecs::query::{QueryData, QueryFilter};
 use crate::audio::AudioAssets;
+use bevy::ecs::query::{QueryData, QueryFilter};
 
 use super::*;
 
@@ -19,9 +19,9 @@ fn get_contained_entity<Q: QueryData, F: QueryFilter>(
     e2: Entity,
     query: &Query<Q, F>,
 ) -> Option<Entity> {
-    if query.contains(e1) {
+    if query.get(e1).is_ok() {
         Some(e1)
-    } else if query.contains(e2) {
+    } else if query.get(e2).is_ok() {
         Some(e2)
     } else {
         None
