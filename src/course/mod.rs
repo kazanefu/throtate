@@ -36,6 +36,8 @@ pub struct CourseMaterials {
     pub turret_material: Handle<crate::materials::TurretMaterial>,
     pub bullet_mesh: Handle<Mesh>,
     pub bullet_material: Handle<crate::materials::BulletMaterial>,
+    pub speedup_mesh: Handle<Mesh>,
+    pub speedup_material: Handle<crate::materials::SpeedupMaterial>,
 }
 
 use bevy::ecs::system::SystemParam;
@@ -49,6 +51,7 @@ struct CourseMaterialAssets<'w, 's> {
     goal_materials: ResMut<'w, Assets<crate::materials::GoalMaterial>>,
     turret_materials: ResMut<'w, Assets<crate::materials::TurretMaterial>>,
     bullet_materials: ResMut<'w, Assets<crate::materials::BulletMaterial>>,
+    speedup_materials: ResMut<'w, Assets<crate::materials::SpeedupMaterial>>,
     _marker: std::marker::PhantomData<&'s ()>,
 }
 
@@ -60,17 +63,37 @@ fn setup_course_materials(
     let box_size = config.course.one_box_size;
     commands.insert_resource(CourseMaterials {
         breakable_mesh: assets.meshes.add(Rectangle::new(box_size, box_size)),
-        breakable_material: assets.breakable_materials.add(crate::materials::BreakableMaterial::default()),
+        breakable_material: assets
+            .breakable_materials
+            .add(crate::materials::BreakableMaterial::default()),
         checkpoint_mesh: assets.meshes.add(Rectangle::new(box_size, box_size)),
-        checkpoint_material: assets.checkpoint_materials.add(crate::materials::CheckpointMaterial::default()),
+        checkpoint_material: assets
+            .checkpoint_materials
+            .add(crate::materials::CheckpointMaterial::default()),
         death_mesh: assets.meshes.add(Rectangle::new(box_size, box_size)),
-        death_material: assets.death_materials.add(crate::materials::DeathMaterial::default()),
+        death_material: assets
+            .death_materials
+            .add(crate::materials::DeathMaterial::default()),
         goal_mesh: assets.meshes.add(Rectangle::new(box_size, box_size)),
-        goal_material: assets.goal_materials.add(crate::materials::GoalMaterial::default()),
+        goal_material: assets
+            .goal_materials
+            .add(crate::materials::GoalMaterial::default()),
         turret_mesh: assets.meshes.add(Rectangle::new(box_size, box_size)),
-        turret_material: assets.turret_materials.add(crate::materials::TurretMaterial::default()),
-        bullet_mesh: assets.meshes.add(Rectangle::new(box_size / 2.0, box_size / 2.0)),
-        bullet_material: assets.bullet_materials.add(crate::materials::BulletMaterial::default()),
+        turret_material: assets
+            .turret_materials
+            .add(crate::materials::TurretMaterial::default()),
+        bullet_mesh: assets
+            .meshes
+            .add(Rectangle::new(box_size / 2.0, box_size / 2.0)),
+        bullet_material: assets
+            .bullet_materials
+            .add(crate::materials::BulletMaterial::default()),
+        speedup_mesh: assets.meshes.add(Rectangle::new(box_size, box_size)),
+        speedup_material: assets
+            .speedup_materials
+            .add(crate::materials::SpeedupMaterial::new(Color::srgb(
+                0.5, 1.0, 1.0,
+            ))),
     });
 }
 

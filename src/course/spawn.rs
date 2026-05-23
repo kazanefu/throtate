@@ -99,8 +99,12 @@ fn spawn_course_from_entities<'a>(
             &entity.kind,
             box_size,
         )),
-        EntityKind::SpeedUp { rate } => {
-            commands.spawn(speedup::speedup_bundle(x, y, *rate, box_size))
-        }
+        EntityKind::SpeedUp { rate } => commands.spawn(speedup::speedup_bundle(
+            x,
+            y,
+            *rate,
+            box_size,
+            course_materials,
+        )),
     }
 }
