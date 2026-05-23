@@ -53,6 +53,8 @@ fn main() {
     bevy::asset::embedded_asset!(app, "shaders/goal.wgsl");
     bevy::asset::embedded_asset!(app, "shaders/turret.wgsl");
     bevy::asset::embedded_asset!(app, "shaders/bullet.wgsl");
+    bevy::asset::embedded_asset!(app, "shaders/speedup.wgsl");
+
     bevy::asset::embedded_asset!(app, "sounds/break.mp3");
     bevy::asset::embedded_asset!(app, "sounds/button_click.mp3");
     bevy::asset::embedded_asset!(app, "sounds/button_select.mp3");

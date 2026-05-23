@@ -1,21 +1,23 @@
 use bevy::prelude::*;
-mod death_vignette;
-mod meteor;
-mod space_background;
 mod breakable;
+mod bullet;
 mod checkpoint;
 mod death;
+mod death_vignette;
 mod goal;
+mod meteor;
+mod space_background;
+mod speedup;
 mod turret;
-mod bullet;
 
-pub use meteor::MeteorMaterial;
 pub use breakable::BreakableMaterial;
+pub use bullet::BulletMaterial;
 pub use checkpoint::CheckpointMaterial;
 pub use death::DeathMaterial;
 pub use goal::GoalMaterial;
+pub use meteor::MeteorMaterial;
+pub use speedup::SpeedupMaterial;
 pub use turret::TurretMaterial;
-pub use bullet::BulletMaterial;
 
 pub struct CustomMaterialPlugin;
 
@@ -29,6 +31,7 @@ impl Plugin for CustomMaterialPlugin {
             .add_plugins(death::DeathMaterialPlugin)
             .add_plugins(goal::GoalMaterialPlugin)
             .add_plugins(turret::TurretMaterialPlugin)
+            .add_plugins(speedup::SpeedupMaterialPlugin)
             .add_plugins(bullet::BulletMaterialPlugin);
     }
 }

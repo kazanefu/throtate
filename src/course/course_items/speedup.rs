@@ -24,7 +24,13 @@ impl SpeedUp {
     }
 }
 
-pub fn speedup_bundle(x: f32, y: f32, rate: f32, box_size: f32) -> impl Bundle {
+pub fn speedup_bundle(
+    x: f32,
+    y: f32,
+    rate: f32,
+    box_size: f32,
+    course_materials: &crate::course::CourseMaterials,
+) -> impl Bundle {
     (
         Transform::from_xyz(x, y, 0.0),
         SpeedUp::new(rate),
@@ -32,11 +38,8 @@ pub fn speedup_bundle(x: f32, y: f32, rate: f32, box_size: f32) -> impl Bundle {
         ActiveEvents::COLLISION_EVENTS,
         Collider::cuboid(box_size / 2.0, box_size / 2.0),
         Sensor,
-        Sprite {
-            color: Color::srgb(0.0, 1.0, 0.3),
-            custom_size: Some(Vec2::new(box_size, box_size)),
-            ..default()
-        },
+        Mesh2d(course_materials.speedup_mesh.clone()),
+        MeshMaterial2d(course_materials.speedup_material.clone()),
     )
 }
 
