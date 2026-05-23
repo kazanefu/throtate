@@ -7,5 +7,29 @@
         (x: 100.0, y: 100.0, kind: Checkpoint(priority: 1)),
         (x: 100.0, y: 200.0, kind: Checkpoint(priority: 2)),
         (x: 200.0, y: 200.0, kind: Breakable(required_speed: 40.0)),
+
+        // TimeLimitedBuff - SpinVelocity channel
+        (x: 0.0, y: 300.0, kind: TimeLimitedBuff(buff: (life_time: 5.0, channel: SpinVelocity, buff_type: Add, value: Some(10.0)))),
+        (x: 200.0, y: 300.0, kind: TimeLimitedBuff(buff: (life_time: 5.0, channel: SpinVelocity, buff_type: MulBase, value: Some(0.5)))),
+        (x: 400.0, y: 300.0, kind: TimeLimitedBuff(buff: (life_time: 5.0, channel: SpinVelocity, buff_type: Mul, value: Some(2.0)))),
+        (x: 600.0, y: 300.0, kind: TimeLimitedBuff(buff: (life_time: 5.0, channel: SpinVelocity, buff_type: Abs, value: Some(50.0)))),
+
+        // TimeLimitedBuff - SpinStiffness channel
+        (x: 800.0, y: 300.0, kind: TimeLimitedBuff(buff: (life_time: 5.0, channel: SpinStiffness, buff_type: Add, value: Some(100.0)))),
+        (x: 1000.0, y: 300.0, kind: TimeLimitedBuff(buff: (life_time: 5.0, channel: SpinStiffness, buff_type: MulBase, value: Some(0.5)))),
+        (x: 1200.0, y: 300.0, kind: TimeLimitedBuff(buff: (life_time: 5.0, channel: SpinStiffness, buff_type: Mul, value: Some(2.0)))),
+        (x: 1400.0, y: 300.0, kind: TimeLimitedBuff(buff: (life_time: 5.0, channel: SpinStiffness, buff_type: Abs, value: Some(500.0)))),
+
+        // TimeLimitedBuff - GravityScale channel
+        (x: 1600.0, y: 300.0, kind: TimeLimitedBuff(buff: (life_time: 5.0, channel: GravityScale, buff_type: Add, value: Some(0.5)))),
+        (x: 1800.0, y: 300.0, kind: TimeLimitedBuff(buff: (life_time: 5.0, channel: GravityScale, buff_type: MulBase, value: Some(0.5)))),
+        (x: 2000.0, y: 300.0, kind: TimeLimitedBuff(buff: (life_time: 5.0, channel: GravityScale, buff_type: Mul, value: Some(2.0)))),
+        (x: 2200.0, y: 300.0, kind: TimeLimitedBuff(buff: (life_time: 5.0, channel: GravityScale, buff_type: Abs, value: Some(0.0)))),
+
+        // TimeLimitedBuff - RestitutionCefficient channel
+        (x: 2400.0, y: 300.0, kind: TimeLimitedBuff(buff: (life_time: 5.0, channel: RestitutionCefficient, buff_type: Add, value: Some(0.2)))),
+        (x: 2600.0, y: 300.0, kind: TimeLimitedBuff(buff: (life_time: 5.0, channel: RestitutionCefficient, buff_type: MulBase, value: Some(0.5)))),
+        (x: 2800.0, y: 300.0, kind: TimeLimitedBuff(buff: (life_time: 5.0, channel: RestitutionCefficient, buff_type: Mul, value: Some(2.0)))),
+        (x: 3000.0, y: 300.0, kind: TimeLimitedBuff(buff: (life_time: 5.0, channel: RestitutionCefficient, buff_type: Abs, value: Some(1.0)))),
     ]
 )

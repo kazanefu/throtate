@@ -1,6 +1,7 @@
 use bevy::prelude::*;
 
 use crate::config::GameConfig;
+use serde::Deserialize;
 
 #[derive(Clone, Copy, Default)]
 pub struct HammerStatus {
@@ -66,7 +67,7 @@ pub fn init_base_status(
 }
 
 #[allow(unused)]
-#[derive(Component, Clone, Copy, Debug)]
+#[derive(Component, Clone, Copy, Debug, Deserialize)]
 pub enum BuffStatusChannel {
     SpinVelocity,
     SpinStiffness,
@@ -77,7 +78,7 @@ pub enum BuffStatusChannel {
 // Add -> Mul -> Abs
 // (base * Add) * Mul or Abs
 #[allow(unused)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Copy, Debug, Deserialize)]
 pub enum BuffType {
     Add,
     MulBase,

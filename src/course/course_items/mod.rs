@@ -2,6 +2,7 @@ pub use bevy::prelude::*;
 pub use bevy_rapier2d::prelude::*;
 
 pub mod breakable_box;
+pub mod buff_with_time;
 pub mod checkpoint;
 pub mod death_box;
 pub mod dynamic_box;
