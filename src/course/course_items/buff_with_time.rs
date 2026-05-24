@@ -110,6 +110,7 @@ fn spawn_time_limited_buff(
 
         let buff_entity = commands
             .spawn((
+                DespawnOnExit(GameState::Playing),
                 LifeTime::new(buff.life_time),
                 Buff {
                     channel: buff.channel,

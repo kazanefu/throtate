@@ -1,0 +1,58 @@
+(
+    entities: [
+        (x: 50.0, y: 0.0, kind: Checkpoint(priority: 1)),
+        (x: 100.0, y: 0.0, kind: TimeLimitedBuff(buff: (life_time: 7200.0, channel: SpinVelocity, buff_type: Add, value: Some(100.0)))),
+        (x: 150.0, y: 0.0, kind: TimeLimitedBuff(buff: (life_time: 7200.0, channel: SpinStiffness, buff_type: Add, value: Some(0.1)))),
+        (x: -275.0, y: 0.0, kind: DeathCustom(width: 50.0, height: 550.0)),
+        (x: 300.0, y: 300.0, kind: DeathCustom(width: 1200, height: 50.0)),
+        (x: 400.0, y: -300.0, kind: DeathCustom(width: 1400, height: 50.0)),
+
+        (x: 300.0, y: -100, kind: DeathCustom(width: 50.0, height: 300.0)),
+        (x: 450.0, y: 100, kind: DeathCustom(width: 50.0, height: 300.0)),
+        (x: 600.0, y: -100, kind: DeathCustom(width: 50.0, height: 300.0)),
+        (x: 750.0, y: 100, kind: DeathCustom(width: 50.0, height: 300.0)),
+
+        (x: 850.0, y: 0.0, kind: Checkpoint(priority: 2)),
+
+        (x: 1075.0, y: 100.0, kind: DeathCustom(width: 50.0, height: 750.0)),
+        (x: 100.0, y: 500.0, kind: DeathCustom(width: 2000, height: 50.0)),
+        (x: -875.0, y: -200.0, kind: DeathCustom(width: 50.0, height: 1350.0)),
+
+        (x: -400.0, y: 400.0, kind: Checkpoint(priority: 3)),
+
+        (x: -825.0, y: 250.0, kind: Turret(interval: 0.5, rotation: 0.0, bullet_lifetime: Some(0.5))),
+        (x: -350.0, y: 0.0, kind: Turret(interval: 0.5, rotation: 3.14, bullet_lifetime: Some(0.5))),
+        (x: -825.0, y: -250.0, kind: Turret(interval: 0.5, rotation: 0.0, bullet_lifetime: Some(0.5))),
+
+        (x: -400.0, y: -400.0, kind: Checkpoint(priority: 4)),
+
+        (x: 100.0, y: -900.0, kind: DeathCustom(width: 2000, height: 50.0)),
+
+        (x: -400.0, y: -450.0, kind: Dynamic(density_scale: Some(0.001), gravity_scale: Some(0.0), restitution_coefficient: Some(1.0))),
+        (x: -400.0, y: -350.0, kind: Dynamic(density_scale: Some(0.001), gravity_scale: Some(0.0), restitution_coefficient: Some(1.0))),
+        (x: -450.0, y: -400.0, kind: Dynamic(density_scale: Some(0.001), gravity_scale: Some(0.0), restitution_coefficient: Some(1.0))),
+        (x: -350.0, y: -400.0, kind: Dynamic(density_scale: Some(0.001), gravity_scale: Some(0.0), restitution_coefficient: Some(1.0))),
+
+        (x: -400.0, y: -750.0, kind: DynamicDeath(density_scale: Some(0.001), gravity_scale: Some(0.0), restitution_coefficient: Some(1.0))),
+        (x: -400.0, y: -650.0, kind: DynamicDeath(density_scale: Some(0.001), gravity_scale: Some(0.0), restitution_coefficient: Some(1.0))),
+        (x: -450.0, y: -700.0, kind: DynamicDeath(density_scale: Some(0.001), gravity_scale: Some(0.0), restitution_coefficient: Some(1.0))),
+        (x: -350.0, y: -700.0, kind: DynamicDeath(density_scale: Some(0.001), gravity_scale: Some(0.0), restitution_coefficient: Some(1.0))),
+
+        (x: -100.0, y: -750.0, kind: DynamicDeath(density_scale: Some(0.001), gravity_scale: Some(0.0), restitution_coefficient: Some(1.0))),
+        (x: -100.0, y: -650.0, kind: DynamicDeath(density_scale: Some(0.001), gravity_scale: Some(0.0), restitution_coefficient: Some(1.0))),
+        (x: -150.0, y: -700.0, kind: DynamicDeath(density_scale: Some(0.001), gravity_scale: Some(0.0), restitution_coefficient: Some(1.0))),
+        (x: -50.0, y: -700.0, kind: DynamicDeath(density_scale: Some(0.001), gravity_scale: Some(0.0), restitution_coefficient: Some(1.0))),
+
+        (x: 100.0, y: -750.0, kind: DynamicDeath(density_scale: Some(0.001), gravity_scale: Some(0.0), restitution_coefficient: Some(1.0))),
+        (x: 100.0, y: -650.0, kind: DynamicDeath(density_scale: Some(0.001), gravity_scale: Some(0.0), restitution_coefficient: Some(1.0))),
+        (x: 50.0, y: -700.0, kind: DynamicDeath(density_scale: Some(0.001), gravity_scale: Some(0.0), restitution_coefficient: Some(1.0))),
+        (x: 150.0, y: -700.0, kind: DynamicDeath(density_scale: Some(0.001), gravity_scale: Some(0.0), restitution_coefficient: Some(1.0))),
+
+        (x: 300.0, y: -750.0, kind: DynamicDeath(density_scale: Some(0.001), gravity_scale: Some(0.0), restitution_coefficient: Some(1.0))),
+        (x: 300.0, y: -650.0, kind: DynamicDeath(density_scale: Some(0.001), gravity_scale: Some(0.0), restitution_coefficient: Some(1.0))),
+        (x: 350.0, y: -700.0, kind: DynamicDeath(density_scale: Some(0.001), gravity_scale: Some(0.0), restitution_coefficient: Some(1.0))),
+        (x: 250.0, y: -700.0, kind: DynamicDeath(density_scale: Some(0.001), gravity_scale: Some(0.0), restitution_coefficient: Some(1.0))),
+
+
+    ]
+)

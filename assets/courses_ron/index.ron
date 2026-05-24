@@ -6,6 +6,7 @@
         (id: 3, name: "0-2(Gemini作)", path: "course_0_2.ron"),
         (id: 4, name: "1-0", path: "course_1_0.ron"),
         (id: 5, name: "2-0", path: "course_2_0.ron"),
+        (id: 6, name: "3-0", path: "course_3_0.ron"),
         (id: 100, name: "テスト", path: "test.ron"),
     ]
 )
