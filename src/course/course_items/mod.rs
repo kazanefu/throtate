@@ -12,3 +12,4 @@ pub mod speedup;
 pub mod spin_veladd_time;
 pub mod text_box;
 pub mod turret;
+pub mod warp_hole;

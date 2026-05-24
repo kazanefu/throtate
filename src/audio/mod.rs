@@ -3,6 +3,7 @@ pub mod button;
 pub mod checkpoint;
 pub mod death;
 pub mod goal;
+pub mod warp;
 
 use bevy::prelude::*;
 use std::collections::HashMap;
@@ -15,6 +16,7 @@ pub struct AudioAssets {
     pub button_select: Handle<AudioSource>,
     pub checkpoint: Handle<AudioSource>,
     pub goal: Handle<AudioSource>,
+    pub warp: Handle<AudioSource>,
 }
 
 pub struct AudioPlugin;
@@ -34,6 +36,7 @@ fn setup_audio_assets(mut commands: Commands, asset_server: Res<AssetServer>) {
         button_select: asset_server.load(button::SELECT_PATH),
         checkpoint: asset_server.load(checkpoint::PATH),
         goal: asset_server.load(goal::PATH),
+        warp: asset_server.load(warp::PATH),
     });
 }
 
@@ -52,7 +55,10 @@ fn play_button_sounds(
     mut previous_states: Local<HashMap<Entity, Interaction>>,
 ) {
     for (entity, interaction) in &query {
-        let prev = previous_states.get(&entity).copied().unwrap_or(Interaction::None);
+        let prev = previous_states
+            .get(&entity)
+            .copied()
+            .unwrap_or(Interaction::None);
         match (*interaction, prev) {
             (Interaction::Pressed, _) => {
                 commands.spawn((

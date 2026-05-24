@@ -13,6 +13,7 @@ mod meteor;
 mod space_background;
 mod speedup;
 mod turret;
+mod warp;
 
 pub use breakable::BreakableMaterial;
 pub use buff_gravity_scale::BuffGravityScaleMaterial;
@@ -26,6 +27,7 @@ pub use goal::GoalMaterial;
 pub use meteor::MeteorMaterial;
 pub use speedup::SpeedupMaterial;
 pub use turret::TurretMaterial;
+pub use warp::WarpMaterial;
 
 pub struct CustomMaterialPlugin;
 
@@ -44,6 +46,7 @@ impl Plugin for CustomMaterialPlugin {
             .add_plugins(goal::GoalMaterialPlugin)
             .add_plugins(turret::TurretMaterialPlugin)
             .add_plugins(speedup::SpeedupMaterialPlugin)
-            .add_plugins(bullet::BulletMaterialPlugin);
+            .add_plugins(bullet::BulletMaterialPlugin)
+            .add_plugins(warp::WarpMaterialPlugin);
     }
 }
