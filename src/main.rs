@@ -58,6 +58,7 @@ fn main() {
     bevy::asset::embedded_asset!(app, "shaders/buff_spin_stiffness.wgsl");
     bevy::asset::embedded_asset!(app, "shaders/buff_gravity_scale.wgsl");
     bevy::asset::embedded_asset!(app, "shaders/buff_restitution.wgsl");
+    bevy::asset::embedded_asset!(app, "shaders/warp.wgsl");
 
     bevy::asset::embedded_asset!(app, "sounds/break.mp3");
     bevy::asset::embedded_asset!(app, "sounds/button_click.mp3");
@@ -65,6 +66,7 @@ fn main() {
     bevy::asset::embedded_asset!(app, "sounds/checkpoint.mp3");
     bevy::asset::embedded_asset!(app, "sounds/death_sound.mp3");
     bevy::asset::embedded_asset!(app, "sounds/goal.mp3");
+    bevy::asset::embedded_asset!(app, "sounds/warp.mp3");
     app.add_plugins(RapierPhysicsPlugin::<NoUserData>::default())
         .insert_resource(TimestepMode::Interpolated {
             dt: 1.0 / 120.0,

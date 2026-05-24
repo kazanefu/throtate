@@ -161,5 +161,25 @@ fn spawn_course_from_entities<'a>(
             );
             commands.entity(entity_id)
         }
+        EntityKind::WarpHole { pair_x, pair_y } => {
+            // Spawn first portal at (x, y) that warps to (pair_x, pair_y)
+            commands.spawn(warp_hole::warp_portal_bundle(
+                x,
+                y,
+                *pair_x,
+                *pair_y,
+                box_size,
+                course_materials,
+            ));
+            // Spawn second portal at (pair_x, pair_y) that warps back to (x, y)
+            commands.spawn(warp_hole::warp_portal_bundle(
+                *pair_x,
+                *pair_y,
+                x,
+                y,
+                box_size,
+                course_materials,
+            ))
+        }
     }
 }

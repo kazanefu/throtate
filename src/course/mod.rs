@@ -18,6 +18,7 @@ impl Plugin for CoursePlugin {
             .add_plugins(course_items::speedup::SpeedUpPlugin)
             .add_plugins(course_items::spin_veladd_time::SpinVelAddTimePlugin)
             .add_plugins(course_items::buff_with_time::TimeLimitedBuffPlugin)
+            .add_plugins(course_items::warp_hole::WarpHolePlugin)
             .add_message::<SpawnCourseMessage>() //init_courses_list_resource)
             .add_systems(Startup, setup_course_materials)
             .add_systems(Update, spawn_course_from_id);
@@ -41,6 +42,8 @@ pub struct CourseMaterials {
     pub speedup_mesh: Handle<Mesh>,
     pub speedup_material: Handle<crate::materials::SpeedupMaterial>,
     pub buff_mesh: Handle<Mesh>,
+    pub warp_mesh: Handle<Mesh>,
+    pub warp_material: Handle<crate::materials::WarpMaterial>,
     // SpinVelocity channel materials (4 BuffTypes)
     pub buff_spin_velocity_add: Handle<crate::materials::BuffSpinVelocityMaterial>,
     pub buff_spin_velocity_mul_base: Handle<crate::materials::BuffSpinVelocityMaterial>,
@@ -73,6 +76,7 @@ struct CourseMaterialAssets<'w, 's> {
     buff_spin_stiffness_materials: ResMut<'w, Assets<crate::materials::BuffSpinStiffnessMaterial>>,
     buff_gravity_scale_materials: ResMut<'w, Assets<crate::materials::BuffGravityScaleMaterial>>,
     buff_restitution_materials: ResMut<'w, Assets<crate::materials::BuffRestitutionMaterial>>,
+    warp_materials: ResMut<'w, Assets<crate::materials::WarpMaterial>>,
     checkpoint_materials: ResMut<'w, Assets<crate::materials::CheckpointMaterial>>,
     death_materials: ResMut<'w, Assets<crate::materials::DeathMaterial>>,
     goal_materials: ResMut<'w, Assets<crate::materials::GoalMaterial>>,
@@ -174,6 +178,10 @@ fn setup_course_materials(
         buff_restitution_abs: assets.buff_restitution_materials.add(
             crate::materials::BuffRestitutionMaterial::new(Color::srgb(1.0, 1.0, 1.0)),
         ),
+        warp_mesh: assets.meshes.add(Rectangle::new(box_size, box_size)),
+        warp_material: assets
+            .warp_materials
+            .add(crate::materials::WarpMaterial::default()),
     });
 }
 
@@ -259,6 +267,10 @@ pub enum EntityKind {
     },
     TimeLimitedBuff {
         buff: course_items::buff_with_time::TimeLimitedBuffer,
+    },
+    WarpHole {
+        pair_x: f32,
+        pair_y: f32,
     },
 }
 

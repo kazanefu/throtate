@@ -43,5 +43,11 @@
         (x: 600.0, y: 200.0, kind: DynamicDeath(width: Some(80.0), height: Some(80.0), rotation: Some(0.0), gravity_scale: Some(1.0), linear_damping: None, angular_damping: None, density_scale: Some(2.0), restitution_coefficient: Some(0.5))),
         (x: 700.0, y: 250.0, kind: DynamicDeath(width: Some(60.0), height: Some(120.0), rotation: Some(0.3), gravity_scale: Some(0.5), linear_damping: Some(0.5), angular_damping: Some(0.5), density_scale: Some(1.0), restitution_coefficient: Some(0.8))),
         (x: 800.0, y: 200.0, kind: DynamicDeath(width: None, height: None, rotation: None, gravity_scale: Some(2.0), linear_damping: None, angular_damping: None, density_scale: None, restitution_coefficient: None)), // デフォルト値を使用
+
+        // === WarpHole テスト ===
+        // (x, y)と(pair_x, pair_y)に双方向ポータルを配置
+        (x: -200.0, y: 0.0, kind: WarpHole(pair_x: -200.0, pair_y: 400.0)), // 上下双方向ワープ
+        (x: -400.0, y: 0.0, kind: WarpHole(pair_x: 300.0, pair_y: 100.0)),  // 左右双方向ワープ
+        (x: 250.0, y: 0.0, kind: WarpHole(pair_x: -300.0, pair_y: 0.0)),    // 水平双方向ワープ
     ]
 )
