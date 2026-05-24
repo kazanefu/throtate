@@ -31,5 +31,17 @@
         (x: 2600.0, y: 300.0, kind: TimeLimitedBuff(buff: (life_time: 5.0, channel: RestitutionCefficient, buff_type: MulBase, value: Some(0.5)))),
         (x: 2800.0, y: 300.0, kind: TimeLimitedBuff(buff: (life_time: 5.0, channel: RestitutionCefficient, buff_type: Mul, value: Some(2.0)))),
         (x: 3000.0, y: 300.0, kind: TimeLimitedBuff(buff: (life_time: 5.0, channel: RestitutionCefficient, buff_type: Abs, value: Some(1.0)))),
+
+        // === 新機能テスト: DeathCustom と DynamicDeath ===
+
+        // DeathCustom - サイズと回転を指定可能な固定Deathブロック
+        (x: 300.0, y: 0.0, kind: DeathCustom(width: 200.0, height: 50.0, rotation: Some(0.785))), // 45度回転した長方形
+        (x: 400.0, y: 0.0, kind: DeathCustom(width: 100.0, height: 100.0, rotation: None)), // 回転なし正方形
+        (x: 500.0, y: 0.0, kind: DeathCustom(width: 150.0, height: 30.0, rotation: Some(1.57))), // 90度回転
+
+        // DynamicDeath - 動的な物理挙動を持つDeathブロック
+        (x: 600.0, y: 200.0, kind: DynamicDeath(width: Some(80.0), height: Some(80.0), rotation: Some(0.0), gravity_scale: Some(1.0), linear_damping: None, angular_damping: None, density_scale: Some(2.0), restitution_coefficient: Some(0.5))),
+        (x: 700.0, y: 250.0, kind: DynamicDeath(width: Some(60.0), height: Some(120.0), rotation: Some(0.3), gravity_scale: Some(0.5), linear_damping: Some(0.5), angular_damping: Some(0.5), density_scale: Some(1.0), restitution_coefficient: Some(0.8))),
+        (x: 800.0, y: 200.0, kind: DynamicDeath(width: None, height: None, rotation: None, gravity_scale: Some(2.0), linear_damping: None, angular_damping: None, density_scale: None, restitution_coefficient: None)), // デフォルト値を使用
     ]
 )
