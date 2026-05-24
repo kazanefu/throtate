@@ -1,5 +1,5 @@
 use super::*;
-
+use crate::{state::GameState, utils::collision::get_contained_entity};
 pub struct WarpHolePlugin;
 
 impl Plugin for WarpHolePlugin {
@@ -39,6 +39,7 @@ pub fn warp_portal_bundle(
     course_materials: &crate::course::CourseMaterials,
 ) -> impl Bundle {
     (
+        DespawnOnExit(GameState::Playing),
         Transform::from_xyz(x, y, 0.0),
         WarpPortal::new(pair_x, pair_y),
         RigidBody::Fixed,
@@ -48,20 +49,6 @@ pub fn warp_portal_bundle(
         Mesh2d(course_materials.warp_mesh.clone()),
         MeshMaterial2d(course_materials.warp_material.clone()),
     )
-}
-
-fn get_contained_entity<Q: bevy::ecs::query::QueryData, F: bevy::ecs::query::QueryFilter>(
-    e1: Entity,
-    e2: Entity,
-    query: &Query<Q, F>,
-) -> Option<Entity> {
-    if query.get(e1).is_ok() {
-        Some(e1)
-    } else if query.get(e2).is_ok() {
-        Some(e2)
-    } else {
-        None
-    }
 }
 
 fn handle_warp(

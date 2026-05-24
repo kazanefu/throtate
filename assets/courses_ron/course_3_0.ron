@@ -7,6 +7,8 @@
         (x: 300.0, y: 300.0, kind: DeathCustom(width: 1200, height: 50.0)),
         (x: 400.0, y: -300.0, kind: DeathCustom(width: 1400, height: 50.0)),
 
+        (x: -100.0, y: 0.0, kind: WarpHole(pair_x: -450.0, pair_y: -450.0)),
+
         (x: 300.0, y: -100, kind: DeathCustom(width: 50.0, height: 300.0)),
         (x: 450.0, y: 100, kind: DeathCustom(width: 50.0, height: 300.0)),
         (x: 600.0, y: -100, kind: DeathCustom(width: 50.0, height: 300.0)),
