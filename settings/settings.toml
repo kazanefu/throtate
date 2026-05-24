@@ -2,7 +2,7 @@
 width = 800
 height = 600
 title = "throtate"
-fullscreen = false
+fullscreen = true
 vsync = true
 
 [graphics]
