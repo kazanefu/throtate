@@ -219,6 +219,21 @@ pub enum EntityKind {
         required_speed: f32,
     },
     Death,
+    DeathCustom {
+        width: f32,
+        height: f32,
+        rotation: Option<f32>,
+    },
+    DynamicDeath {
+        width: Option<f32>,
+        height: Option<f32>,
+        rotation: Option<f32>,
+        gravity_scale: Option<f32>,
+        linear_damping: Option<f32>,
+        angular_damping: Option<f32>,
+        density_scale: Option<f32>,
+        restitution_coefficient: Option<f32>,
+    },
     Checkpoint {
         priority: u32,
     },

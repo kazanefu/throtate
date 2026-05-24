@@ -16,6 +16,7 @@ pub fn spawn_course_from_id(
     font: Res<JpFont>,
     config: Res<crate::config::GameConfig>,
     course_materials: Res<CourseMaterials>,
+    mut meshes: ResMut<Assets<Mesh>>,
 ) {
     for SpawnCourseMessage(id) in spawn_course_message.read() {
         let course = course_list_res
@@ -34,6 +35,7 @@ pub fn spawn_course_from_id(
                         font.get(),
                         &config,
                         &course_materials,
+                        &mut meshes,
                     )
                     .id();
                     commands.entity(course_entity).add_child(item_entity);
@@ -50,6 +52,7 @@ fn spawn_course_from_entities<'a>(
     font: &Handle<Font>,
     config: &crate::config::GameConfig,
     course_materials: &CourseMaterials,
+    meshes: &mut Assets<Mesh>,
 ) -> EntityCommands<'a> {
     let (x, y) = (entity.x, entity.y);
     let box_size = config.course.one_box_size;
@@ -73,6 +76,37 @@ fn spawn_course_from_entities<'a>(
             box_size,
             course_materials,
         )),
+        EntityKind::DeathCustom {
+            width,
+            height,
+            rotation,
+        } => {
+            let entity_id = death_box::death_box_custom_bundle(
+                commands,
+                meshes,
+                death_box::DeathCustomParams {
+                    x,
+                    y,
+                    width: *width,
+                    height: *height,
+                    rotation: rotation.unwrap_or(0.0),
+                },
+                course_materials,
+            );
+            commands.entity(entity_id)
+        }
+        EntityKind::DynamicDeath { .. } => {
+            let entity_id = death_box::death_box_dynamic_bundle(
+                commands,
+                meshes,
+                x,
+                y,
+                &entity.kind,
+                box_size,
+                course_materials,
+            );
+            commands.entity(entity_id)
+        }
         EntityKind::Turret {
             interval,
             rotation,
