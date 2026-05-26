@@ -1,13 +1,12 @@
 (
     entities: [
+        (x: 0.0, y: 200.0, kind: Text(sentence: "コース: 3-0")),
         (x: 50.0, y: 0.0, kind: Checkpoint(priority: 1)),
         (x: 100.0, y: 0.0, kind: TimeLimitedBuff(buff: (life_time: 7200.0, channel: SpinVelocity, buff_type: Add, value: Some(100.0)))),
         (x: 150.0, y: 0.0, kind: TimeLimitedBuff(buff: (life_time: 7200.0, channel: SpinStiffness, buff_type: Add, value: Some(0.1)))),
         (x: -275.0, y: 0.0, kind: DeathCustom(width: 50.0, height: 550.0)),
         (x: 300.0, y: 300.0, kind: DeathCustom(width: 1200, height: 50.0)),
         (x: 400.0, y: -300.0, kind: DeathCustom(width: 1400, height: 50.0)),
-
-        (x: -100.0, y: 0.0, kind: WarpHole(pair_x: 3800.0, pair_y: 550.0)),
 
         (x: 300.0, y: -100, kind: DeathCustom(width: 50.0, height: 300.0)),
         (x: 450.0, y: 100, kind: DeathCustom(width: 50.0, height: 300.0)),
@@ -117,6 +116,118 @@
 
         (x: 4000.0, y: 150.0, kind: DeathCustom(width: 50.0, height: 250.0)),
         (x: 4000.0, y: -150.0, kind: DeathCustom(width: 50.0, height: 250.0)),
-        (x: 4200.0, y: 0.0, kind: DeathCustom(width: 50.0, height: 450.0)),
+        (x: 4200.0, y: 0.0, kind: DeathCustom(width: 50.0, height: 400.0)),
+        (x: 4650.0, y: 0.0, kind:DeathCustom(width: 850.0, height: 50.0)),
+        (x: 4500.0, y: 200.0,kind: Death),
+        (x: 4650.0, y: 50.0,kind: Death),
+        (x: 4800.0, y: 200.0,kind: Death),
+        (x: 4950.0, y: 50.0,kind: Death),
+        (x: 5100.0, y: 200.0,kind: Death),
+        (x: 4500.0, y: -200.0,kind: Death),
+        (x: 4650.0, y: -50.0,kind: Death),
+        (x: 4800.0, y: -200.0,kind: Death),
+        (x: 4950.0, y: -50.0,kind: Death),
+        (x: 5100.0, y: -200.0,kind: Death),
+
+        (x: 5300.0, y: 0.0, kind: Checkpoint(priority: 9)),
+
+        (x: 6700.0, y: 300.0, kind:DeathCustom(width: 2850.0, height: 50.0)),
+        (x: 6700.0, y: -300.0, kind:DeathCustom(width: 2850.0, height: 50.0)),
+        (x: 6000.0, y: 0.0, kind: TimeLimitedBuff(buff: (life_time: 7200.0, channel: GravityScale, buff_type: Add, value: Some(-1.0)))),
+        (x: 6050.0, y: 0.0, kind: SpeedUp(rate: 10.0)),
+
+        (x: 6700.0, y: 150.0, kind:DeathCustom(width: 1450.0, height: 150.0)),
+        (x: 6700.0, y: -150.0, kind:DeathCustom(width: 1450.0, height: 150.0)),
+
+        (x: 7800.0, y: 0.0, kind: Dynamic(width: Some(100.0), height: Some(150.0), gravity_scale: Some(0.0), density_scale: Some(0.01), restitution_coefficient: Some(1.0))),
+        (x: 8000.0, y: 0.0, kind: Breakable(required_speed: 450.0)),
+        (x: 8000.0, y: 50.0, kind: Breakable(required_speed: 450.0)),
+        (x: 8000.0, y: -50.0, kind: Breakable(required_speed: 450.0)),
+        (x: 8000.0, y: 150, kind: Ground(width: 50.0, height: 150.0)),
+        (x: 8000.0, y: -150, kind: Ground(width: 50.0, height: 150.0)),
+
+        (x: 8150.0, y: 0.0, kind: Checkpoint(priority: 10)),
+        (x: 8200.0, y: 0.0, kind: TimeLimitedBuff(buff: (life_time: 7200.0, channel: GravityScale, buff_type: Add, value: Some(1.0)))),
+
+        (x: 8600.0, y: 300.0, kind: DeathCustom(width: 950.0, height: 50.0)),
+        (x: 8600.0, y: -300.0, kind: DeathCustom(width: 950.0, height: 50.0)),
+        (x: 8300.0, y: 0.0, kind: Dynamic(width: Some(100.0), height: Some(150.0), gravity_scale: Some(0.0), density_scale: Some(0.01), restitution_coefficient: Some(1.0))),
+        (x: 8300.0, y: 150.0, kind: Dynamic(width: Some(100.0), height: Some(150.0), gravity_scale: Some(0.0), density_scale: Some(0.01), restitution_coefficient: Some(1.0))),
+        (x: 8300.0, y: -150.0, kind: Dynamic(width: Some(100.0), height: Some(150.0), gravity_scale: Some(0.0), density_scale: Some(0.01), restitution_coefficient: Some(1.0))),
+        (x: 8500.0, y: 0.0, kind: DynamicDeath(width: Some(100.0), height: Some(150.0), gravity_scale: Some(0.0), density_scale: Some(0.01), restitution_coefficient: Some(1.0))),
+        (x: 8500.0, y: 150.0, kind: DynamicDeath(width: Some(100.0), height: Some(150.0), gravity_scale: Some(0.0), density_scale: Some(0.01), restitution_coefficient: Some(1.0))),
+        (x: 8500.0, y: -150.0, kind: DynamicDeath(width: Some(100.0), height: Some(150.0), gravity_scale: Some(0.0), density_scale: Some(0.01), restitution_coefficient: Some(1.0))),
+        (x: 8700.0, y: 0.0, kind: Dynamic(width: Some(100.0), height: Some(150.0), gravity_scale: Some(0.0), density_scale: Some(0.01), restitution_coefficient: Some(1.0))),
+        (x: 8700.0, y: 150.0, kind: Dynamic(width: Some(100.0), height: Some(150.0), gravity_scale: Some(0.0), density_scale: Some(0.01), restitution_coefficient: Some(1.0))),
+        (x: 8700.0, y: -150.0, kind: Dynamic(width: Some(100.0), height: Some(150.0), gravity_scale: Some(0.0), density_scale: Some(0.01), restitution_coefficient: Some(1.0))),
+        (x: 8900.0, y: 0.0, kind: DynamicDeath(width: Some(100.0), height: Some(150.0), gravity_scale: Some(0.0), density_scale: Some(0.01), restitution_coefficient: Some(1.0))),
+        (x: 8900.0, y: 150.0, kind: DynamicDeath(width: Some(100.0), height: Some(150.0), gravity_scale: Some(0.0), density_scale: Some(0.01), restitution_coefficient: Some(1.0))),
+        (x: 8900.0, y: -150.0, kind: DynamicDeath(width: Some(100.0), height: Some(150.0), gravity_scale: Some(0.0), density_scale: Some(0.01), restitution_coefficient: Some(1.0))),
+
+
+        (x: 9000.0, y: 0.0, kind: WarpHole(pair_x: 0.0, pair_y: 2000.0)),
+        (x: 9100.0, y: 0.0, kind: DeathCustom(width: 50.0, height: 650.0)),
+
+        (x: 0.0, y: 1550.0, kind: Ground(width: 1050.0, height: 50.0)),
+        (x: 0.0, y: 2550.0, kind: Ground(width: 1050.0, height: 50.0)),
+        (x: 500.0, y: 2050.0, kind: Ground(width: 50.0, height: 950.0)),
+        (x: -500.0, y: 2050.0, kind: Ground(width: 50.0, height: 950.0)),
+        (x: 0.0, y: 2500.0, kind: WarpHole(pair_x: 0.0, pair_y: 2700.0)),
+        (x: 0.0, y: 2400.0, kind: Checkpoint(priority: 11)),
+        (x: 0.0, y: 1700.0, kind: TimeLimitedBuff(buff: (life_time: 7200.0, channel: SpinVelocity, buff_type: Add, value: Some(-100.0)))),
+        (x: 0.0, y: 1750.0, kind: TimeLimitedBuff(buff: (life_time: 7200.0, channel: SpinStiffness, buff_type: Add, value: Some(-0.1)))),
+
+        (x: 0.0, y: 2600.0, kind: DeathCustom(width: 1050.0, height: 50.0)),
+
+        (x: 500.0, y: 5650.0, kind: DeathCustom(width: 50.0, height: 6050.0)),
+        (x: -500.0, y: 5650.0, kind: DeathCustom(width: 50.0, height: 6050.0)),
+
+        (x: 225.0, y: 3000.0, kind: DeathCustom(width: 500.0, height: 50.0)),
+        (x: -225.0, y: 3100.0, kind: DeathCustom(width: 500.0, height: 50.0)),
+
+        (x: -225.0, y: 3300.0, kind: DeathCustom(width: 500.0, height: 50.0)),
+        (x: 225.0, y: 3400.0, kind: DeathCustom(width: 500.0, height: 50.0)),
+
+        (x: 0.0, y: 3500.0, kind: Checkpoint(priority: 12)),
+
+        (x: -200.0, y: 4100.0, kind: DeathCustom(width: 550.0, height: 50.0)),
+        (x: 200.0, y: 3800.0, kind: DeathCustom(width: 550.0, height: 50.0)),
+        (x: 50.0, y: 4000.0, kind: DeathCustom(width: 50.0, height: 150.0)),
+        (x: -50.0, y: 3900.0, kind: DeathCustom(width: 50.0, height: 150.0)),
+
+        (x: 0.0, y: 4300.0, kind: Checkpoint(priority: 13)),
+
+        (x: 0.0, y: 4500.0, kind: WarpHole(pair_x: 0.0, pair_y: 4950.0)),
+        (x: 0.0, y: 4700.0, kind: DeathCustom(width: 950.0, height: 50.0)),
+        (x: 50.0, y: 4850.0, kind: DeathCustom(width: 50.0, height: 250.0)),
+        (x: -50.0, y: 4850.0, kind: DeathCustom(width: 50.0, height: 250.0)),
+        (x: 0.0, y: 4750.0, kind: WarpHole(pair_x: -200.0, pair_y: 5250.0)),
+        (x: 0.0, y: 5000.0, kind: DeathCustom(width: 950.0, height: 50.0)),
+        (x: -150.0, y: 5150.0, kind: DeathCustom(width: 50.0, height: 250.0)),
+        (x: -250.0, y: 5150.0, kind: DeathCustom(width: 50.0, height: 250.0)),
+        (x: -200.0, y: 5050.0, kind: WarpHole(pair_x: 200.0, pair_y: 5550.0)),
+        (x: 0.0, y: 5300.0, kind: DeathCustom(width: 950.0, height: 50.0)),
+
+        (x: 0.0, y: 5400.0, kind: Checkpoint(priority: 14)),
+
+        (x: 0.0, y: 5600.0, kind: DeathCustom(width: 950.0, height: 50.0)),
+        (x: -200.0, y: 5350.0, kind: WarpHole(pair_x: 0.0, pair_y: 5750.0)),
+
+        (x: -450.0, y: 5900.0, kind:Turret(interval: 4.0, rotation: 0.0, bullet_lifetime: Some(0.7))),
+        (x: 450.0, y: 6000.0, kind:Turret(interval: 4.1, rotation: 3.1415, bullet_lifetime: Some(0.7))),
+        (x: -450.0, y: 6100.0, kind:Turret(interval: 4.3, rotation: 0.0, bullet_lifetime: Some(0.7))),
+        (x: 450.0, y: 6200.0, kind:Turret(interval: 4.2, rotation: 3.1415, bullet_lifetime: Some(0.7))),
+
+        (x: 0.0, y: 6000.0, kind:DynamicDeath(width: Some(100.0), height: Some(100.0), gravity_scale: Some(0.0), density_scale: Some(0.01), restitution_coefficient: Some(1.0))),
+        (x: 0.0, y: 6100.0, kind:DynamicDeath(width: Some(100.0), height: Some(100.0), gravity_scale: Some(0.0), density_scale: Some(0.01), restitution_coefficient: Some(1.0))),
+        (x: 0.0, y: 6200.0, kind:DynamicDeath(width: Some(100.0), height: Some(100.0), gravity_scale: Some(0.0), density_scale: Some(0.01), restitution_coefficient: Some(1.0))),
+        (x: 0.0, y: 6300.0, kind:DynamicDeath(width: Some(100.0), height: Some(100.0), gravity_scale: Some(0.0), density_scale: Some(0.01), restitution_coefficient: Some(1.0))),
+        (x: 0.0, y: 6400.0, kind:DynamicDeath(width: Some(100.0), height: Some(100.0), gravity_scale: Some(0.0), density_scale: Some(0.01), restitution_coefficient: Some(1.0))),
+
+
+        (x: 0.0, y: 6800.0, kind: DeathCustom(width: 950.0, height: 50.0)),
+        (x: 0.0, y: 6700.0, kind: WarpHole(pair_x: 0.0, pair_y: 7000.0)),
+        (x: 0.0, y: 7770.0, kind: Goal),
+
     ]
 )
