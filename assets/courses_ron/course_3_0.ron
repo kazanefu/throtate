@@ -7,7 +7,7 @@
         (x: 300.0, y: 300.0, kind: DeathCustom(width: 1200, height: 50.0)),
         (x: 400.0, y: -300.0, kind: DeathCustom(width: 1400, height: 50.0)),
 
-        (x: -100.0, y: 0.0, kind: WarpHole(pair_x: 2100.0, pair_y: 250.0)),
+        (x: -100.0, y: 0.0, kind: WarpHole(pair_x: 3800.0, pair_y: 550.0)),
 
         (x: 300.0, y: -100, kind: DeathCustom(width: 50.0, height: 300.0)),
         (x: 450.0, y: 100, kind: DeathCustom(width: 50.0, height: 300.0)),
@@ -112,5 +112,11 @@
         (x: 3750.0, y: 0.0, kind: TimeLimitedBuff(buff: (life_time: 7200.0, channel: GravityScale, buff_type: Add, value: Some(-9.0)))),
         (x: 3800.0, y: 0.0, kind: Checkpoint(priority: 8)),
 
+        (x: 4400.0, y: 300.0, kind:DeathCustom(width: 1750.0, height: 50.0)),
+        (x: 4400.0, y: -300.0, kind:DeathCustom(width: 1750.0, height: 50.0)),
+
+        (x: 4000.0, y: 150.0, kind: DeathCustom(width: 50.0, height: 250.0)),
+        (x: 4000.0, y: -150.0, kind: DeathCustom(width: 50.0, height: 250.0)),
+        (x: 4200.0, y: 0.0, kind: DeathCustom(width: 50.0, height: 450.0)),
     ]
 )
