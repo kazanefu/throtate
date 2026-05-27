@@ -50,12 +50,14 @@ pub fn tick_bullets(
     for (mut bullet, mut transform, mut velocity, mut collision_groups, mut visibility) in
         &mut bullet_query
     {
-        if bullet.is_active && now >= bullet.despawn_at {
-            bullet.is_active = false;
-            transform.translation = Vec3::new(-9999.0, -9999.0, 0.0);
-            *velocity = Velocity::default();
-            *collision_groups = CollisionGroups::new(Group::NONE, Group::NONE);
-            *visibility = Visibility::Hidden;
+        if !bullet.is_active || now < bullet.despawn_at {
+            continue;
         }
+
+        bullet.is_active = false;
+        transform.translation = Vec3::new(-9999.0, -9999.0, 0.0);
+        *velocity = Velocity::default();
+        *collision_groups = CollisionGroups::new(Group::NONE, Group::NONE);
+        *visibility = Visibility::Hidden;
     }
 }
