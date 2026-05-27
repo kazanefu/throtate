@@ -49,8 +49,10 @@ fn start_button_bundle(font: &Handle<Font>) -> impl Bundle {
         SizeUpButtonBundle::new(1.2, 10.0),
         UiTransform::default(),
         Node {
-            width: percent(20),
-            height: percent(10),
+            width: Val::Px(280.0),
+            min_width: percent(20),
+            min_height: Val::Px(72.0),
+            padding: UiRect::axes(Val::Px(24.0), Val::Px(16.0)),
             justify_content: JustifyContent::Center,
             align_items: AlignItems::Center,
             ..default()
@@ -92,6 +94,7 @@ fn start_canvas_bundle() -> impl Bundle {
             justify_content: JustifyContent::Start,
             flex_direction: FlexDirection::Column,
             overflow: Overflow::clip(),
+            padding: UiRect::top(Val::Px(24.0)),
             ..default()
         },
     )
@@ -143,13 +146,12 @@ fn start_sub_canvas_bundle() -> impl Bundle {
         ScrollContent,
         Node {
             width: percent(100),
-            height: percent(100),
-            position_type: PositionType::Absolute,
+            min_height: percent(100),
             align_items: AlignItems::Center,
-            justify_content: JustifyContent::Center,
+            justify_content: JustifyContent::FlexStart,
             flex_direction: FlexDirection::Column,
-            top: Val::Px(0.0),
-            row_gap: Val::Px(10.0),
+            margin: UiRect::top(Val::Px(12.0)),
+            row_gap: Val::Px(24.0),
             ..default()
         },
     )
@@ -162,11 +164,10 @@ fn scroll_system(
 ) {
     for ev in wheel.read() {
         *offset += ev.y * 20.0;
-
-        *offset = offset.clamp(-1000.0, 300.0);
+        *offset = offset.clamp(-1000.0, 0.0);
 
         for mut node in &mut query {
-            node.top = Val::Px(*offset);
+            node.margin.top = Val::Px(12.0 + *offset);
         }
     }
 }
