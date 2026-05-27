@@ -5,26 +5,20 @@ use crate::state::GameState;
 use bevy::prelude::*;
 const EXPLANATION_TEXT: &str = r#"
 概要:
-    ハンマー投のようにぐるぐる回してから離すことで移動してゴールを目指すゲームです。
+    ぐるぐる回してから離すことで移動してゴールを目指すゲームです。
+
 登場するもの:
-    プレイヤー:
-        青い立方体の見た目で操作可能
-    赤色の立方体:
-        当たると死ぬ
-    水色の立方体:
-        チェックポイント
-    オレンジ色の立方体:
-        小さな赤色の立方体を発射する
-    黄色の立方体:
-        一定速度以上の物体が当たると壊れる
-    マゼンタの立方体:
-        ゴール
-    黄土色:
-        地形
+    プレイヤー: 隕石の見た目
+
 操作方法:
     Spaceキーで拘束して回転と拘束を解くのを切り替える
     矢印キーで回転軸の相対座標と回転方向を切り替える
+        左:水色軸反時計回転,
+        右:ピンク軸時計回転,
+        下:水色軸時計回転,
+        上:ピンク軸反時計回転
     Rキーでチェックポイントに戻る
+    Escapeキーで起動時の画面に戻る
 "#;
 
 pub struct StartUiPlugin;
@@ -77,10 +71,14 @@ fn start_button_bundle(font: &Handle<Font>) -> impl Bundle {
 
 fn explanation_text_bundle(font: &Handle<Font>) -> impl Bundle {
     (
+        Node {
+            max_width: percent(100),
+            ..default()
+        },
         Text::new(EXPLANATION_TEXT),
         TextFont {
             font: font.clone(),
-            font_size: 40.0,
+            font_size: 32.0,
             ..default()
         },
         TextLayout::new_with_justify(Justify::Left),
