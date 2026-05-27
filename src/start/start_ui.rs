@@ -5,26 +5,20 @@ use crate::state::GameState;
 use bevy::prelude::*;
 const EXPLANATION_TEXT: &str = r#"
 概要:
-    ハンマー投のようにぐるぐる回してから離すことで移動してゴールを目指すゲームです。
+    ぐるぐる回してから離すことで移動してゴールを目指すゲームです。
+
 登場するもの:
-    プレイヤー:
-        青い立方体の見た目で操作可能
-    赤色の立方体:
-        当たると死ぬ
-    水色の立方体:
-        チェックポイント
-    オレンジ色の立方体:
-        小さな赤色の立方体を発射する
-    黄色の立方体:
-        一定速度以上の物体が当たると壊れる
-    マゼンタの立方体:
-        ゴール
-    黄土色:
-        地形
+    プレイヤー: 隕石の見た目
+
 操作方法:
     Spaceキーで拘束して回転と拘束を解くのを切り替える
     矢印キーで回転軸の相対座標と回転方向を切り替える
+        左:水色軸反時計回転,
+        右:ピンク軸時計回転,
+        下:水色軸時計回転,
+        上:ピンク軸反時計回転
     Rキーでチェックポイントに戻る
+    Escapeキーで起動時の画面に戻る
 "#;
 
 pub struct StartUiPlugin;
@@ -49,18 +43,24 @@ fn start_button_bundle(font: &Handle<Font>) -> impl Bundle {
         SizeUpButtonBundle::new(1.2, 10.0),
         UiTransform::default(),
         Node {
-            width: percent(20),
-            height: percent(10),
+            width: Val::Px(280.0),
+            min_width: percent(20),
+            min_height: Val::Px(72.0),
+            padding: UiRect::axes(Val::Px(24.0), Val::Px(16.0)),
             justify_content: JustifyContent::Center,
             align_items: AlignItems::Center,
             ..default()
         },
         BackgroundColor(Color::srgb(0.1, 0.9, 0.2)),
         children![(
+            Node {
+                max_width: percent(100),
+                ..default()
+            },
             Text::new("スタート"),
             TextFont {
                 font: font.clone(),
-                font_size: 40.0,
+                font_size: 32.0,
                 ..default()
             },
             TextLayout::new_with_justify(Justify::Center),
@@ -71,10 +71,14 @@ fn start_button_bundle(font: &Handle<Font>) -> impl Bundle {
 
 fn explanation_text_bundle(font: &Handle<Font>) -> impl Bundle {
     (
+        Node {
+            max_width: percent(100),
+            ..default()
+        },
         Text::new(EXPLANATION_TEXT),
         TextFont {
             font: font.clone(),
-            font_size: 40.0,
+            font_size: 32.0,
             ..default()
         },
         TextLayout::new_with_justify(Justify::Left),
@@ -92,6 +96,7 @@ fn start_canvas_bundle() -> impl Bundle {
             justify_content: JustifyContent::Start,
             flex_direction: FlexDirection::Column,
             overflow: Overflow::clip(),
+            padding: UiRect::top(Val::Px(24.0)),
             ..default()
         },
     )
@@ -130,7 +135,7 @@ fn update_start_button(
             }
         }
     }
-    if key.just_pressed(config.input.next) {
+    if config.input.next.just_pressed(&key) {
         game_state.set(GameState::CourseSelection);
     }
 }
@@ -143,13 +148,12 @@ fn start_sub_canvas_bundle() -> impl Bundle {
         ScrollContent,
         Node {
             width: percent(100),
-            height: percent(100),
-            position_type: PositionType::Absolute,
+            min_height: percent(100),
             align_items: AlignItems::Center,
-            justify_content: JustifyContent::Center,
+            justify_content: JustifyContent::FlexStart,
             flex_direction: FlexDirection::Column,
-            top: Val::Px(0.0),
-            row_gap: Val::Px(10.0),
+            margin: UiRect::top(Val::Px(12.0)),
+            row_gap: Val::Px(24.0),
             ..default()
         },
     )
@@ -162,11 +166,10 @@ fn scroll_system(
 ) {
     for ev in wheel.read() {
         *offset += ev.y * 20.0;
-
-        *offset = offset.clamp(-1000.0, 300.0);
+        *offset = offset.clamp(-1000.0, 0.0);
 
         for mut node in &mut query {
-            node.top = Val::Px(*offset);
+            node.margin.top = Val::Px(12.0 + *offset);
         }
     }
 }

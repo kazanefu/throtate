@@ -6,7 +6,7 @@ pub fn exit(
     keys: Res<ButtonInput<KeyCode>>,
     config: Res<GameConfig>,
 ) {
-    if keys.just_pressed(config.input.exit) {
+    if config.input.exit.just_pressed(&keys) {
         game_state.set(GameState::Loading);
     }
 }

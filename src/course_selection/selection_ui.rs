@@ -38,8 +38,10 @@ fn confirm_ui_bundle(font: &Handle<Font>) -> impl Bundle {
         SizeUpButtonBundle::new(1.1, 10.0),
         UiTransform::default(),
         Node {
-            width: percent(50),
-            height: percent(10),
+            width: Val::Px(520.0),
+            min_width: percent(30),
+            min_height: Val::Px(72.0),
+            padding: UiRect::axes(Val::Px(24.0), Val::Px(16.0)),
             justify_content: JustifyContent::Center,
             align_items: AlignItems::Center,
             ..default()
@@ -47,10 +49,14 @@ fn confirm_ui_bundle(font: &Handle<Font>) -> impl Bundle {
         BackgroundColor(Color::srgb(0.2, 0.2, 0.2)),
         children![(
             ConfirmButtonText,
+            Node {
+                max_width: percent(100),
+                ..default()
+            },
             Text::new("Confirm"),
             TextFont {
                 font: font.clone(),
-                font_size: 40.0,
+                font_size: 32.0,
                 ..default()
             },
             TextLayout::new_with_justify(Justify::Center),
@@ -79,9 +85,10 @@ fn selection_canvas_bundle() -> impl Bundle {
             width: percent(100),
             height: percent(100),
             align_items: AlignItems::Center,
-            justify_content: JustifyContent::Center,
+            justify_content: JustifyContent::Start,
             flex_direction: FlexDirection::Column,
             overflow: Overflow::clip(),
+            padding: UiRect::top(Val::Px(24.0)),
             ..default()
         },
     )
@@ -95,22 +102,21 @@ fn selection_sub_canvas_bundle() -> impl Bundle {
         ScrollContent,
         Node {
             width: percent(100),
-            height: percent(100),
-            position_type: PositionType::Absolute,
+            min_height: percent(100),
             align_items: AlignItems::Center,
-            justify_content: JustifyContent::Center,
+            justify_content: JustifyContent::FlexStart,
             flex_direction: FlexDirection::Column,
-            top: Val::Px(0.0),
-            row_gap: Val::Px(10.0),
+            margin: UiRect::top(Val::Px(12.0)),
+            row_gap: Val::Px(24.0),
             ..default()
         },
     )
 }
 
-fn course_list_button_node_bundle(len: usize) -> impl Bundle {
+fn course_list_button_node_bundle(_len: usize) -> impl Bundle {
     (Node {
         width: percent(30),
-        height: percent(12 * len),
+        min_width: Val::Px(320.0),
         justify_content: JustifyContent::Center,
         align_items: AlignItems::Center,
         flex_direction: FlexDirection::Column,
@@ -125,7 +131,7 @@ struct CourseListButton(usize);
 fn course_list_button_bundle(
     font: &Handle<Font>,
     course_entry: &CourseEntry,
-    len: usize,
+    _len: usize,
 ) -> impl Bundle {
     (
         Button,
@@ -134,17 +140,22 @@ fn course_list_button_bundle(
         UiTransform::default(),
         Node {
             width: percent(100),
-            height: percent((100.0 - len as f32 * 2.0) / len as f32),
+            min_height: Val::Px(64.0),
+            padding: UiRect::axes(Val::Px(16.0), Val::Px(12.0)),
             justify_content: JustifyContent::Center,
             align_items: AlignItems::Center,
             ..default()
         },
         BackgroundColor(Color::srgb(0.1, 0.9, 0.2)),
         children![(
+            Node {
+                max_width: percent(100),
+                ..default()
+            },
             Text::new(&course_entry.name),
             TextFont {
                 font: font.clone(),
-                font_size: 40.0,
+                font_size: 30.0,
                 ..default()
             },
             TextLayout::new_with_justify(Justify::Center),
@@ -197,11 +208,10 @@ fn scroll_system(
 ) {
     for ev in wheel.read() {
         *offset += ev.y * 20.0;
-
-        *offset = offset.clamp(-1000.0, 1000.0);
+        *offset = offset.clamp(-1000.0, 0.0);
 
         for mut node in &mut query {
-            node.top = Val::Px(*offset);
+            node.margin.top = Val::Px(12.0 + *offset);
         }
     }
 }
