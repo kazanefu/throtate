@@ -59,10 +59,14 @@ fn start_button_bundle(font: &Handle<Font>) -> impl Bundle {
         },
         BackgroundColor(Color::srgb(0.1, 0.9, 0.2)),
         children![(
+            Node {
+                max_width: percent(100),
+                ..default()
+            },
             Text::new("スタート"),
             TextFont {
                 font: font.clone(),
-                font_size: 40.0,
+                font_size: 32.0,
                 ..default()
             },
             TextLayout::new_with_justify(Justify::Center),
