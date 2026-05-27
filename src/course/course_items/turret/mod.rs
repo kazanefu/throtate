@@ -20,6 +20,7 @@ pub struct Turret {
 #[derive(Component)]
 pub struct BulletPool {
     pub bullets: Vec<Entity>,
+    pub next_bullet_index: usize,
 }
 
 const BULLET_LIFE_TIME: f32 = 3.0;
@@ -43,7 +44,11 @@ pub fn spawn_turret<'a, 'b>(
     let pool_size = (bullet_lifetime / params.interval) as usize + 1;
     let mut bullets = Vec::with_capacity(pool_size);
     for _ in 0..pool_size {
-        bullets.push(bullet::spawn_inactive_bullet(commands, params.box_size, params.course_materials));
+        bullets.push(bullet::spawn_inactive_bullet(
+            commands,
+            params.box_size,
+            params.course_materials,
+        ));
     }
 
     commands.spawn((
@@ -56,10 +61,11 @@ pub fn spawn_turret<'a, 'b>(
             time: 0.0,
             interval: params.interval,
         },
-        Turret {
-            bullet_lifetime,
+        Turret { bullet_lifetime },
+        BulletPool {
+            bullets,
+            next_bullet_index: 0,
         },
-        BulletPool { bullets },
         RigidBody::Fixed,
         Collider::cuboid(params.box_size / 2.0, params.box_size / 2.0),
         Mesh2d(params.course_materials.turret_mesh.clone()),
@@ -69,47 +75,63 @@ pub fn spawn_turret<'a, 'b>(
 
 fn turret_shot(
     mut commands: Commands,
+    time: Res<Time>,
     mut turret_query: Query<(
         &Transform,
         &mut crate::utils::Interval,
         &Turret,
         &mut BulletPool,
     )>,
-    mut bullet_query: Query<(
-        &mut bullet::TurretBullet,
-        &mut Transform,
-        &mut Velocity,
-        &mut CollisionGroups,
-        &mut Visibility,
-    ), Without<Turret>>,
+    mut bullet_query: Query<
+        (
+            &mut bullet::TurretBullet,
+            &mut Transform,
+            &mut Velocity,
+            &mut CollisionGroups,
+            &mut Visibility,
+        ),
+        Without<Turret>,
+    >,
     config: Res<crate::config::GameConfig>,
     course_materials: Res<crate::course::CourseMaterials>,
 ) {
     let box_size = config.course.one_box_size;
+    let now = time.elapsed_secs();
     for (turret_transform, mut turret_interval, turret, mut bullet_pool) in &mut turret_query {
         if turret_interval.is_ready() {
             turret_interval.reset();
 
-            // Find an inactive bullet from the pool
+            // Find an inactive bullet from the pool with a circular scan
             let mut chosen_bullet = None;
-            for &bullet_entity in &bullet_pool.bullets {
-                let is_inactive = bullet_query
-                    .get(bullet_entity)
-                    .map(|(bullet, _, _, _, _)| !bullet.is_active)
-                    .unwrap_or(false);
+            let pool_len = bullet_pool.bullets.len();
+            if pool_len > 0 {
+                let start_index = bullet_pool.next_bullet_index % pool_len;
+                for offset in 0..pool_len {
+                    let index = (start_index + offset) % pool_len;
+                    let bullet_entity = bullet_pool.bullets[index];
+                    let is_inactive = bullet_query
+                        .get(bullet_entity)
+                        .map(|(bullet, _, _, _, _)| !bullet.is_active)
+                        .unwrap_or(false);
 
-                if is_inactive {
-                    chosen_bullet = Some(bullet_entity);
-                    break;
+                    if is_inactive {
+                        chosen_bullet = Some((bullet_entity, index));
+                        break;
+                    }
                 }
             }
 
             let bullet_entity = match chosen_bullet {
-                Some(entity) => entity,
+                Some((entity, index)) => {
+                    bullet_pool.next_bullet_index = (index + 1) % pool_len;
+                    entity
+                }
                 None => {
                     // dynamically spawn a new bullet and add to the pool
-                    let entity = bullet::spawn_inactive_bullet(&mut commands, box_size, &course_materials);
+                    let entity =
+                        bullet::spawn_inactive_bullet(&mut commands, box_size, &course_materials);
                     bullet_pool.bullets.push(entity);
+                    bullet_pool.next_bullet_index = 0;
                     entity
                 }
             };
@@ -124,12 +146,12 @@ fn turret_shot(
             )) = bullet_query.get_mut(bullet_entity)
             {
                 bullet.is_active = true;
-                bullet.remaining_lifetime = turret.bullet_lifetime;
+                bullet.despawn_at = now + turret.bullet_lifetime;
 
                 let dir = (turret_transform.rotation * Vec3::X).truncate();
 
-                transform.translation = turret_transform.translation
-                    + turret_transform.rotation * Vec3::X * box_size;
+                transform.translation =
+                    turret_transform.translation + turret_transform.rotation * Vec3::X * box_size;
                 transform.rotation = turret_transform.rotation;
 
                 *velocity = Velocity {

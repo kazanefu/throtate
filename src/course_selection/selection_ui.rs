@@ -3,6 +3,7 @@ use crate::course::CourseEntry;
 use crate::course_selection::resources::SelectedCourseID;
 use crate::{course::CourseListResource, state::GameState, *};
 use bevy::input::mouse::MouseWheel;
+use std::fmt::Write;
 pub struct SelectionUiPlugin;
 
 impl Plugin for SelectionUiPlugin {
@@ -226,7 +227,9 @@ fn update_course_list_buttons(
     for (interaction, mut background_color, button) in &mut button_query {
         match interaction {
             Interaction::Pressed => {
-                selected_id.0 = Some(button.0);
+                if selected_id.0 != Some(button.0) {
+                    selected_id.0 = Some(button.0);
+                }
                 background_color.0 = Color::srgb(0.2, 0.2, 0.2);
             }
             Interaction::Hovered => {
@@ -244,20 +247,24 @@ fn update_confirm_button_text(
     selected_id: Res<SelectedCourseID>,
     course_list_res: Res<CourseListResource>,
 ) {
+    if !selected_id.is_changed() {
+        return;
+    }
+
     let name = if let Some(id) = selected_id.0 {
-        course_list_res
+        &course_list_res
             .0
             .iter()
             .find(|x| x.0.id == id)
             .expect("such id course doesn't exists")
             .0
             .name
-            .clone()
     } else {
-        "None".to_string()
+        "None"
     };
     for mut text in &mut text_query {
-        **text = format!("決定: {}", name);
+        text.0.clear();
+        write!(&mut text.0, "決定: {}", name).expect("writing to String should never fail");
     }
 }
 

@@ -1,12 +1,12 @@
+use crate::course::course_items::death_box::Death;
+use crate::state::GameState;
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
-use crate::state::GameState;
-use crate::course::course_items::death_box::Death;
 
 #[derive(Component)]
 pub struct TurretBullet {
     pub is_active: bool,
-    pub remaining_lifetime: f32,
+    pub despawn_at: f32,
 }
 
 pub fn spawn_inactive_bullet(
@@ -18,7 +18,7 @@ pub fn spawn_inactive_bullet(
         .spawn((
             TurretBullet {
                 is_active: false,
-                remaining_lifetime: 0.0,
+                despawn_at: 0.0,
             },
             Death,
             Transform::from_xyz(-9999.0, -9999.0, 0.0),
@@ -46,24 +46,16 @@ pub fn tick_bullets(
         &mut Visibility,
     )>,
 ) {
-    let delta = time.delta_secs();
-    for (
-        mut bullet,
-        mut transform,
-        mut velocity,
-        mut collision_groups,
-        mut visibility,
-    ) in &mut bullet_query
+    let now = time.elapsed_secs();
+    for (mut bullet, mut transform, mut velocity, mut collision_groups, mut visibility) in
+        &mut bullet_query
     {
-        if bullet.is_active {
-            bullet.remaining_lifetime -= delta;
-            if bullet.remaining_lifetime <= 0.0 {
-                bullet.is_active = false;
-                transform.translation = Vec3::new(-9999.0, -9999.0, 0.0);
-                *velocity = Velocity::default();
-                *collision_groups = CollisionGroups::new(Group::NONE, Group::NONE);
-                *visibility = Visibility::Hidden;
-            }
+        if bullet.is_active && now >= bullet.despawn_at {
+            bullet.is_active = false;
+            transform.translation = Vec3::new(-9999.0, -9999.0, 0.0);
+            *velocity = Velocity::default();
+            *collision_groups = CollisionGroups::new(Group::NONE, Group::NONE);
+            *visibility = Visibility::Hidden;
         }
     }
 }
