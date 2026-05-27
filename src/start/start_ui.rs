@@ -135,7 +135,7 @@ fn update_start_button(
             }
         }
     }
-    if key.just_pressed(config.input.next) {
+    if config.input.next.just_pressed(&key) {
         game_state.set(GameState::CourseSelection);
     }
 }

@@ -73,19 +73,19 @@ pub fn handle_hammer_input(
     mut handle_direction_writer: MessageWriter<ChangeHandleDirection>,
     config: Res<GameConfig>,
 ) {
-    if keys.just_pressed(config.input.throw) {
+    if config.input.throw.just_pressed(&keys) {
         hammer_action_writer.write(HammerActionMessage);
     }
-    if keys.just_pressed(config.input.ll_spin) {
+    if config.input.ll_spin.just_pressed(&keys) {
         handle_direction_writer.write(ChangeHandleDirection(HandleDirection::LeftLeft));
     }
-    if keys.just_pressed(config.input.rr_spin) {
+    if config.input.rr_spin.just_pressed(&keys) {
         handle_direction_writer.write(ChangeHandleDirection(HandleDirection::RightRight));
     }
-    if keys.just_pressed(config.input.lr_spin) {
+    if config.input.lr_spin.just_pressed(&keys) {
         handle_direction_writer.write(ChangeHandleDirection(HandleDirection::LeftRight));
     }
-    if keys.just_pressed(config.input.rl_spin) {
+    if config.input.rl_spin.just_pressed(&keys) {
         handle_direction_writer.write(ChangeHandleDirection(HandleDirection::RightLeft));
     }
 }
