@@ -8,7 +8,7 @@ pub struct TurretPlugin;
 
 impl Plugin for TurretPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(Update, (turret_shot, bullet::tick_bullets));
+        app.add_systems(Update, (bullet::tick_bullets, turret_shot).chain());
     }
 }
 
@@ -131,7 +131,8 @@ fn turret_shot(
                     let entity =
                         bullet::spawn_inactive_bullet(&mut commands, box_size, &course_materials);
                     bullet_pool.bullets.push(entity);
-                    bullet_pool.next_bullet_index = 0;
+                    let new_index = bullet_pool.bullets.len() - 1;
+                    bullet_pool.next_bullet_index = (new_index + 1) % bullet_pool.bullets.len();
                     entity
                 }
             };
