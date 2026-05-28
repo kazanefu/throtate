@@ -67,6 +67,9 @@ fn main() {
     bevy::asset::embedded_asset!(app, "sounds/death_sound.mp3");
     bevy::asset::embedded_asset!(app, "sounds/goal.mp3");
     bevy::asset::embedded_asset!(app, "sounds/warp.mp3");
+    bevy::asset::embedded_asset!(app, "sounds/wind.mp3");
+    bevy::asset::embedded_asset!(app, "sounds/Beyond_the_Universe.mp3");
+    bevy::asset::embedded_asset!(app, "sounds/プレリュード第3番「未知との邂逅」_2.mp3");
     app.add_plugins(RapierPhysicsPlugin::<NoUserData>::default())
         .insert_resource(TimestepMode::Interpolated {
             dt: 1.0 / 120.0,

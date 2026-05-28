@@ -1,4 +1,6 @@
 use crate::audio::AudioAssets;
+use crate::settings::Settings;
+use bevy::audio::Volume;
 use bevy::ecs::query::{QueryData, QueryFilter};
 
 use super::*;
@@ -44,6 +46,7 @@ fn handle_death(
     mut hammer_action_writer: MessageWriter<HammerFreeMessage>,
     mut death_writer: MessageWriter<crate::action_effect::FireDeathEffect>,
     audio_assets: Res<AudioAssets>,
+    settings: Res<Settings>,
 ) {
     for &event in collision_event.read() {
         if let CollisionEvent::Started(e1, e2, _) = event {
@@ -67,8 +70,8 @@ fn handle_death(
             death_count.count_up();
             death_writer.write(FireDeathEffect(transform.translation));
             commands.spawn((
-                AudioPlayer::new(audio_assets.death.clone()),
-                PlaybackSettings::DESPAWN,
+                AudioPlayer(audio_assets.death.clone()),
+                PlaybackSettings::DESPAWN.with_volume(Volume::Linear(settings.audio.se_volume)),
             ));
             transform.translation = checkpoint.position;
         }
@@ -82,6 +85,7 @@ fn reach_checkpoint(
     checkpoint_que: Query<(&CheckPoint, &Transform)>,
     mut checkpoint_effect: MessageWriter<FireCheckPointEffect>,
     audio_assets: Res<AudioAssets>,
+    settings: Res<Settings>,
 ) {
     for &event in collision_event.read() {
         if let CollisionEvent::Started(e1, e2, _) = event {
@@ -103,8 +107,8 @@ fn reach_checkpoint(
                 if prev_position != target_checkpoint.position {
                     checkpoint_effect.write(FireCheckPointEffect(target_checkpoint.position));
                     commands.spawn((
-                        AudioPlayer::new(audio_assets.checkpoint.clone()),
-                        PlaybackSettings::DESPAWN,
+                        AudioPlayer(audio_assets.checkpoint.clone()),
+                        PlaybackSettings::DESPAWN.with_volume(Volume::Linear(settings.audio.se_volume)),
                     ));
                 }
             }
@@ -119,6 +123,7 @@ fn reach_goal(
     player_query: Query<(), With<Player>>,
     goal_query: Query<(), With<Goal>>,
     audio_assets: Res<AudioAssets>,
+    settings: Res<Settings>,
 ) {
     for &event in collision_event.read() {
         if let CollisionEvent::Started(e1, e2, _) = event
@@ -127,8 +132,8 @@ fn reach_goal(
         {
             reach_message.write(ReachedGoalMessage);
             commands.spawn((
-                AudioPlayer::new(audio_assets.goal.clone()),
-                PlaybackSettings::DESPAWN,
+                AudioPlayer(audio_assets.goal.clone()),
+                PlaybackSettings::DESPAWN.with_volume(Volume::Linear(settings.audio.se_volume)),
             ));
             println!("Player reached the goal!");
         }

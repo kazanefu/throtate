@@ -1,10 +1,14 @@
+pub mod bgm;
 pub mod break_sound;
 pub mod button;
 pub mod checkpoint;
 pub mod death;
 pub mod goal;
 pub mod warp;
+pub mod wind;
 
+use crate::settings::Settings;
+use bevy::audio::Volume;
 use bevy::prelude::*;
 use std::collections::HashMap;
 
@@ -23,7 +27,9 @@ pub struct AudioPlugin;
 
 impl Plugin for AudioPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(Startup, setup_audio_assets)
+        app.add_plugins(bgm::BgmPlugin)
+            .add_plugins(wind::WindSoundPlugin)
+            .add_systems(Startup, setup_audio_assets)
             .add_systems(Update, play_button_sounds);
     }
 }
@@ -50,6 +56,7 @@ type ButtonInteractionQuery<'w, 's> = Query<
 fn play_button_sounds(
     mut commands: Commands,
     audio_assets: Res<AudioAssets>,
+    settings: Res<Settings>,
     query: ButtonInteractionQuery,
     all_buttons: Query<(), With<button::ButtonSounds>>,
     mut previous_states: Local<HashMap<Entity, Interaction>>,
@@ -62,14 +69,14 @@ fn play_button_sounds(
         match (*interaction, prev) {
             (Interaction::Pressed, _) => {
                 commands.spawn((
-                    AudioPlayer::new(audio_assets.button_click.clone()),
-                    PlaybackSettings::DESPAWN,
+                    AudioPlayer(audio_assets.button_click.clone()),
+                    PlaybackSettings::DESPAWN.with_volume(Volume::Linear(settings.audio.se_volume)),
                 ));
             }
             (Interaction::Hovered, Interaction::None) => {
                 commands.spawn((
-                    AudioPlayer::new(audio_assets.button_select.clone()),
-                    PlaybackSettings::DESPAWN,
+                    AudioPlayer(audio_assets.button_select.clone()),
+                    PlaybackSettings::DESPAWN.with_volume(Volume::Linear(settings.audio.se_volume)),
                 ));
             }
             _ => {}
