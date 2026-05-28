@@ -80,10 +80,10 @@ fn update_wind_volume(
 
     // 速度と加速度に基づいて目標音量を計算
     // 速度の寄与: 速度が200以上で最大寄与0.6
-    let speed_contribution = (speed / 200.0).min(1.0) * 0.1;
+    let speed_contribution = (speed / 200.0).min(1.0) * 0.3;
 
     // 加速度の寄与: 加速度が1000以上で最大寄与0.4（減らして破裂音を防ぐ）
-    let accel_contribution = (acceleration / 1000.0).min(1.0) * 0.05;
+    let accel_contribution = (acceleration / 1000.0).min(1.0) * 0.2;
 
     // 合計音量（最大1.0）にSE音量設定を適用
     let target_volume =

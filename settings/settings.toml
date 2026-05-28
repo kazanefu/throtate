@@ -9,5 +9,5 @@ vsync = true
 light_background = true
 
 [audio]
-bgm_volume = 0.01
+bgm_volume = 0.1
 se_volume = 0.7
