@@ -42,8 +42,9 @@ pub fn breakable_box_bundle(
     )
 }
 
-
 use crate::audio::AudioAssets;
+use crate::settings::Settings;
+use bevy::audio::Volume;
 
 fn breakable_system(
     mut commands: Commands,
@@ -53,6 +54,7 @@ fn breakable_system(
     transform_query: Query<&Transform>,
     mut fire_break_effect: MessageWriter<FireBreakEffect>,
     audio_assets: Res<AudioAssets>,
+    settings: Res<Settings>,
 ) {
     for event in collision_events.read() {
         if let CollisionEvent::Started(e1, e2, _) = event {
@@ -81,8 +83,8 @@ fn breakable_system(
                     .translation;
                 fire_break_effect.write(FireBreakEffect(position));
                 commands.spawn((
-                    AudioPlayer::new(audio_assets.break_sound.clone()),
-                    PlaybackSettings::DESPAWN,
+                    AudioPlayer(audio_assets.break_sound.clone()),
+                    PlaybackSettings::DESPAWN.with_volume(Volume::Linear(settings.audio.se_volume)),
                 ));
                 commands.entity(break_entity).despawn();
             }

@@ -1,5 +1,6 @@
 use super::*;
 use crate::{state::GameState, utils::collision::get_contained_entity};
+use bevy::audio::Volume;
 pub struct WarpHolePlugin;
 
 impl Plugin for WarpHolePlugin {
@@ -62,6 +63,7 @@ fn handle_warp(
     player_check: Query<Entity, With<crate::playing::Player>>,
     mut hammer_action_writer: MessageWriter<crate::hammer::definition::HammerFreeMessage>,
     audio_assets: Res<crate::audio::AudioAssets>,
+    settings: Res<crate::settings::Settings>,
 ) {
     for &event in collision_events.read() {
         if let CollisionEvent::Started(e1, e2, _) = event {
@@ -100,8 +102,8 @@ fn handle_warp(
 
             // Play warp sound
             commands.spawn((
-                AudioPlayer::new(audio_assets.warp.clone()),
-                PlaybackSettings::DESPAWN,
+                AudioPlayer(audio_assets.warp.clone()),
+                PlaybackSettings::DESPAWN.with_volume(Volume::Linear(settings.audio.se_volume)),
             ));
 
             // Add cooldown to prevent immediate re-warping

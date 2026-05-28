@@ -11,7 +11,7 @@
 		(x: 600.0, y: 0.0, kind: Death),
 		(x: 600.0, y: -50.0, kind: Text(sentence: "死")),
 		(x: 700.0, y: 0.0, kind: Checkpoint(priority: 2)),
-		(x: 700.0, y: 200.0, kind: Text(sentence: "黄色いブロックは一定速度\n以上でぶつかると壊せる")),
+		(x: 700.0, y: 200.0, kind: Text(sentence: "ヒビのあるブロックは一定速度\n以上でぶつかると壊せる")),
 		(x: 900.0, y: 200.0, kind: Breakable(required_speed: 100.0)),
 		(x: 900.0, y: 150.0, kind: Breakable(required_speed: 100.0)),
 		(x: 900.0, y: 100.0, kind: Breakable(required_speed: 100.0)),

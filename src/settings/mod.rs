@@ -8,6 +8,7 @@ pub use load::get_settings;
 pub struct Settings {
     pub window: WindowSettings,
     pub graphics: GraphicsSettings,
+    pub audio: AudioSettings,
 }
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
@@ -34,4 +35,19 @@ impl Default for WindowSettings {
 #[derive(Default, Debug, Clone, Deserialize, Serialize)]
 pub struct GraphicsSettings {
     pub light_background: bool,
+}
+
+#[derive(Debug, Clone, Deserialize, Serialize)]
+pub struct AudioSettings {
+    pub bgm_volume: f32,
+    pub se_volume: f32,
+}
+
+impl Default for AudioSettings {
+    fn default() -> Self {
+        Self {
+            bgm_volume: 0.5,
+            se_volume: 0.7,
+        }
+    }
 }
