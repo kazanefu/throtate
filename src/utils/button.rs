@@ -39,7 +39,7 @@ impl UiScaleLinearInterpolation {
     }
 }
 
-use crate::audio::button::ButtonSounds;
+use crate::{audio::button::ButtonSounds, keyboard_button::KeyboardHovered};
 
 #[derive(Bundle)]
 pub struct SizeUpButtonBundle {
@@ -62,15 +62,23 @@ type SizeUpButtonInputs = (Changed<Interaction>, With<SizeUpButton>);
 
 fn update_button_target_scale(
     mut query: Query<
-        (&Interaction, &mut UiScaleLinearInterpolation, &SizeUpButton),
+        (
+            &Interaction,
+            &mut UiScaleLinearInterpolation,
+            &SizeUpButton,
+            Option<&KeyboardHovered>,
+        ),
         SizeUpButtonInputs,
     >,
 ) {
-    for (interaction, mut interpolation, sizeup) in &mut query {
+    for (interaction, mut interpolation, sizeup, keyboard_hovered) in &mut query {
         interpolation.target = match *interaction {
             Interaction::Hovered => Vec2::splat(sizeup.rate),
             _ => Vec2::ONE,
         };
+        if keyboard_hovered.is_some() {
+            interpolation.target = Vec2::splat(sizeup.rate);
+        }
     }
 }
 
