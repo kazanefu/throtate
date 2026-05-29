@@ -1,6 +1,7 @@
 use crate::button::SizeUpButtonBundle;
 use crate::course::CourseEntry;
 use crate::course_selection::resources::SelectedCourseID;
+use crate::keyboard_button::SelectableButton;
 use crate::{course::CourseListResource, state::GameState, *};
 use bevy::input::mouse::MouseWheel;
 use std::fmt::Write;
@@ -38,6 +39,7 @@ fn confirm_ui_bundle(font: &Handle<Font>) -> impl Bundle {
         ConfirmButton,
         SizeUpButtonBundle::new(1.1, 10.0),
         UiTransform::default(),
+        SelectableButton { id: 0 },
         Node {
             width: Val::Px(520.0),
             min_width: percent(30),
@@ -139,6 +141,9 @@ fn course_list_button_bundle(
         CourseListButton(course_entry.id),
         SizeUpButtonBundle::new(1.1, 10.0),
         UiTransform::default(),
+        SelectableButton {
+            id: course_entry.id + 1,
+        },
         Node {
             width: percent(100),
             min_height: Val::Px(64.0),

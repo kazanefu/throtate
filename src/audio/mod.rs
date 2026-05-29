@@ -7,6 +7,7 @@ pub mod goal;
 pub mod warp;
 pub mod wind;
 
+use crate::keyboard_button::KeyboardHovered;
 use crate::settings::Settings;
 use bevy::audio::Volume;
 use bevy::prelude::*;
@@ -49,7 +50,11 @@ fn setup_audio_assets(mut commands: Commands, asset_server: Res<AssetServer>) {
 type ButtonInteractionQuery<'w, 's> = Query<
     'w,
     's,
-    (Entity, &'static Interaction),
+    (
+        Entity,
+        &'static Interaction,
+        Option<&'static mut KeyboardHovered>,
+    ),
     (With<button::ButtonSounds>, Changed<Interaction>),
 >;
 
@@ -57,31 +62,48 @@ fn play_button_sounds(
     mut commands: Commands,
     audio_assets: Res<AudioAssets>,
     settings: Res<Settings>,
-    query: ButtonInteractionQuery,
+    mut query: ButtonInteractionQuery,
     all_buttons: Query<(), With<button::ButtonSounds>>,
     mut previous_states: Local<HashMap<Entity, Interaction>>,
 ) {
-    for (entity, interaction) in &query {
+    for (entity, interaction, keyboard_hovered) in &mut query {
         let prev = previous_states
             .get(&entity)
             .copied()
             .unwrap_or(Interaction::None);
+        let mut interaction_recoad = Interaction::None;
         match (*interaction, prev) {
             (Interaction::Pressed, _) => {
                 commands.spawn((
                     AudioPlayer(audio_assets.button_click.clone()),
                     PlaybackSettings::DESPAWN.with_volume(Volume::Linear(settings.audio.se_volume)),
                 ));
+                interaction_recoad = Interaction::Pressed;
             }
             (Interaction::Hovered, Interaction::None) => {
                 commands.spawn((
                     AudioPlayer(audio_assets.button_select.clone()),
                     PlaybackSettings::DESPAWN.with_volume(Volume::Linear(settings.audio.se_volume)),
                 ));
+                interaction_recoad = Interaction::Hovered;
+            }
+            (Interaction::Hovered, _) => {
+                interaction_recoad = Interaction::Hovered;
             }
             _ => {}
         }
-        previous_states.insert(entity, *interaction);
+        if let Some(mut hovered) = keyboard_hovered
+            && hovered.0
+            && prev == Interaction::None
+        {
+            commands.spawn((
+                AudioPlayer(audio_assets.button_select.clone()),
+                PlaybackSettings::DESPAWN.with_volume(Volume::Linear(settings.audio.se_volume)),
+            ));
+            interaction_recoad = Interaction::Hovered;
+            hovered.0 = false;
+        }
+        previous_states.insert(entity, interaction_recoad);
     }
 
     // Clean up despawned buttons to prevent memory leak
