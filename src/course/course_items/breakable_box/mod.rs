@@ -64,8 +64,39 @@ pub fn custom_breakable_bundle(
     )
 }
 
+pub fn death_breakable_bundle(
+    meshes: &mut Assets<Mesh>,
+    x: f32,
+    y: f32,
+    required_speed: f32,
+    width: Option<f32>,
+    height: Option<f32>,
+    box_size: f32,
+    rotation: Option<f32>,
+    course_materials: &CourseMaterials,
+) -> impl Bundle {
+    let mesh = meshes.add(Rectangle::new(
+        width.unwrap_or(box_size),
+        height.unwrap_or(box_size),
+    ));
+    (
+        Transform::from_xyz(x, y, 0.0)
+            .with_rotation(Quat::from_rotation_z(rotation.unwrap_or(0.0))),
+        Death,
+        Breakable::new(required_speed),
+        RigidBody::Fixed,
+        Collider::cuboid(
+            width.unwrap_or(box_size) / 2.0,
+            height.unwrap_or(box_size) / 2.0,
+        ),
+        Mesh2d(mesh),
+        MeshMaterial2d(course_materials.death_breakable_material.clone()),
+    )
+}
+
 use crate::audio::AudioAssets;
 use crate::course::CourseMaterials;
+use crate::course::course_items::death_box::Death;
 use crate::settings::Settings;
 use bevy::audio::Volume;
 

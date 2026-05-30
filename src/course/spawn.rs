@@ -85,6 +85,22 @@ fn spawn_course_from_entities<'a>(
             *rotation,
             course_materials,
         )),
+        EntityKind::DeathBreakable {
+            required_speed,
+            width,
+            height,
+            rotation,
+        } => commands.spawn(breakable_box::death_breakable_bundle(
+            meshes,
+            x,
+            y,
+            *required_speed,
+            *width,
+            *height,
+            box_size,
+            *rotation,
+            course_materials,
+        )),
         EntityKind::Death => commands.spawn(death_box::death_box_bundle(
             x,
             y,

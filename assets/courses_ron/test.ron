@@ -51,5 +51,6 @@
         (x: 250.0, y: 0.0, kind: WarpHole(pair_x: -300.0, pair_y: 0.0)),    // 水平双方向ワープ
 
         (x: 0.0, y: 500.0, kind: BreakableCustom(required_speed: 100.0, width: 100.0, height: 50.0, rotation: Some(1.0))),
+        (x: 0.0, y: 700.0, kind: DeathBreakable(required_speed: 40.0, width: Some(100.0), height: Some(100.0), rotation: Some(1.0))),
     ]
 )
