@@ -59,6 +59,7 @@ fn main() {
     bevy::asset::embedded_asset!(app, "shaders/buff_gravity_scale.wgsl");
     bevy::asset::embedded_asset!(app, "shaders/buff_restitution.wgsl");
     bevy::asset::embedded_asset!(app, "shaders/warp.wgsl");
+    bevy::asset::embedded_asset!(app, "shaders/death_breakable.wgsl");
 
     bevy::asset::embedded_asset!(app, "sounds/break.mp3");
     bevy::asset::embedded_asset!(app, "sounds/button_click.mp3");

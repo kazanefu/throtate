@@ -29,6 +29,7 @@ impl Plugin for CoursePlugin {
 pub struct CourseMaterials {
     pub breakable_mesh: Handle<Mesh>,
     pub breakable_material: Handle<crate::materials::BreakableMaterial>,
+    pub death_breakable_material: Handle<crate::materials::DeathBreakableMaterial>,
     pub checkpoint_mesh: Handle<Mesh>,
     pub checkpoint_material: Handle<crate::materials::CheckpointMaterial>,
     pub death_mesh: Handle<Mesh>,
@@ -83,6 +84,7 @@ struct CourseMaterialAssets<'w, 's> {
     turret_materials: ResMut<'w, Assets<crate::materials::TurretMaterial>>,
     bullet_materials: ResMut<'w, Assets<crate::materials::BulletMaterial>>,
     speedup_materials: ResMut<'w, Assets<crate::materials::SpeedupMaterial>>,
+    death_breakable_materials: ResMut<'w, Assets<crate::materials::DeathBreakableMaterial>>,
     _marker: std::marker::PhantomData<&'s ()>,
 }
 
@@ -97,6 +99,9 @@ fn setup_course_materials(
         breakable_material: assets
             .breakable_materials
             .add(crate::materials::BreakableMaterial::default()),
+        death_breakable_material: assets
+            .death_breakable_materials
+            .add(crate::materials::DeathBreakableMaterial::default()),
         checkpoint_mesh: assets.meshes.add(Rectangle::new(box_size, box_size)),
         checkpoint_material: assets
             .checkpoint_materials
@@ -225,6 +230,18 @@ pub enum EntityKind {
     },
     Breakable {
         required_speed: f32,
+    },
+    BreakableCustom {
+        required_speed: f32,
+        width: f32,
+        height: f32,
+        rotation: Option<f32>,
+    },
+    DeathBreakable {
+        required_speed: f32,
+        width: Option<f32>,
+        height: Option<f32>,
+        rotation: Option<f32>,
     },
     Death,
     DeathCustom {

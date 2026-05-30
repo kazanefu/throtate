@@ -70,6 +70,37 @@ fn spawn_course_from_entities<'a>(
         EntityKind::Breakable { required_speed } => commands.spawn(
             breakable_box::breakable_box_bundle(x, y, *required_speed, box_size, course_materials),
         ),
+        EntityKind::BreakableCustom {
+            required_speed,
+            width,
+            height,
+            rotation,
+        } => commands.spawn(breakable_box::custom_breakable_bundle(
+            meshes,
+            x,
+            y,
+            *required_speed,
+            *width,
+            *height,
+            *rotation,
+            course_materials,
+        )),
+        EntityKind::DeathBreakable {
+            required_speed,
+            width,
+            height,
+            rotation,
+        } => commands.spawn(breakable_box::death_breakable_bundle(
+            meshes,
+            x,
+            y,
+            *required_speed,
+            *width,
+            *height,
+            box_size,
+            *rotation,
+            course_materials,
+        )),
         EntityKind::Death => commands.spawn(death_box::death_box_bundle(
             x,
             y,

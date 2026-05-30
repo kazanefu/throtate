@@ -7,6 +7,7 @@ mod buff_spin_velocity;
 mod bullet;
 mod checkpoint;
 mod death;
+mod death_breakable;
 mod death_vignette;
 mod goal;
 mod meteor;
@@ -23,6 +24,7 @@ pub use buff_spin_velocity::BuffSpinVelocityMaterial;
 pub use bullet::BulletMaterial;
 pub use checkpoint::CheckpointMaterial;
 pub use death::DeathMaterial;
+pub use death_breakable::DeathBreakableMaterial;
 pub use goal::GoalMaterial;
 pub use meteor::MeteorMaterial;
 pub use speedup::SpeedupMaterial;
@@ -47,6 +49,7 @@ impl Plugin for CustomMaterialPlugin {
             .add_plugins(turret::TurretMaterialPlugin)
             .add_plugins(speedup::SpeedupMaterialPlugin)
             .add_plugins(bullet::BulletMaterialPlugin)
-            .add_plugins(warp::WarpMaterialPlugin);
+            .add_plugins(warp::WarpMaterialPlugin)
+            .add_plugins(death_breakable::DeathBreakableMaterialPlugin);
     }
 }
