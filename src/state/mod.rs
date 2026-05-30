@@ -1,4 +1,5 @@
 use bevy::prelude::*;
+pub mod app_exit;
 
 #[derive(Default, Clone, Copy, PartialEq, Eq, Hash, Debug, States)]
 pub enum GameState {
@@ -8,6 +9,7 @@ pub enum GameState {
     CourseSelection,
     Playing,
     Result,
+    Eixt,
 }
 
 #[derive(Clone, Copy, PartialEq, Eq, Hash, Debug, Default, States)]

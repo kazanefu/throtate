@@ -80,6 +80,7 @@ fn main() {
         .add_plugins(HanabiPlugin)
         .init_resource::<config::GameConfig>()
         .insert_resource(settings)
+        .add_plugins(state::app_exit::AppExitPlugin)
         .add_plugins(utils::UtilityPlugin)
         .init_state::<state::GameState>()
         .init_state::<state::RunningState>()

@@ -30,6 +30,7 @@ pub struct InputSetting {
     pub rr_spin: KeyBindings,
     pub next: KeyBindings,
     pub exit: KeyBindings,
+    pub app_exit: KeyBindings,
 }
 
 impl Default for InputSetting {
@@ -63,6 +64,7 @@ impl Default for InputSetting {
             ]),
             next: KeyBindings::new([Some(KeyCode::Enter), Some(KeyCode::Space), None, None]),
             exit: KeyBindings::new([Some(KeyCode::Escape), None, None, None]),
+            app_exit: KeyBindings::new([Some(KeyCode::Delete), None, None, None]),
         }
     }
 }
