@@ -2,7 +2,9 @@
     entities: [
         (x: 0.0, y: 200.0, kind: Text(sentence: "コース: 3-0")),
         (x: 50.0, y: 0.0, kind: Checkpoint(priority: 1)),
+        (x: 100.0, y: 50.0, kind: Text(sentence: "回転速度+100")),
         (x: 100.0, y: 0.0, kind: TimeLimitedBuff(buff: (life_time: 7200.0, channel: SpinVelocity, buff_type: Add, value: Some(100.0)))),
+        (x: 150.0, y: -50.0, kind: Text(sentence: "回転力+0.1")),
         (x: 150.0, y: 0.0, kind: TimeLimitedBuff(buff: (life_time: 7200.0, channel: SpinStiffness, buff_type: Add, value: Some(0.1)))),
         (x: -275.0, y: 0.0, kind: DeathCustom(width: 50.0, height: 550.0)),
         (x: 300.0, y: 300.0, kind: DeathCustom(width: 1200, height: 50.0)),
@@ -93,10 +95,12 @@
         (x: 2500.0, y: 50.0, kind: Death),
 
         (x: 1500.0, y: 0.0, kind: WarpHole(pair_x: 2100.0, pair_y: 0.0)),
+        (x: 2150.0, y: 50.0, kind: Text(sentence: "重力-11")),
         (x: 2150.0, y: 0.0, kind: TimeLimitedBuff(buff: (life_time: 7200.0, channel: GravityScale, buff_type: Add, value: Some(-11.0)))),
         (x: 2200.0, y: 0.0, kind: Checkpoint(priority: 6)),
 
         (x: 2400.0, y: 250.0, kind: WarpHole(pair_x: 2900.0, pair_y: 0.0)),
+        (x: 2950.0, y: 50.0, kind: Text(sentence: "重力+20")),
         (x: 2950.0, y: 0.0, kind: TimeLimitedBuff(buff: (life_time: 7200.0, channel: GravityScale, buff_type: Add, value: Some(20.0)))),
         (x: 3000.0, y: 0.0, kind: Checkpoint(priority: 7)),
 
@@ -108,6 +112,7 @@
         (x: 3300.0, y: 50.0, kind: Death),
 
         (x: 3200.0, y: 250.0, kind: WarpHole(pair_x: 3700.0, pair_y: 0.0)),
+        (x: 3750.0, y: 50.0, kind: Text(sentence: "重力-9")),
         (x: 3750.0, y: 0.0, kind: TimeLimitedBuff(buff: (life_time: 7200.0, channel: GravityScale, buff_type: Add, value: Some(-9.0)))),
         (x: 3800.0, y: 0.0, kind: Checkpoint(priority: 8)),
 
@@ -133,6 +138,7 @@
 
         (x: 6700.0, y: 300.0, kind:DeathCustom(width: 2850.0, height: 50.0)),
         (x: 6700.0, y: -300.0, kind:DeathCustom(width: 2850.0, height: 50.0)),
+        (x: 6000.0, y: 50.0, kind: Text(sentence: "重力-1")),
         (x: 6000.0, y: 0.0, kind: TimeLimitedBuff(buff: (life_time: 7200.0, channel: GravityScale, buff_type: Add, value: Some(-1.0)))),
         (x: 6050.0, y: 0.0, kind: SpeedUp(rate: 10.0)),
 
@@ -147,6 +153,7 @@
         (x: 8000.0, y: -150, kind: Ground(width: 50.0, height: 150.0)),
 
         (x: 8150.0, y: 0.0, kind: Checkpoint(priority: 10)),
+        (x: 8200.0, y: 50.0, kind: Text(sentence: "重力+1")),
         (x: 8200.0, y: 0.0, kind: TimeLimitedBuff(buff: (life_time: 7200.0, channel: GravityScale, buff_type: Add, value: Some(1.0)))),
 
         (x: 8600.0, y: 300.0, kind: DeathCustom(width: 950.0, height: 50.0)),
@@ -174,6 +181,8 @@
         (x: -500.0, y: 2050.0, kind: Ground(width: 50.0, height: 950.0)),
         (x: 0.0, y: 2500.0, kind: WarpHole(pair_x: 0.0, pair_y: 2700.0)),
         (x: 0.0, y: 2400.0, kind: Checkpoint(priority: 11)),
+        (x: 0.0, y: 1750.0, kind: Text(sentence: "回転速度-100")),
+        (x: 0.0, y: 1800.0, kind: Text(sentence: "回転力-0.1")),
         (x: 0.0, y: 1700.0, kind: TimeLimitedBuff(buff: (life_time: 7200.0, channel: SpinVelocity, buff_type: Add, value: Some(-100.0)))),
         (x: 0.0, y: 1750.0, kind: TimeLimitedBuff(buff: (life_time: 7200.0, channel: SpinStiffness, buff_type: Add, value: Some(-0.1)))),
 
