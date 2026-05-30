@@ -226,6 +226,12 @@ pub enum EntityKind {
     Breakable {
         required_speed: f32,
     },
+    BreakableCustom {
+        required_speed: f32,
+        width: f32,
+        height: f32,
+        rotation: Option<f32>,
+    },
     Death,
     DeathCustom {
         width: f32,

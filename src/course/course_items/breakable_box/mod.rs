@@ -42,7 +42,30 @@ pub fn breakable_box_bundle(
     )
 }
 
+pub fn custom_breakable_bundle(
+    meshes: &mut Assets<Mesh>,
+    x: f32,
+    y: f32,
+    required_speed: f32,
+    width: f32,
+    height: f32,
+    rotation: Option<f32>,
+    course_materials: &CourseMaterials,
+) -> impl Bundle {
+    let mesh = meshes.add(Rectangle::new(width, height));
+    (
+        Transform::from_xyz(x, y, 0.0)
+            .with_rotation(Quat::from_rotation_z(rotation.unwrap_or(0.0))),
+        Breakable::new(required_speed),
+        RigidBody::Fixed,
+        Collider::cuboid(width / 2.0, height / 2.0),
+        Mesh2d(mesh),
+        MeshMaterial2d(course_materials.breakable_material.clone()),
+    )
+}
+
 use crate::audio::AudioAssets;
+use crate::course::CourseMaterials;
 use crate::settings::Settings;
 use bevy::audio::Volume;
 
