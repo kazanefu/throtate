@@ -52,6 +52,7 @@ pub fn warp_portal_bundle(
     )
 }
 
+#[allow(clippy::too_many_arguments)]
 fn handle_warp(
     mut commands: Commands,
     mut collision_events: MessageReader<CollisionEvent>,

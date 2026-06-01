@@ -98,5 +98,5 @@ fn update_wind_volume(
     *current_volume += volume_change;
     *current_volume = current_volume.clamp(0.0, 1.0);
 
-    let _ = sink.set_volume(Volume::Linear(*current_volume));
+    sink.set_volume(Volume::Linear(*current_volume));
 }

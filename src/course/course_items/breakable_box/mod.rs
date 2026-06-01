@@ -46,12 +46,18 @@ pub fn custom_breakable_bundle(
     meshes: &mut Assets<Mesh>,
     x: f32,
     y: f32,
-    required_speed: f32,
-    width: f32,
-    height: f32,
-    rotation: Option<f32>,
+    params: &EntityKind,
     course_materials: &CourseMaterials,
 ) -> impl Bundle {
+    let &EntityKind::BreakableCustom {
+        required_speed,
+        width,
+        height,
+        rotation,
+    } = params
+    else {
+        unreachable!();
+    };
     let mesh = meshes.add(Rectangle::new(width, height));
     (
         Transform::from_xyz(x, y, 0.0)
@@ -68,13 +74,19 @@ pub fn death_breakable_bundle(
     meshes: &mut Assets<Mesh>,
     x: f32,
     y: f32,
-    required_speed: f32,
-    width: Option<f32>,
-    height: Option<f32>,
+    params: &EntityKind,
     box_size: f32,
-    rotation: Option<f32>,
     course_materials: &CourseMaterials,
 ) -> impl Bundle {
+    let &EntityKind::DeathBreakable {
+        required_speed,
+        width,
+        height,
+        rotation,
+    } = params
+    else {
+        unreachable!();
+    };
     let mesh = meshes.add(Rectangle::new(
         width.unwrap_or(box_size),
         height.unwrap_or(box_size),
@@ -95,11 +107,12 @@ pub fn death_breakable_bundle(
 }
 
 use crate::audio::AudioAssets;
-use crate::course::CourseMaterials;
 use crate::course::course_items::death_box::Death;
+use crate::course::{CourseMaterials, EntityKind};
 use crate::settings::Settings;
 use bevy::audio::Volume;
 
+#[allow(clippy::too_many_arguments)]
 fn breakable_system(
     mut commands: Commands,
     mut collision_events: MessageReader<CollisionEvent>,

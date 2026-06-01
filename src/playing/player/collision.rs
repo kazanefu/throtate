@@ -30,6 +30,7 @@ fn get_contained_entity<Q: QueryData, F: QueryFilter>(
     }
 }
 
+#[allow(clippy::too_many_arguments)]
 fn handle_death(
     mut commands: Commands,
     mut player_que: Query<
@@ -108,7 +109,8 @@ fn reach_checkpoint(
                     checkpoint_effect.write(FireCheckPointEffect(target_checkpoint.position));
                     commands.spawn((
                         AudioPlayer(audio_assets.checkpoint.clone()),
-                        PlaybackSettings::DESPAWN.with_volume(Volume::Linear(settings.audio.se_volume)),
+                        PlaybackSettings::DESPAWN
+                            .with_volume(Volume::Linear(settings.audio.se_volume)),
                     ));
                 }
             }
