@@ -172,6 +172,17 @@ fn spawn_course_from_entities<'a>(
             );
             commands.entity(entity_id)
         }
+        EntityKind::SpeedLimitedBuff { buff } => {
+            let entity_id = buff_with_speed::spawn_speed_limited_buffer(
+                commands,
+                x,
+                y,
+                *buff,
+                box_size,
+                course_materials,
+            );
+            commands.entity(entity_id)
+        }
         EntityKind::WarpHole { pair_x, pair_y } => {
             // Spawn first portal at (x, y) that warps to (pair_x, pair_y)
             commands.spawn(warp_hole::warp_portal_bundle(

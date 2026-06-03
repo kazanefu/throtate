@@ -19,6 +19,7 @@ impl Plugin for CoursePlugin {
             .add_plugins(course_items::spin_veladd_time::SpinVelAddTimePlugin)
             .add_plugins(course_items::buff_with_time::TimeLimitedBuffPlugin)
             .add_plugins(course_items::warp_hole::WarpHolePlugin)
+            .add_plugins(course_items::buff_with_speed::SpeedLimitedBuffPlugin)
             .add_message::<SpawnCourseMessage>() //init_courses_list_resource)
             .add_systems(Startup, setup_course_materials)
             .add_systems(Update, spawn_course_from_id);
@@ -288,6 +289,9 @@ pub enum EntityKind {
     WarpHole {
         pair_x: f32,
         pair_y: f32,
+    },
+    SpeedLimitedBuff {
+        buff: course_items::buff_with_speed::SpeedLimitedBuffer,
     },
 }
 
