@@ -7,6 +7,7 @@
         (id: 4, name: "1-0", path: "course_1_0.ron"),
         (id: 5, name: "2-0", path: "course_2_0.ron"),
         (id: 6, name: "3-0", path: "course_3_0.ron"),
+        (id: 7, name: "4-0", path: "course_4_0.ron"),
         // (id: 100, name: "テスト", path: "test.ron"),
     ]
 )

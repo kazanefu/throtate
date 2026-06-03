@@ -97,6 +97,7 @@ pub fn death_breakable_bundle(
         Death,
         Breakable::new(required_speed),
         RigidBody::Fixed,
+        ActiveEvents::COLLISION_EVENTS,
         Collider::cuboid(
             width.unwrap_or(box_size) / 2.0,
             height.unwrap_or(box_size) / 2.0,
