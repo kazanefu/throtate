@@ -122,6 +122,7 @@ fn spawn_course_from_entities<'a>(
             interval,
             rotation,
             bullet_lifetime,
+            rock_on,
         } => turret::spawn_turret(
             commands,
             turret::TurretSpawnParams {
@@ -131,6 +132,7 @@ fn spawn_course_from_entities<'a>(
                 rotation: *rotation,
                 bullet_lifetime: *bullet_lifetime,
                 box_size,
+                rock_on: rock_on.unwrap_or(false),
                 course_materials,
             },
         ),

@@ -1,7 +1,7 @@
 (
     entities: [
         (x: 0.0, y: -80.0, kind: Ground(width: 10000.0, height: 100.0)),
-        (x: 0.0, y: 100.0, kind: Turret(interval: 2.0, rotation: 10.0)),
+        (x: 0.0, y: 100.0, kind: Turret(interval: 2.0, rotation: 10.0, rock_on: Some(true))),
         (x: 500.0, y: 0.0, kind: Goal),
         (x: -100.0, y: 100.0, kind: Death),
         (x: 100.0, y: 100.0, kind: Checkpoint(priority: 1)),

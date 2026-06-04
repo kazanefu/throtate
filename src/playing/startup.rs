@@ -3,6 +3,7 @@ use crate::course::{CourseID, SpawnCourseMessage};
 use crate::course_selection::resources::SelectedCourseID;
 use crate::hammer::definition::{ChangeHandleDirection, HandleDirection, Pivot};
 use crate::hammer::spawn_hammer;
+use crate::look_at::LookAtTarget;
 use crate::materials::MeteorMaterial;
 use crate::state::GameState;
 use bevy_rapier2d::prelude::*;
@@ -65,6 +66,7 @@ fn spawn_player(
     .insert(TargetCheckPoint::default())
     .insert(ActiveEvents::COLLISION_EVENTS)
     .insert(DespawnOnExit(GameState::Playing))
+    .insert(LookAtTarget)
     .id();
     handle_direction_message.write(ChangeHandleDirection(HandleDirection::LeftLeft));
     commands.spawn(main_camera_bundle(player_entity));

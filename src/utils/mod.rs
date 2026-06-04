@@ -2,6 +2,7 @@ pub mod button;
 pub mod chaser;
 pub mod collision;
 pub mod keyboard_button;
+pub mod look_at;
 use crate::state::RunningState;
 use bevy::prelude::*;
 pub const FONT_PATH: &str = "embedded://throtate/fonts/NotoSansJP-Bold.ttf";
@@ -21,6 +22,7 @@ impl Plugin for UtilityPlugin {
             .add_plugins(button::ButtonPlugin)
             .add_plugins(chaser::ChaserPlugin)
             .add_plugins(keyboard_button::KeyboardButtonPlugin)
+            .add_plugins(look_at::LookAtPlugin)
             .add_systems(
                 Update,
                 (
