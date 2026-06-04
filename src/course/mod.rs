@@ -228,6 +228,7 @@ pub enum EntityKind {
         interval: f32,
         rotation: f32,
         bullet_lifetime: Option<f32>,
+        rock_on: Option<bool>,
     },
     Breakable {
         required_speed: f32,

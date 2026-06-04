@@ -2,19 +2,50 @@ use bevy::ecs::system::EntityCommands;
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
 
+use crate::look_at::LookAt;
+use crate::playing::Player;
+
 pub mod bullet;
 
 pub struct TurretPlugin;
 
 impl Plugin for TurretPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(Update, (bullet::tick_bullets, turret_shot).chain());
+        app.add_systems(
+            Update,
+            (set_target, bullet::tick_bullets, turret_shot).chain(),
+        );
     }
 }
 
 #[derive(Component)]
 pub struct Turret {
     pub bullet_lifetime: f32,
+}
+
+#[derive(Component, Default)]
+struct PlayerRockOn(bool);
+
+#[derive(Bundle, Default)]
+struct LookAtPlayerBundle {
+    look_at: LookAt,
+    rock_on: PlayerRockOn,
+}
+
+fn set_target(
+    mut que: Query<(&mut LookAt, &PlayerRockOn)>,
+    target_que: Query<Entity, With<Player>>,
+) {
+    let Ok(target_entity) = target_que.single() else {
+        return;
+    };
+    for mut look_at in que
+        .iter_mut()
+        .filter(|(_, PlayerRockOn(is_set))| !is_set)
+        .map(|(look_at, _)| look_at)
+    {
+        look_at.target = Some(target_entity);
+    }
 }
 
 #[derive(Component)]
@@ -34,6 +65,7 @@ pub struct TurretSpawnParams<'a> {
     pub bullet_lifetime: Option<f32>,
     pub box_size: f32,
     pub course_materials: &'a crate::course::CourseMaterials,
+    pub rock_on: bool,
 }
 
 pub fn spawn_turret<'a, 'b>(
@@ -51,7 +83,7 @@ pub fn spawn_turret<'a, 'b>(
         ));
     }
 
-    commands.spawn((
+    let mut entity_commands = commands.spawn((
         Transform {
             translation: Vec3::new(params.x, params.y, 0.0),
             rotation: Quat::from_rotation_z(params.rotation),
@@ -70,7 +102,11 @@ pub fn spawn_turret<'a, 'b>(
         Collider::cuboid(params.box_size / 2.0, params.box_size / 2.0),
         Mesh2d(params.course_materials.turret_mesh.clone()),
         MeshMaterial2d(params.course_materials.turret_material.clone()),
-    ))
+    ));
+    if params.rock_on {
+        entity_commands.insert(LookAtPlayerBundle::default());
+    }
+    entity_commands
 }
 
 fn turret_shot(
