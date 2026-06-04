@@ -3,44 +3,44 @@
         (x: 0.0, y: 200.0, kind: Text(sentence: "コース: 4-0")),
         (x: 50.0, y: 0.0, kind: Checkpoint(priority: 1)),
 
-        (x: 5000.0, y: -325.0, kind: Ground(width: 11000.0, height: 100.0)), // 地面
-        (x: -300.0, y: 0.0, kind: Ground(width: 50.0, height: 600.0)), // 後ろの壁
-        (x: 5000.0, y: 325.0, kind: Ground(width: 11000.0, height: 100.0)), // 天井
+        (x: 2500.0, y: -325.0, kind: DeathCustom(width: 5600.0, height: 100.0)), // 地面
+        (x: -325.0, y: 0.0, kind: DeathCustom(width: 50.0, height: 750.0)), // 後ろの壁
+        (x: 2500.0, y: 325.0, kind: DeathCustom(width: 5600.0, height: 100.0)), // 天井
 
-        (x: 100.0, y: 0.0, kind: TimeLimitedBuff(buff: (life_time: 72000.0, channel: SpinStiffness, buff_type: Add, value: Some(0.5)))),
-        (x: 150.0, y: 0.0, kind: Dynamic(gravity_scale: Some(0.0), restitution_coefficient: Some(1.0))),
 
-        (x: 400.0, y: 0.0, kind: DeathBreakable(required_speed: 20.0)),
-        (x: 400.0, y: 100.0, kind: DeathBreakable(required_speed: 20.0)),
+        (x: 100.0, y: 100.0, kind: Text(sentence: "スピード200-300の範囲で回転力+0.5")),
+        (x: 100.0, y: 0.0, kind: SpeedLimitedBuff(buff: (max_speed: 300.0, min_speed: 200.0, channel: SpinStiffness, buff_type: Add, value: Some(0.5)))),
+        (x: 150.0, y: 0.0, kind: Dynamic(gravity_scale: Some(0.0), restitution_coefficient: Some(1.0), density_scale: Some(0.001))),
+
+
         (x: 400.0, y: -100.0, kind: DeathBreakable(required_speed: 20.0)),
-        (x: 400.0, y: 200.0, kind: DeathBreakable(required_speed: 20.0)),
         (x: 400.0, y: -200.0, kind: DeathBreakable(required_speed: 20.0)),
 
-        (x: 450.0, y: 50.0, kind: DeathBreakable(required_speed: 20.0)),
         (x: 450.0, y: -50.0, kind: DeathBreakable(required_speed: 20.0)),
-        (x: 450.0, y: 150.0, kind: DeathBreakable(required_speed: 20.0)),
         (x: 450.0, y: -150.0, kind: DeathBreakable(required_speed: 20.0)),
-        (x: 450.0, y: 250.0, kind: DeathBreakable(required_speed: 20.0)),
         (x: 450.0, y: -250.0, kind: DeathBreakable(required_speed: 20.0)),
 
-        (x: 500.0, y: 0.0, kind: DeathBreakable(required_speed: 20.0)),
-        (x: 500.0, y: 100.0, kind: DeathBreakable(required_speed: 20.0)),
         (x: 500.0, y: -100.0, kind: DeathBreakable(required_speed: 20.0)),
-        (x: 500.0, y: 200.0, kind: DeathBreakable(required_speed: 20.0)),
         (x: 500.0, y: -200.0, kind: DeathBreakable(required_speed: 20.0)),
 
-        (x: 550.0, y: 50.0, kind: DeathBreakable(required_speed: 20.0)),
         (x: 550.0, y: -50.0, kind: DeathBreakable(required_speed: 20.0)),
-        (x: 550.0, y: 150.0, kind: DeathBreakable(required_speed: 20.0)),
         (x: 550.0, y: -150.0, kind: DeathBreakable(required_speed: 20.0)),
-        (x: 550.0, y: 250.0, kind: DeathBreakable(required_speed: 20.0)),
         (x: 550.0, y: -250.0, kind: DeathBreakable(required_speed: 20.0)),
 
-        (x: 600.0, y: 0.0, kind: DeathBreakable(required_speed: 20.0)),
-        (x: 600.0, y: 100.0, kind: DeathBreakable(required_speed: 20.0)),
         (x: 600.0, y: -100.0, kind: DeathBreakable(required_speed: 20.0)),
-        (x: 600.0, y: 200.0, kind: DeathBreakable(required_speed: 20.0)),
         (x: 600.0, y: -200.0, kind: DeathBreakable(required_speed: 20.0)),
+
+        (x: 700.0, y: 50.0, kind: DeathCustom(width: 50.0, height: 450.0)),
+        (x: 750.0, y: -150.0, kind: WarpHole(pair_x: 750.0, pair_y: 150.0)),
+        (x: 800.0, y: -50.0, kind: DeathCustom(width: 50.0, height: 450.0)),
+        (x: 950.0, y: 100.0, kind: DeathCustom(width: 250.0, height: 50.0)),
+        (x: 1200.0, y: 50.0, kind: DeathCustom(width: 50.0, height: 450.0)),
+        (x: 1050.0, y: 50.0, kind: DeathCustom(width: 250.0, height: 50.0)),
+        (x: 1100.0, y: 100.0, kind: WarpHole(pair_x: 900.0, pair_y: 50.0)),
+        (x: 950.0, y: -150.0, kind: DeathCustom(width: 250.0, height: 50.0)),
+
+        (x: 1300.0, y: 0.0, kind: Checkpoint(priority: 2)),
+
 
     ],
 )
