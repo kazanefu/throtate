@@ -2,6 +2,7 @@
     entities: [
         (x: 0.0, y: 200.0, kind: Text(sentence: "コース: 4-0")),
         (x: 50.0, y: 0.0, kind: Checkpoint(priority: 1)),
+        // (x: 200.0, y: 0.0, kind: WarpHole(pair_x: 4500.0, pair_y: 0.0)),
 
         (x: 2500.0, y: -325.0, kind: DeathCustom(width: 5600.0, height: 100.0)), // 地面
         (x: -325.0, y: 0.0, kind: DeathCustom(width: 50.0, height: 750.0)), // 後ろの壁
@@ -41,6 +42,41 @@
 
         (x: 1300.0, y: 0.0, kind: Checkpoint(priority: 2)),
 
+        (x: 1500.0, y: 0.0, kind: DeathCustom(width: 50.0, height: 350.0)),
+        (x: 1600.0, y: 0.0, kind: Turret(interval: 2.0, rotation: 0.0, rock_on: Some(true), bullet_lifetime: Some(0.5))),
 
+        (x: 1750.0, y: -150.0, kind: DeathCustom(width: 450.0, height: 50.0)),
+        (x: 1875.0, y: -100.0, kind: DeathBreakable(required_speed: 100.0, width: Some(400.0))),
+
+        (x: 2100.0, y: 75.0, kind: DeathCustom(width: 50.0, height: 400.0)),
+        (x: 1950.0, y: -225.0, kind: DeathCustom(width: 50.0, height: 100.0)),
+
+        (x: 2200.0, y: -200.0, kind: Checkpoint(priority: 3)),
+
+        (x: 2300.0, y: 175.0, kind: DeathCustom(width: 50.0, height: 175.0)),
+        (x: 2300.0, y: -75.0, kind: DeathCustom(width: 50.0, height: 175.0)),
+        (x: 2450.0, y: 150.0, kind: DeathCustom(width: 50.0, height: 250.0)),
+        (x: 2550.0, y: -150.0, kind: DeathCustom(width: 450.0, height: 50.0)),
+        (x: 2800.0, y: 0.0, kind: DeathCustom(width: 50.0, height: 550.0)),
+        (x: 2250.0, y: 50.0, kind: WarpHole(pair_x: 2750.0, pair_y: -50.0)),
+        (x: 2375.0, y: 50.0, kind: Breakable(required_speed: 300.0)),
+        (x: 2375.0, y: 200.0, kind: WarpHole(pair_x: 2950.0, pair_y: 0.0)),
+
+        (x: 3000.0, y: 0.0, kind: Checkpoint(priority: 4)),
+
+        (x: 3300.0, y: 0.0, kind: Turret(interval: 4.0, rotation: 0.0, rock_on: Some(true), bullet_lifetime: Some(0.5))),
+        (x: 3400.0, y: 200.0, kind: Turret(interval: 4.0, rotation: 0.0, rock_on: Some(true), bullet_lifetime: Some(0.5))),
+        (x: 3400.0, y: -200.0, kind: Turret(interval: 4.0, rotation: 0.0, rock_on: Some(true), bullet_lifetime: Some(0.5))),
+        (x: 3500.0, y: 0.0, kind: Turret(interval: 4.0, rotation: 0.0, rock_on: Some(true), bullet_lifetime: Some(0.5))),
+        (x: 3600.0, y: 200.0, kind: Turret(interval: 4.0, rotation: 0.0, rock_on: Some(true), bullet_lifetime: Some(0.5))),
+        (x: 3600.0, y: -200.0, kind: Turret(interval: 4.0, rotation: 0.0, rock_on: Some(true), bullet_lifetime: Some(0.5))),
+
+        (x: 3750.0, y: 0.0, kind: WarpHole(pair_x: 3950.0, pair_y: 0.0)),
+        (x: 3800.0, y: 0.0, kind: DeathCustom(width: 50.0, height: 550.0)),
+
+        (x: 4000.0, y: 0.0, kind: Checkpoint(priority: 5)),
+
+        (x: 5000.0,y: 0.0, kind: Goal),
+        (x: 5275.0, y: 0.0, kind: DeathCustom(width: 50.0, height: 550.0)),
     ],
 )
