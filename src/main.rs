@@ -84,6 +84,7 @@ fn main() {
         .add_plugins(state::app_exit::AppExitPlugin)
         .add_plugins(utils::UtilityPlugin)
         .init_state::<state::GameState>()
+        .init_state::<state::InputMode>()
         .init_state::<state::RunningState>()
         .add_plugins(course::CoursePlugin)
         .add_plugins(hammer::HammerPlugin)

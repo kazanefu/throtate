@@ -18,6 +18,15 @@ impl KeyBindings {
             .flatten()
             .any(|&key| input.just_pressed(key))
     }
+    pub fn just_released(&self, input: &ButtonInput<KeyCode>) -> bool {
+        self.keys
+            .iter()
+            .flatten()
+            .any(|&key| input.just_released(key))
+    }
+    pub fn pressed(&self, input: &ButtonInput<KeyCode>) -> bool {
+        self.keys.iter().flatten().any(|&key| input.pressed(key))
+    }
 }
 
 #[derive(Clone, Copy)]
@@ -31,6 +40,7 @@ pub struct InputSetting {
     pub next: KeyBindings,
     pub exit: KeyBindings,
     pub app_exit: KeyBindings,
+    pub switch_input_mode: KeyBindings,
 }
 
 impl Default for InputSetting {
@@ -65,6 +75,7 @@ impl Default for InputSetting {
             next: KeyBindings::new([Some(KeyCode::Enter), Some(KeyCode::Space), None, None]),
             exit: KeyBindings::new([Some(KeyCode::Escape), None, None, None]),
             app_exit: KeyBindings::new([Some(KeyCode::Delete), None, None, None]),
+            switch_input_mode: KeyBindings::new([Some(KeyCode::KeyM), None, None, None]),
         }
     }
 }

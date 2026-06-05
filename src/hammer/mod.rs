@@ -4,7 +4,11 @@ pub mod definition;
 mod status;
 mod systems;
 mod trail_effect;
-use crate::{hammer::status::BuffCounter, materials::MeteorMaterial, state::RunningState};
+use crate::{
+    hammer::status::BuffCounter,
+    materials::MeteorMaterial,
+    state::{InputMode, RunningState},
+};
 use definition::*;
 #[allow(unused)]
 pub use status::{Buff, BuffStatusChannel, BuffType, FinalStatus};
@@ -32,15 +36,15 @@ impl Plugin for HammerPlugin {
             .add_systems(
                 Update,
                 (
-                    handle_hammer_input,
+                    handle_hammer_input_switch.run_if(in_state(InputMode::Switch)),
+                    handle_hammer_input_hold.run_if(in_state(InputMode::Hold)),
                     status::added_buff,
                     status::init_base_status,
                     status::apply_buff,
                     apply_gravity_status,
                     apply_restitution_status,
-                    update_hammer,
+                    (change_handle_direction, update_hammer).chain(),
                     free_hammer,
-                    change_handle_direction,
                     pivot_texture,
                     trail_effect::attach_trail_effect,
                     fix_hammer_z,
