@@ -1,5 +1,8 @@
 use bevy::prelude::*;
 pub mod app_exit;
+mod input_mode;
+
+pub use input_mode::InputMode;
 
 #[derive(Default, Clone, Copy, PartialEq, Eq, Hash, Debug, States)]
 pub enum GameState {

@@ -67,7 +67,7 @@ pub fn free_hammer(
     }
 }
 
-pub fn handle_hammer_input(
+pub fn handle_hammer_input_switch(
     keys: Res<ButtonInput<KeyCode>>,
     mut hammer_action_writer: MessageWriter<HammerActionMessage>,
     mut handle_direction_writer: MessageWriter<ChangeHandleDirection>,
@@ -89,6 +89,73 @@ pub fn handle_hammer_input(
         handle_direction_writer.write(ChangeHandleDirection(HandleDirection::RightLeft));
     }
 }
+
+pub fn handle_hammer_input_hold(
+    keys: Res<ButtonInput<KeyCode>>,
+    mut hammer_action_writer: MessageWriter<HammerActionMessage>,
+    mut handle_direction_writer: MessageWriter<ChangeHandleDirection>,
+    hammer_que: Query<&Hammer>,
+    config: Res<GameConfig>,
+) {
+    for hammer in &hammer_que {
+        let is_released_any_arrow_keys = config.input.ll_spin.just_released(&keys)
+            || config.input.lr_spin.just_released(&keys)
+            || config.input.rl_spin.just_released(&keys)
+            || config.input.rr_spin.just_released(&keys);
+        let is_pressed_any_arrow_keys = config.input.ll_spin.pressed(&keys)
+            || config.input.lr_spin.pressed(&keys)
+            || config.input.rl_spin.pressed(&keys)
+            || config.input.rr_spin.pressed(&keys);
+
+        let pressed_count = config.input.ll_spin.pressed(&keys) as u8
+            + config.input.lr_spin.pressed(&keys) as u8
+            + config.input.rl_spin.pressed(&keys) as u8
+            + config.input.rr_spin.pressed(&keys) as u8;
+
+        let just_pressed_count = config.input.ll_spin.just_pressed(&keys) as u8
+            + config.input.lr_spin.just_pressed(&keys) as u8
+            + config.input.rl_spin.just_pressed(&keys) as u8
+            + config.input.rr_spin.just_pressed(&keys) as u8;
+
+        if config.input.ll_spin.just_pressed(&keys) {
+            handle_direction_writer.write(ChangeHandleDirection(HandleDirection::LeftLeft));
+        }
+        if config.input.rr_spin.just_pressed(&keys) {
+            handle_direction_writer.write(ChangeHandleDirection(HandleDirection::RightRight));
+        }
+        if config.input.lr_spin.just_pressed(&keys) {
+            handle_direction_writer.write(ChangeHandleDirection(HandleDirection::LeftRight));
+        }
+        if config.input.rl_spin.just_pressed(&keys) {
+            handle_direction_writer.write(ChangeHandleDirection(HandleDirection::RightLeft));
+        }
+        match (
+            is_pressed_any_arrow_keys,
+            is_released_any_arrow_keys,
+            pressed_count == just_pressed_count && just_pressed_count > 0,
+            hammer.state,
+        ) {
+            (true, true, _, HammerState::Spinning) => {
+                hammer_action_writer.write(HammerActionMessage);
+                hammer_action_writer.write(HammerActionMessage);
+            }
+            (true, true, _, HammerState::Flying) => {
+                hammer_action_writer.write(HammerActionMessage);
+            }
+            (false, true, _, HammerState::Spinning) => {
+                hammer_action_writer.write(HammerActionMessage);
+            }
+            (true, false, _, HammerState::Flying) => {
+                hammer_action_writer.write(HammerActionMessage);
+            }
+            (_, _, true, HammerState::Flying) => {
+                hammer_action_writer.write(HammerActionMessage);
+            }
+            _ => {}
+        }
+    }
+}
+
 pub fn change_handle_direction(
     mut hammer_query: Query<&mut Hammer>,
     mut change_detection_message: MessageReader<ChangeHandleDirection>,
