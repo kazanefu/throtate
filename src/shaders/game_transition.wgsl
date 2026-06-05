@@ -2,8 +2,9 @@
 
 struct TransitionUniform {
     base_color : vec4<f32>,
+    quad_center : vec2<f32>,
     progress : f32,
-    _padding : vec3<f32>,
+    _padding : f32,
 };
 
 @group(2) @binding(0)
@@ -31,17 +32,15 @@ fn fragment(
     in: VertexOutput
 ) -> @location(0) vec4<f32> {
 
-    if (
-        material.progress > 100.0
-    ) {
+    if (material.progress > 100.0) {
         discard;
     }
 
-    // Rectangle(10000,10000)
-    // world_position が
-    // -5000～5000
     let uv =
-        in.world_position.xy
+        (
+            in.world_position.xy
+            - material.quad_center
+        )
         / 10000.0
         + vec2<f32>(0.5);
 
@@ -104,9 +103,7 @@ fn fragment(
                 * shrink_speed,
             );
 
-        if (
-            size <= 0.0
-        ) {
+        if (size <= 0.0) {
             continue;
         }
 

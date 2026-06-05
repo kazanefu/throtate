@@ -3,7 +3,6 @@ use bevy::render::render_resource::*;
 use bevy::shader::ShaderRef;
 use bevy::sprite_render::{AlphaMode2d, Material2d, Material2dPlugin};
 
-use crate::chaser::MainCameraChaser;
 use crate::state::GameState;
 
 pub struct TransitionMaterialPlugin;
@@ -14,6 +13,10 @@ impl Plugin for TransitionMaterialPlugin {
             .add_systems(Startup, setup)
             .add_systems(OnEnter(GameState::Playing), start_playing_transition)
             .add_systems(OnEnter(GameState::Result), start_result_transition)
+            .add_systems(
+                OnEnter(GameState::CourseSelection),
+                start_course_selection_transition,
+            )
             .add_systems(Update, update_transition);
     }
 }
@@ -21,8 +24,9 @@ impl Plugin for TransitionMaterialPlugin {
 #[derive(ShaderType, Clone, Debug)]
 struct TransitionUniform {
     base_color: Vec4,
+    quad_center: Vec2,
     progress: f32,
-    _padding: Vec3,
+    _padding: f32,
 }
 
 #[derive(Asset, TypePath, AsBindGroup, Debug, Clone)]
@@ -36,8 +40,9 @@ impl TransitionMaterial {
         Self {
             params: TransitionUniform {
                 base_color: color.to_linear().to_vec4(),
+                quad_center: Vec2::ZERO,
                 progress: 999.0,
-                _padding: Vec3::ZERO,
+                _padding: 0.0,
             },
         }
     }
@@ -80,7 +85,6 @@ fn setup(
         Mesh2d(meshes.add(Rectangle::new(10000.0, 10000.0))),
         MeshMaterial2d(material),
         Transform::from_xyz(0.0, 0.0, 100.0),
-        MainCameraChaser,
         GameTransitionEffect,
     ));
 }
@@ -109,11 +113,22 @@ fn start_result_transition(mut commands: Commands) {
     );
 }
 
+fn start_course_selection_transition(mut commands: Commands) {
+    start_transition(
+        &mut commands,
+        Color::srgb(1.0, 1.0, 0.0),
+        TransitionDirection::Expand,
+    );
+}
+
 fn update_transition(
     mut commands: Commands,
     time: Res<Time>,
     transition: Option<ResMut<TransitionState>>,
-    effect_query: Query<&MeshMaterial2d<TransitionMaterial>, With<GameTransitionEffect>>,
+    effect_query: Query<
+        (&MeshMaterial2d<TransitionMaterial>, &GlobalTransform),
+        With<GameTransitionEffect>,
+    >,
     mut materials: ResMut<Assets<TransitionMaterial>>,
 ) {
     let Some(mut transition) = transition else {
@@ -129,16 +144,16 @@ fn update_transition(
         TransitionDirection::Expand => 1.0 - fraction,
     };
 
-    for handle in &effect_query {
+    for (handle, transform) in &effect_query {
         if let Some(mat) = materials.get_mut(handle) {
             mat.params.progress = progress;
-
             mat.params.base_color = transition.color.to_linear().to_vec4();
+            mat.params.quad_center = transform.translation().truncate();
         }
     }
 
     if transition.timer.is_finished() {
-        for handle in &effect_query {
+        for (handle, _) in &effect_query {
             if let Some(mat) = materials.get_mut(handle) {
                 mat.params.progress = 999.0;
             }
