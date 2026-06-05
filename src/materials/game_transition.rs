@@ -13,10 +13,10 @@ impl Plugin for TransitionMaterialPlugin {
             .add_systems(Startup, setup)
             .add_systems(OnEnter(GameState::Playing), start_playing_transition)
             .add_systems(OnEnter(GameState::Result), start_result_transition)
-            .add_systems(
-                OnEnter(GameState::CourseSelection),
-                start_course_selection_transition,
-            )
+            // .add_systems(
+            //     OnEnter(GameState::CourseSelection),
+            //     start_course_selection_transition,
+            // )
             .add_systems(Update, update_transition);
     }
 }
@@ -64,6 +64,7 @@ struct GameTransitionEffect;
 #[derive(Clone, Copy)]
 enum TransitionDirection {
     Shrink,
+    #[allow(dead_code)]
     Expand,
 }
 
@@ -113,6 +114,7 @@ fn start_result_transition(mut commands: Commands) {
     );
 }
 
+#[allow(dead_code)]
 fn start_course_selection_transition(mut commands: Commands) {
     start_transition(
         &mut commands,
