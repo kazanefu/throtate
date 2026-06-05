@@ -9,6 +9,7 @@ mod checkpoint;
 mod death;
 mod death_breakable;
 mod death_vignette;
+mod game_transition;
 mod goal;
 mod meteor;
 mod space_background;
@@ -50,6 +51,7 @@ impl Plugin for CustomMaterialPlugin {
             .add_plugins(speedup::SpeedupMaterialPlugin)
             .add_plugins(bullet::BulletMaterialPlugin)
             .add_plugins(warp::WarpMaterialPlugin)
+            .add_plugins(game_transition::TransitionMaterialPlugin)
             .add_plugins(death_breakable::DeathBreakableMaterialPlugin);
     }
 }
