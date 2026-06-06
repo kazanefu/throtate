@@ -1,12 +1,12 @@
 {
   "latest": {
-    "version": "0.1.14",
+    "version": "0.1.15",
     "assets": [
       {
         "name": "Throtate",
-        "url": "https://github.com/kazanefu/throtate/releases/download/v0.1.14/throtate.zip",
+        "url": "https://github.com/kazanefu/throtate/releases/download/v0.1.15/throtate.zip",
         "type": "zip",
-        "sha256": "sha256:2c6dbafad4974a9c795bec734375d3ce55186dc0ff87eea7fa0eb3e5aa8e1ad9",
+        "sha256": "sha256:afaf5f611a4a027792dc85e3634b9c481ccbeda7c06e684a4fb9aa740419f895",
         "entry_point": "throtate.exe"
       }
     ],
