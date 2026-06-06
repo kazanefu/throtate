@@ -9,23 +9,30 @@ pub struct SelectionUiPlugin;
 
 impl Plugin for SelectionUiPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(OnEnter(GameState::CourseSelection), spawn_selection_ui)
-            .add_systems(
-                Update,
-                (
-                    scroll_system,
-                    update_course_list_buttons,
-                    update_confirm_button_text,
-                    update_confirm_button,
-                )
-                    .run_if(in_state(GameState::CourseSelection)),
-            );
+        app.add_systems(
+            OnEnter(GameState::CourseSelection),
+            (spawn_selection_ui, setup_course_id),
+        )
+        .add_systems(
+            Update,
+            (
+                scroll_system,
+                update_course_list_buttons,
+                update_confirm_button_text,
+                update_confirm_button,
+            )
+                .run_if(in_state(GameState::CourseSelection)),
+        );
     }
 }
 
 const SELECTION_EXPLANATION: &str = r#"
 プレイするコースを選択してください
 "#;
+
+fn setup_course_id(mut selected_id: ResMut<SelectedCourseID>) {
+    selected_id.0 = None;
+}
 
 #[derive(Component)]
 struct ConfirmButton;
@@ -56,7 +63,7 @@ fn confirm_ui_bundle(font: &Handle<Font>) -> impl Bundle {
                 max_width: percent(100),
                 ..default()
             },
-            Text::new("Confirm"),
+            Text::new("決定"),
             TextFont {
                 font: font.clone(),
                 font_size: 32.0,
