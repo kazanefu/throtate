@@ -36,14 +36,18 @@ impl Plugin for HammerPlugin {
             .add_systems(
                 Update,
                 (
-                    handle_hammer_input_switch.run_if(in_state(InputMode::Switch)),
-                    handle_hammer_input_hold.run_if(in_state(InputMode::Hold)),
                     status::added_buff,
                     status::init_base_status,
                     status::apply_buff,
                     apply_gravity_status,
                     apply_restitution_status,
-                    (change_handle_direction, update_hammer).chain(),
+                    (
+                        handle_hammer_input_switch.run_if(in_state(InputMode::Switch)),
+                        handle_hammer_input_hold.run_if(in_state(InputMode::Hold)),
+                        change_handle_direction,
+                        update_hammer,
+                    )
+                        .chain(),
                     free_hammer,
                     pivot_texture,
                     trail_effect::attach_trail_effect,
