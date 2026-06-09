@@ -50,13 +50,13 @@ impl Plugin for HammerPlugin {
                             .in_set(GamePlaySet::Input),
                         change_handle_direction.in_set(GamePlaySet::Detection),
                         update_hammer.in_set(GamePlaySet::Logic),
+                        update_hammer_state_view.in_set(GamePlaySet::Rendering),
                     )
                         .chain(),
-                    free_hammer,
+                    free_hammer.in_set(GamePlaySet::Detection),
                     pivot_texture,
                     trail_effect::attach_trail_effect,
                     fix_hammer_z,
-                    update_hammer_state_view,
                 )
                     .in_set(HammerSystemSet),
             );
