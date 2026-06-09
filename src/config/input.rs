@@ -41,6 +41,7 @@ pub struct InputSetting {
     pub exit: KeyBindings,
     pub app_exit: KeyBindings,
     pub switch_input_mode: KeyBindings,
+    pub pause_unpause: KeyBindings,
 }
 
 impl Default for InputSetting {
@@ -76,6 +77,7 @@ impl Default for InputSetting {
             exit: KeyBindings::new([Some(KeyCode::Escape), None, None, None]),
             app_exit: KeyBindings::new([Some(KeyCode::Delete), None, None, None]),
             switch_input_mode: KeyBindings::new([Some(KeyCode::KeyM), None, None, None]),
+            pause_unpause: KeyBindings::new([Some(KeyCode::KeyT), None, None, None]),
         }
     }
 }

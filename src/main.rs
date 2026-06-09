@@ -88,7 +88,7 @@ fn main() {
         .add_plugins(utils::UtilityPlugin)
         .init_state::<state::GameState>()
         .init_state::<state::InputMode>()
-        .init_state::<state::RunningState>()
+        .add_plugins(state::RunningStatePlugin)
         .add_plugins(course::CoursePlugin)
         .add_plugins(hammer::HammerPlugin)
         .add_plugins(start::StartPlugin)
