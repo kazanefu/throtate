@@ -74,10 +74,10 @@ impl Default for InputSetting {
                 None,
             ]),
             next: KeyBindings::new([Some(KeyCode::Enter), Some(KeyCode::Space), None, None]),
-            exit: KeyBindings::new([Some(KeyCode::Escape), None, None, None]),
+            exit: KeyBindings::new([Some(KeyCode::Backspace), None, None, None]),
             app_exit: KeyBindings::new([Some(KeyCode::Delete), None, None, None]),
             switch_input_mode: KeyBindings::new([Some(KeyCode::KeyM), None, None, None]),
-            pause_unpause: KeyBindings::new([Some(KeyCode::KeyT), None, None, None]),
+            pause_unpause: KeyBindings::new([Some(KeyCode::Escape), None, None, None]),
         }
     }
 }
