@@ -5,6 +5,7 @@ mod status;
 mod systems;
 mod trail_effect;
 use crate::{
+    game_play_set::GamePlaySet,
     hammer::status::BuffCounter,
     materials::MeteorMaterial,
     state::{InputMode, RunningState},
@@ -36,16 +37,19 @@ impl Plugin for HammerPlugin {
             .add_systems(
                 Update,
                 (
-                    status::added_buff,
-                    status::init_base_status,
-                    status::apply_buff,
-                    apply_gravity_status,
-                    apply_restitution_status,
+                    status::added_buff.in_set(GamePlaySet::Detection),
+                    status::init_base_status.in_set(GamePlaySet::SetUp),
+                    status::apply_buff.in_set(GamePlaySet::Logic),
+                    apply_gravity_status.in_set(GamePlaySet::Logic),
+                    apply_restitution_status.in_set(GamePlaySet::Logic),
                     (
-                        handle_hammer_input_switch.run_if(in_state(InputMode::Switch)),
-                        handle_hammer_input_hold.run_if(in_state(InputMode::Hold)),
-                        change_handle_direction,
-                        update_hammer,
+                        (
+                            handle_hammer_input_switch.run_if(in_state(InputMode::Switch)),
+                            handle_hammer_input_hold.run_if(in_state(InputMode::Hold)),
+                        )
+                            .in_set(GamePlaySet::Input),
+                        change_handle_direction.in_set(GamePlaySet::Detection),
+                        update_hammer.in_set(GamePlaySet::Logic),
                     )
                         .chain(),
                     free_hammer,
