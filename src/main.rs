@@ -8,6 +8,7 @@ mod audio;
 mod config;
 mod course;
 mod course_selection;
+mod game_play_set;
 mod hammer;
 mod materials;
 mod playing;
@@ -80,13 +81,14 @@ fn main() {
         })
         // .add_plugins(RapierDebugRenderPlugin::default())
         .add_plugins(HanabiPlugin)
+        .add_plugins(game_play_set::GamePlaySetPlugin)
         .init_resource::<config::GameConfig>()
         .insert_resource(settings)
         .add_plugins(state::app_exit::AppExitPlugin)
         .add_plugins(utils::UtilityPlugin)
         .init_state::<state::GameState>()
         .init_state::<state::InputMode>()
-        .init_state::<state::RunningState>()
+        .add_plugins(state::RunningStatePlugin)
         .add_plugins(course::CoursePlugin)
         .add_plugins(hammer::HammerPlugin)
         .add_plugins(start::StartPlugin)
