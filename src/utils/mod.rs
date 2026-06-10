@@ -3,6 +3,7 @@ pub mod chaser;
 pub mod collision;
 pub mod keyboard_button;
 pub mod look_at;
+pub mod scroll_ui;
 pub mod switch_input_mode;
 use crate::state::RunningState;
 use bevy::prelude::*;

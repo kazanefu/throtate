@@ -10,6 +10,7 @@ mod course;
 mod course_selection;
 mod game_play_set;
 mod hammer;
+mod hint;
 mod materials;
 mod playing;
 mod result;
@@ -98,5 +99,6 @@ fn main() {
         .add_plugins(action_effect::ActionEffectPlugin)
         .add_plugins(materials::CustomMaterialPlugin)
         .add_plugins(audio::AudioPlugin)
+        .add_plugins(hint::HintPlugin)
         .run();
 }
