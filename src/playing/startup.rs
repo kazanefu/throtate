@@ -5,7 +5,7 @@ use crate::hammer::definition::{ChangeHandleDirection, HandleDirection, Pivot};
 use crate::hammer::spawn_hammer;
 use crate::look_at::LookAtTarget;
 use crate::materials::MeteorMaterial;
-use crate::state::GameState;
+use crate::state::{GameState, RunningStateControlMsg};
 use bevy_rapier2d::prelude::*;
 pub struct PlayingStartupPlugin;
 
@@ -13,12 +13,13 @@ impl Plugin for PlayingStartupPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(
             OnEnter(GameState::Playing),
-            ((spawn_selected_course,).chain(), spawn_player),
+            (spawn_selected_course, spawn_player, unpause),
         )
         .add_systems(
             Update,
             add_component_for_despawn.run_if(in_state(GameState::Playing)),
-        );
+        )
+        .add_systems(OnExit(GameState::Playing), unpause);
     }
 }
 
@@ -70,4 +71,8 @@ fn spawn_player(
     .id();
     handle_direction_message.write(ChangeHandleDirection(HandleDirection::LeftLeft));
     commands.spawn(main_camera_bundle(player_entity));
+}
+
+fn unpause(mut msg: MessageWriter<RunningStateControlMsg>) {
+    msg.write(RunningStateControlMsg::Resume);
 }

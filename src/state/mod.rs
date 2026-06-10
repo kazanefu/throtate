@@ -41,8 +41,7 @@ impl Plugin for RunningStatePlugin {
                 (
                     pause_unpause_input.in_set(GamePlaySet::Input),
                     set_running_state.in_set(GamePlaySet::Logic),
-                )
-                    .run_if(in_state(GameState::Playing)),
+                ),
             );
     }
 }
