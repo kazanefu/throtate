@@ -1,5 +1,7 @@
 use crate::JpFont;
 use crate::button::SizeUpButtonBundle;
+use crate::course::CourseListResource;
+use crate::course_selection::resources::SelectedCourseID;
 use crate::keyboard_button::SelectableButton;
 use crate::playing::score::Score;
 use crate::state::GameState;
@@ -123,13 +125,41 @@ fn result_canvas_bundle() -> impl Bundle {
     )
 }
 
-fn spawn_result_ui(mut commands: Commands, font: Res<JpFont>, score: Res<Score>) {
+fn spawn_result_ui(
+    mut commands: Commands,
+    font: Res<JpFont>,
+    score: Res<Score>,
+    selected_id: Res<SelectedCourseID>,
+    course_list_res: Res<CourseListResource>,
+) {
+    let course_name = if let Some(id) = selected_id.0 {
+        &course_list_res
+            .0
+            .iter()
+            .find(|x| x.0.id == id)
+            .expect("such id course doesn't exists")
+            .0
+            .name
+    } else {
+        "None"
+    };
+    let course_name_ui = commands
+        .spawn((
+            Text::new(course_name),
+            TextFont {
+                font: font.get().clone(),
+                font_size: 40.0,
+                ..default()
+            },
+            TextColor(Color::srgb(1.0, 0.0, 1.0)),
+        ))
+        .id();
     let canvas = commands.spawn(result_canvas_bundle()).id();
     let text = commands.spawn(result_text_bundle(font.get(), &score)).id();
     let continue_button = commands.spawn(continue_button_bundle(font.get())).id();
     commands
         .entity(canvas)
-        .add_children(&[text, continue_button]);
+        .add_children(&[course_name_ui, text, continue_button]);
 }
 
 type ContinueButtonInputs = (Changed<Interaction>, With<ContinueButton>);
